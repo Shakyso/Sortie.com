@@ -6,10 +6,14 @@
  * Time: 11:41
  */
 
+
+
 namespace App\Controller;
 
 
-class DefaultController
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class DefaultController extends AbstractController
 {
 
     function index()

@@ -1,11 +1,11 @@
-/# default controller
+# default controller
 
 index:
     path: /
     controller: App\Controller\DefaultController::index
 
 
-/# security routing for user
+# security routing for user
 
 security_login:
     path: /login
@@ -21,7 +21,7 @@ security_account:
     requirements:
         id: '\d+'
 
-/# Site Controller
+# Site Controller
 
 site_list:
     path: /site
@@ -43,7 +43,7 @@ site_search:
     path: /site
     controller: App\Controller\SiteController::Search
 
-/# Ville Controller
+# Ville Controller
 ville_list:
     path: /ville
     controller: App\Controller\SiteController::List
@@ -63,8 +63,8 @@ ville_delete:
 ville_search:
     path: /ville
     controller: App\Controller\SiteController::Search
-l
-/# Sortie Controller
+
+# Sortie Controller
 
 sortie_list:
     path: /sortie

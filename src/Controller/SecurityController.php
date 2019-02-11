@@ -9,7 +9,9 @@
 namespace App\Controller;
 
 
-class SecurityController
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class SecurityController  extends AbstractController
 {
 
     public function LoginAction()

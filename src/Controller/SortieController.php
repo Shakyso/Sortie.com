@@ -9,11 +9,14 @@
 namespace App\Controller;
 
 
-class SortieController
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class SortieController extends AbstractController
 {
 
 
-    public function ListAction(){
+    public function ListAction()
+    {
         return $this->render('default/index.html.twig');
 
     }

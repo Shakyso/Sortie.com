@@ -9,7 +9,9 @@
 namespace App\Controller;
 
 
-class SiteController
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class SiteController  extends AbstractController
 {
 
 

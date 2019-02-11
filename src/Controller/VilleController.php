@@ -9,7 +9,9 @@
 namespace App\Controller;
 
 
-class VilleController
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class VilleController  extends AbstractController
 {
     public function ListAction()
     {
