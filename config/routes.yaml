@@ -1,3 +1,87 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+# default controller
+
+index:
+    path: /
+    controller: App\Controller\DefaultController::index
+
+
+# security routing for user
+
+security_login:
+    path: /login
+    controller: App\Controller\SecruityController::Login
+
+security_logout:
+    path: /logout
+    controller: App\Controller\SecurityController::Logout
+
+security_account:
+    path: /account/{id}
+    controller: App\Controller\SecurityController::Account
+    requirements:
+        id: '\d+'
+
+# Site Controller
+
+site_list:
+    path: /site
+    controller: App\Controller\SiteController::List
+
+site_update:
+    path: /site/update/{id}
+    controller: App\Controller\SiteController::Update
+    requirements:
+        id: '\d+'
+
+site_delete:
+    path: /site/delete/{id}
+    controller: App\Controller\SiteController::Delete
+    requirements:
+        id: '\d+'
+
+site_search:
+    path: /site
+    controller: App\Controller\SiteController::Search
+
+# Ville Controller
+ville_list:
+    path: /ville
+    controller: App\Controller\SiteController::List
+
+ville_update:
+    path: /ville/update/{id}
+    controller: App\Controller\SiteController::Update
+    requirements:
+        id: '\d+'
+
+ville_delete:
+    path: /ville/delete/{id}
+    controller: App\Controller\SiteController::Delete
+    requirements:
+        id: '\d+'
+
+ville_search:
+    path: /ville
+    controller: App\Controller\SiteController::Search
+
+# Sortie Controller
+
+sortie_list:
+    path: /sortie
+    controller: App\Controller\SortieController::List
+
+sortie_create:
+    path: /sortie/Create
+    controller: App\Controller\SortieController::Create
+
+sortie_update:
+    path: /sortie/Update/{id}
+    controller: App\Controller\SortieController::Update
+    requirements:
+        id: '\d+'
+
+sortie_delete:
+    path: /sortie/Delete/{id}
+    controller: App\Controller\SortieController::Delete
+    requirements:
+        id: '\d+'
