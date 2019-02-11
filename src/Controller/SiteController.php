@@ -1,0 +1,34 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: sbrechet2017
+ * Date: 11/02/2019
+ * Time: 12:18
+ */
+
+namespace App\Controller;
+
+
+class SiteController
+{
+
+
+    public function ListAction()
+    {
+    }
+
+    public function SearchAction()
+    {
+    }
+
+    public function UpdateAction($id)
+    {
+    }
+
+    public function DeleteAction($id)
+    {
+    }
+
+
+
+}
