@@ -19,6 +19,45 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
+
+    public function FindListSortie()
+    {
+
+        /*SELECT * FROM sortie s
+        INNER JOIN sortie_user su
+         ON s.id = su.sortie_id
+        INNER JOIN user u
+         ON su.user_id = u.id
+        INNER JOIN etat_sortie es
+        ON s.etat_id = es.id**/
+
+        $q = $this->createQueryBuilder('s')
+            ->join('s.organisateur','o')
+            ->join('o.participeA','participe_a')
+            ->join('s.etat','e');
+
+
+        $q->getQuery()->execute();
+       // dd($q);
+        return $q->getQuery()->execute();
+
+    }
+
+    public function FindNbParticipant($id)
+    {
+
+        $q = $this->createQueryBuilder('s')
+            ->select('COUNT(s')
+            ->join('s.organisateur', 'o')
+            ->where('s.organisateur = :id');
+
+        //dd($q)
+        return $q->getQuery()->execute();
+
+    }
+
+
+
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects
     //  */

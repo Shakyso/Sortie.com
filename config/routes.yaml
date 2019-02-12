@@ -1,8 +1,8 @@
 # default controller
 
 index:
-    path: /
-    controller: App\Controller\DefaultController::index
+    path: /sortie
+    controller: App\Controller\SortieController::List
 
 # security routing for user
 security_login:
@@ -61,9 +61,6 @@ ville_search:
 
 # Sortie Controller
 
-sortie_list:
-    path: /sortie
-    controller: App\Controller\SortieController::List
 
 sortie_create:
     path: /sortie/Create
@@ -80,3 +77,25 @@ sortie_delete:
     controller: App\Controller\SortieController::Delete
     requirements:
         id: '\d+'
+
+
+sortie_inscrire:
+    path: /sortie/InscrireSortie/{idSortie}/{idParticipant}
+    controller: App\Controller\SortieController::inscrireSortie
+    requirements:
+        idParticipant: '\d+'
+        idSortie : '\d+'
+
+sortie_desistement:
+    path: /sortie/DesisterSortie/{idSortie}/{idParticipant}
+    controller: App\Controller\SortieController::desisterSortie
+    requirements:
+        idParticipant: '\d+'
+        idSortie : '\d+'
+
+sortie_detail:
+    path: /sortie/Detail/{id}
+    controller: App\Controller\SortieController::Detail
+    requirements:
+        id: '\d+'
+

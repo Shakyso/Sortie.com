@@ -25,9 +25,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class SecurityController  extends AbstractController{
 
 
-
-
-
     public function AccountAction($id)
     {
     }
@@ -46,10 +43,12 @@ class SecurityController  extends AbstractController{
     }
 
 
+
     /**
      * @Route("/logout", name="app_logout")
      */
     public function logout()
+
     {
         $message = "Vous êtes bien deconnecté";
         return $this->redirectToRoute('/Sortie.com/public/', $message);

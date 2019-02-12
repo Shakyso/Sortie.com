@@ -47,7 +47,7 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="users")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $site;
 
@@ -56,15 +56,17 @@ class User implements UserInterface
      */
     private $sorties;
 
+
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Sortie", mappedBy="accueille")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Sortie", mappedBy="users")
      */
-    private $participeA;
+    private $sortiesInscrit;
 
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
-        $this->participeA = new ArrayCollection();
+
+        $this->sortiesInscrit = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -210,28 +212,30 @@ class User implements UserInterface
     /**
      * @return Collection|Sortie[]
      */
-    public function getParticipeA(): Collection
+    public function getSortiesInscrit(): Collection
     {
-        return $this->participeA;
+        return $this->sortiesInscrit;
     }
 
-    public function addParticipeA(Sortie $participeA): self
+    public function addSortiesInscrit(Sortie $sortiesInscrit): self
     {
-        if (!$this->participeA->contains($participeA)) {
-            $this->participeA[] = $participeA;
-            $participeA->addAccueille($this);
+        if (!$this->sortiesInscrit->contains($sortiesInscrit)) {
+            $this->sortiesInscrit[] = $sortiesInscrit;
+            $sortiesInscrit->addUser($this);
         }
 
         return $this;
     }
 
-    public function removeParticipeA(Sortie $participeA): self
+    public function removeSortiesInscrit(Sortie $sortiesInscrit): self
     {
-        if ($this->participeA->contains($participeA)) {
-            $this->participeA->removeElement($participeA);
-            $participeA->removeAccueille($this);
+        if ($this->sortiesInscrit->contains($sortiesInscrit)) {
+            $this->sortiesInscrit->removeElement($sortiesInscrit);
+            $sortiesInscrit->removeUser($this);
         }
 
         return $this;
     }
+
+
 }

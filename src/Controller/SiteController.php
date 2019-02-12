@@ -15,20 +15,20 @@ class SiteController  extends AbstractController
 {
 
 
-    public function ListAction()
+    public function List()
     {
         return $this->render('default/index.html.twig');
     }
 
-    public function SearchAction()
+    public function Search()
     {
     }
 
-    public function UpdateAction($id)
+    public function Update($id)
     {
     }
 
-    public function DeleteAction($id)
+    public function Delete($id)
     {
     }
 
