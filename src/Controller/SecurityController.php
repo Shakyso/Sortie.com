@@ -12,7 +12,10 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Entity\Site;
 use App\Repository\UserRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -24,10 +27,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityController  extends AbstractController{
 
-
-    public function AccountAction($id)
-    {
-    }
 
     /**
      * @Route("/login", name="app_login")
@@ -43,12 +42,10 @@ class SecurityController  extends AbstractController{
     }
 
 
-
     /**
      * @Route("/logout", name="app_logout")
      */
     public function logout()
-
     {
         $message = "Vous êtes bien deconnecté";
         return $this->redirectToRoute('/Sortie.com/public/', $message);
@@ -61,17 +58,11 @@ class SecurityController  extends AbstractController{
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
 
-
-        $em =  $this->getDoctrine()->getManager();
-        $siteRepo = $em->getRepository(Site::class);
-        $site = $siteRepo->findOneById(1);
-
-
         if ($request->isMethod('POST')) {
             $user = new User();
             $user->setUsername($request->request->get('nomComplet'));
             $user->setPassword($passwordEncoder->encodePassword($user, $request->request->get('password')));
-            $user->setSite($site);
+            //$user->setSite($site);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
@@ -79,6 +70,44 @@ class SecurityController  extends AbstractController{
         }
 
         return $this->render('security/register.html.twig');
+    }
+
+    public function Account($id, Request $request)
+    {
+        // Récupération d'un User en base
+        $em =  $this->getDoctrine()->getManager();
+        $userRepo = $em->getRepository(User::class);
+        $user = $userRepo->findOneById($id);
+
+        $form = $this->createFormBuilder($user)
+            ->add('Username', TextType::class, ['label' => 'Pseudo : '])
+            ->add('telephone', NumberType::class, ['label' => 'Numéro de téléphone : '])
+            ->add('mail', TextType::class, ['label' => 'Adresse mail : '])
+            ->add('site', EntityType::class, [
+                'label' => 'Sites : ',
+                'class' => Site::class,
+                'choice_label' => 'nom',
+            ])
+            ->add('save', SubmitType::class, ['label' => 'Modifier'])
+            ->getForm();
+
+            $form->handleRequest($request);
+
+            if($form->isSubmitted() && $form->isValid()) {
+
+                $user = $form->getData();
+
+                // Update des données
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
+
+            }
+
+        return $this->render('default/account.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user
+        ]);
+
     }
 
 }

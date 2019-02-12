@@ -1,11 +1,12 @@
 
 <div class="navbar">
+    {{ dump(app.user) }}
     <ul style="display: flex;justify-content: end;list-style-type: none;">
 
         <li style="margin-right: 10px;"><a href="{{ path('index') }}">Acceuil</a></li>
 
 
-        {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') and not app.user%}
+        {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') and not app.user %}
             <li style="margin-right: 10px;">
                 <a href="{{ path('app_register') }}">Inscription</a>
             </li>
@@ -14,6 +15,10 @@
             <li style="margin-right: 10px;">
                 <a href="{{ path('app_logout') }}">Déconnexion</a>
             </li>
+            <li style="margin-right: 10px;">
+                <a href="{{ path('security_account', {'id' : app.user.id }) }}">Mon profil</a>
+            </li>
+
         {% else %}
             <li>
                 <a href="{{ path('app_login') }}">Connexion</a>

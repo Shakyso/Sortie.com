@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class DefaultController extends AbstractController
 {
 
-    function index()
+    function Index()
     {
         return $this->render('default/index.html.twig');
     }
