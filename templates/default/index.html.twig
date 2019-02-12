@@ -2,5 +2,36 @@
 
  {% block body %}
 
+  <div class="tableau_sortie">
+   <table>
+    <tr>
+     <td>Nom de la sortie</td>
+     <td>Date de la sortie</td>
+     <td>Cloture</td>
+     <td>Inscrits/place</td>
+     <td>Etat</td>
+     <td>Inscrit</td>
+     <td>Organisateur</td>
+     <td>Action</td>
+    </tr>
+    {% for sortie in listeDesSorties %}
+    <tr>
+     <td> {{ sortie.nom }}</td>
+     <td> {{ sortie.datepublished }}</td>
+     <td> {{ sortie.dateLimiteInscription }}</td>
+     <td> {{ sortie.nPersInsc }}/{{ sortie.nbInscriptionsMax }}</td>
+     <td>{{ sortie.etat }}</td>
+     <td> {{ sortie.inscrit }}</td>
+     <td>{{ sortie.organisateur }}</td>
+     <td>     </td>
+    </tr>
+    {% endfor %}
+   </table>
+
+   <a href='{{ path('sortie_create') }}'>Create Sortie</a>
+
+
+  </div>
+
  {% endblock %}
 
