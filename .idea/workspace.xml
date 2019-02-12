@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="60deb415-2e82-4ff7-bd3c-bd0ddcd3c28c" name="Default Changelist" comment="">
+<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/templates/sortie/create.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
@@ -12,6 +13,12 @@
       <change beforePath="$PROJECT_DIR$/src/Controller/VilleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/VilleController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Repository/SortieRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/SortieRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/default/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/default/index.html.twig" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
+>>>>>>> e67aebabfb108f408f84738197230013382cc05f
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,7 +30,18 @@
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
   </component>
   <component name="FileEditorManager">
+<<<<<<< HEAD
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+=======
+    <leaf>
+<<<<<<< HEAD
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.env">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="26" column="48" selection-start-line="26" selection-start-column="48" selection-end-line="26" selection-end-column="48" />
+=======
+>>>>>>> e67aebabfb108f408f84738197230013382cc05f
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Controller/SortieController.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -84,6 +102,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Repository/SortieRepository.php">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="408">
               <caret line="52" selection-start-line="52" selection-end-line="52" />
             </state>
@@ -113,6 +132,11 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
               <caret line="9" column="35" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
+=======
+            <state relative-caret-position="170">
+              <caret line="15" column="41" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
+>>>>>>> 93ae01d3ed1c2a1e46eeebeb25f9958bff02deae
+>>>>>>> e67aebabfb108f408f84738197230013382cc05f
             </state>
           </provider>
         </entry>
@@ -125,6 +149,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+<<<<<<< HEAD
+        <option value="$PROJECT_DIR$/.env" />
+      </list>
+    </option>
+  </component>
+=======
         <option value="$PROJECT_DIR$/src/Controller/DefaultController.php" />
         <option value="$PROJECT_DIR$/src/Controller/VilleController.php" />
         <option value="$PROJECT_DIR$/src/Controller/SiteController.php" />
@@ -141,6 +171,7 @@
   <component name="PhpServers">
     <servers />
   </component>
+>>>>>>> 93ae01d3ed1c2a1e46eeebeb25f9958bff02deae
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/easycorp/easy-log-handler" />
@@ -247,10 +278,17 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
+<<<<<<< HEAD
+    <option name="x" value="-10" />
+    <option name="y" value="-10" />
+    <option name="width" value="1619" />
+    <option name="height" value="879" />
+=======
     <option name="x" value="445" />
     <option name="y" value="1" />
     <option name="width" value="1400" />
     <option name="height" value="1000" />
+>>>>>>> 93ae01d3ed1c2a1e46eeebeb25f9958bff02deae
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -262,8 +300,19 @@
         <subPane>
           <expand>
             <path>
-              <item name="Sortir" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Sortir" type="462c0819:PsiDirectoryNode" />
+              <item name="Sortie.com" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Sortie.com" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Sortie.com" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Sortie.com" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Sortie.com" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Sortie.com" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Entity" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Sortir" type="b2602c69:ProjectViewProjectNode" />
@@ -343,7 +392,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../soutien" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="Symfony2.SettingsForm" />
@@ -372,18 +421,44 @@
       <updated>1549879915479</updated>
       <workItem from="1549879916687" duration="163000" />
       <workItem from="1549880095497" duration="91000" />
+<<<<<<< HEAD
       <workItem from="1549880204521" duration="17155000" />
       <workItem from="1549958184203" duration="10149000" />
+=======
+<<<<<<< HEAD
+      <workItem from="1549880204521" duration="572000" />
+      <workItem from="1549882186462" duration="3277000" />
+=======
+      <workItem from="1549880204521" duration="7619000" />
+>>>>>>> 93ae01d3ed1c2a1e46eeebeb25f9958bff02deae
+>>>>>>> e67aebabfb108f408f84738197230013382cc05f
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="27558000" />
+=======
+<<<<<<< HEAD
+    <option name="totallyTimeSpent" value="4103000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25835475" />
+=======
+    <option name="totallyTimeSpent" value="7873000" />
+>>>>>>> e67aebabfb108f408f84738197230013382cc05f
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
+<<<<<<< HEAD
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25799572" />
+=======
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2553305" />
+>>>>>>> 93ae01d3ed1c2a1e46eeebeb25f9958bff02deae
+>>>>>>> e67aebabfb108f408f84738197230013382cc05f
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -396,7 +471,11 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" />
+<<<<<<< HEAD
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.42530283" />
+=======
       <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.32936078" />
+>>>>>>> 93ae01d3ed1c2a1e46eeebeb25f9958bff02deae
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -408,6 +487,7 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/var/log/dev.log">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -445,6 +525,14 @@
         </state>
       </provider>
     </entry>
+=======
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="26" column="48" selection-start-line="26" selection-start-column="48" selection-end-line="26" selection-end-column="48" />
+=======
+>>>>>>> e67aebabfb108f408f84738197230013382cc05f
     <entry file="file://$PROJECT_DIR$/src/Kernel.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -539,6 +627,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/SortieController.php">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="34">
           <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
           <folding>
@@ -551,6 +640,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="299">
           <caret line="29" column="24" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="24" />
+=======
+        <state relative-caret-position="238">
+          <caret line="19" column="37" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="37" />
+>>>>>>> 93ae01d3ed1c2a1e46eeebeb25f9958bff02deae
+>>>>>>> e67aebabfb108f408f84738197230013382cc05f
         </state>
       </provider>
     </entry>

@@ -60,10 +60,7 @@ class Sortie
      */
     private $organisateur;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="participeA")
-     */
-    private $accueille;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\EtatSortie", inversedBy="sorties")
@@ -77,9 +74,15 @@ class Sortie
      */
     private $lieu;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="sortiesInscrit")
+     */
+    private $users;
+
     public function __construct()
     {
-        $this->accueille = new ArrayCollection();
+
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -183,31 +186,7 @@ class Sortie
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getAccueille(): Collection
-    {
-        return $this->accueille;
-    }
 
-    public function addAccueille(User $accueille): self
-    {
-        if (!$this->accueille->contains($accueille)) {
-            $this->accueille[] = $accueille;
-        }
-
-        return $this;
-    }
-
-    public function removeAccueille(User $accueille): self
-    {
-        if ($this->accueille->contains($accueille)) {
-            $this->accueille->removeElement($accueille);
-        }
-
-        return $this;
-    }
 
     public function getEtat(): ?EtatSortie
     {
@@ -229,6 +208,32 @@ class Sortie
     public function setLieu(?Lieu $lieu): self
     {
         $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+        }
 
         return $this;
     }
