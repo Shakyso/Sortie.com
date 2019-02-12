@@ -14,15 +14,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class SecurityController  extends AbstractController
 {
 
-    public function LoginAction()
+    public function Login()
     {
     }
 
-    public function LogoutAction()
+    public function Logout()
     {
     }
 
-    public function AccountAction($id)
+    public function Account($id)
     {
     }
 }
