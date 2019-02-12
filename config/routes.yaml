@@ -85,8 +85,15 @@ sortie_delete:
 
 
 sortie_inscrire:
-    path: /sortie/InscrireSortie/{idParticipant}/{idSortie}
-    controller: App\Controller\SortieController::InscrireSortie
+    path: /sortie/InscrireSortie/{idSortie}/{idParticipant}
+    controller: App\Controller\SortieController::inscrireSortie
+    requirements:
+        idParticipant: '\d+'
+        idSortie : '\d+'
+
+sortie_desistement:
+    path: /sortie/DesisterSortie/{idSortie}/{idParticipant}
+    controller: App\Controller\SortieController::desisterSortie
     requirements:
         idParticipant: '\d+'
         idSortie : '\d+'

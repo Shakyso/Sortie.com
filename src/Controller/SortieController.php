@@ -81,7 +81,7 @@ class SortieController extends AbstractController
 
     }
 
-    public function InscrireSortie (int $idParticipant, int $idSortie) {
+    public function inscrireSortie (int $idParticipant, int $idSortie) {
         $sortie= new Sortie();
         $participant = new User();
         //associer les objects sortie et user entre eux
@@ -109,18 +109,35 @@ class SortieController extends AbstractController
         //ajouter en base
         $em->flush();
 
-        return $this->render('');
+        return $this->redirectToRoute('index');
     }
 
-    public function desisterSortie () {
-// récupérer la sortie et IDparticipants
+    public function desisterSortie (int $idParticipant, int $idSortie) {
+        $sortie= new Sortie();
+        $participant = new User();
+
+        // récupérer l'objet sortie en entier
         $sortieRepository = $this->getDoctrine()->getRepository(Sortie::class);
-        $sortieParticipant=$sortieRepository->findBy(array('idParticipant'=>$idParticipant,'idSortie'=>$idSortie));
-        //recupere entity manager
+        $sortie=$sortieRepository->findOneBy(['id'=>$idSortie]);
+
+        //récupérer l'objet participant en entier
+        $participantRepository = $this->getDoctrine()->getRepository(User::class);
+        $participant=$participantRepository->findOneBy(['id'=>$idParticipant]);
+
+        $sortie->removeUser($participant);
+        $participant->removeSortiesInscrit($sortie);
+
+        // récupére l'objet entity manager
         $em = $this->getDoctrine()->getManager();
-        //supprimer une instance
-        $em->remove($sortieParticipant);
+        $em->persist($sortie);
+        $em->persist($participant);
+
+        //ajouter en base
         $em->flush();
+
+        return $this->redirectToRoute('index');
+
+
     }
 
 
