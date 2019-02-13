@@ -11,9 +11,14 @@ namespace App\Controller;
 
 use App\Entity\EtatSortie;
 use App\Entity\Sortie;
+
+use App\Entity\User;
+
 use App\Form\SortieType;
 use Symfony\Component\HttpFoundation\Request;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class SortieController extends AbstractController
 {
@@ -164,6 +169,69 @@ class SortieController extends AbstractController
             'id' => $id
         ));
     }
+
+
+
+    public function inscrireSortie (int $idParticipant, int $idSortie) {
+        $sortie= new Sortie();
+        $participant = new User();
+        //associer les objects sortie et user entre eux
+
+
+        //TODO gérer l'accès en fonction des roles
+        //TODO gérer la récupéréation de l'ID participant et id sortie
+
+        // récupérer l'objet sortie en entier
+        $sortieRepository = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie=$sortieRepository->findOneBy(['id'=>$idSortie]);
+
+        //récupérer l'objet participant en entier
+        $participantRepository = $this->getDoctrine()->getRepository(User::class);
+        $participant=$participantRepository->findOneBy(['id'=>$idParticipant]);
+
+        $sortie->addUser($participant);
+        $participant->addSortiesInscrit($sortie);
+
+        // récupére l'objet entity manager
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($sortie);
+        $em->persist($participant);
+
+        //ajouter en base
+        $em->flush();
+
+        return $this->redirectToRoute('index');
+    }
+
+    public function desisterSortie (int $idParticipant, int $idSortie) {
+        $sortie= new Sortie();
+        $participant = new User();
+
+        // récupérer l'objet sortie en entier
+        $sortieRepository = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie=$sortieRepository->findOneBy(['id'=>$idSortie]);
+
+        //récupérer l'objet participant en entier
+        $participantRepository = $this->getDoctrine()->getRepository(User::class);
+        $participant=$participantRepository->findOneBy(['id'=>$idParticipant]);
+
+        $sortie->removeUser($participant);
+        $participant->removeSortiesInscrit($sortie);
+
+        // récupére l'objet entity manager
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($sortie);
+        $em->persist($participant);
+
+        //ajouter en base
+        $em->flush();
+
+        return $this->redirectToRoute('index');
+
+
+    }
+
+
 
 
 

@@ -83,14 +83,32 @@ sortie_delete:
     requirements:
         id: '\d+'
 
+
+sortie_inscrire:
+    path: /sortie/InscrireSortie/{idSortie}/{idParticipant}
+    controller: App\Controller\SortieController::inscrireSortie
+    requirements:
+        idParticipant: '\d+'
+        idSortie : '\d+'
+
+sortie_desistement:
+    path: /sortie/DesisterSortie/{idSortie}/{idParticipant}
+    controller: App\Controller\SortieController::desisterSortie
+    requirements:
+        idParticipant: '\d+'
+        idSortie : '\d+'
+
 sortie_detail:
     path: /sortie/Detail/{id}
     controller: App\Controller\SortieController::Detail
     requirements:
         id: '\d+'
 
+<<<<<<< HEAD
 sortie_detail_public:
     path: /sortie/Detail/{id}
     controller: App\Controller\SortieController::Detail_public
     requirements:
         id: '\d+'
+=======
+>>>>>>> 5ec4f2d6255f1290dc6b03082eceed553c147601
