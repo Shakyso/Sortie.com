@@ -18,7 +18,11 @@ security_account:
 
 # Site Controller
 site_list:
+<<<<<<< HEAD
     path: admin/site
+=======
+    path: /site
+>>>>>>> 1b8374ec344e06bfa94cc4e4c8b34112ec9c3496
     controller: App\Controller\SiteController::List
 
 site_update:
@@ -100,6 +104,12 @@ sortie_desistement:
 sortie_detail:
     path: /sortie/Detail/{id}
     controller: App\Controller\SortieController::Detail
+    requirements:
+        id: '\d+'
+
+sortie_detail_public:
+    path: /sortie/Detail/{id}
+    controller: App\Controller\SortieController::Detail_public
     requirements:
         id: '\d+'
 

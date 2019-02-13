@@ -19,10 +19,8 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-
-    public function FindListSortie()
+    public function findListSortie()
     {
-
         /*SELECT * FROM sortie s
         INNER JOIN sortie_user su
          ON s.id = su.sortie_id
@@ -33,7 +31,7 @@ class SortieRepository extends ServiceEntityRepository
 
         $q = $this->createQueryBuilder('s')
             ->join('s.organisateur','o')
-            ->join('o.participeA','participe_a')
+            ->join('o.sorties','sorties')
             ->join('s.etat','e');
 
 
@@ -43,7 +41,7 @@ class SortieRepository extends ServiceEntityRepository
 
     }
 
-    public function FindNbParticipant($id)
+    public function findNbParticipant($id)
     {
 
         $q = $this->createQueryBuilder('s')
