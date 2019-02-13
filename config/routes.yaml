@@ -19,7 +19,7 @@ security_account:
 # Site Controller
 site_list:
     path: /site
-    controller: App\Controller\SiteController::ListAction
+    controller: App\Controller\SiteController::List
 
 site_update:
     path: /site/update/{id}
@@ -98,11 +98,9 @@ sortie_detail:
     requirements:
         id: '\d+'
 
-<<<<<<< HEAD
 sortie_detail_public:
     path: /sortie/Detail/{id}
     controller: App\Controller\SortieController::Detail_public
     requirements:
         id: '\d+'
-=======
->>>>>>> 5ec4f2d6255f1290dc6b03082eceed553c147601
+
