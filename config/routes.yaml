@@ -43,7 +43,16 @@ site_search:
     path: /site
     controller: App\Controller\SiteController::Search
 
+site_create:
+    path: admin/site/create
+    controller: App\Controller\SiteController::CreateSite
+
 # Ville Controller
+
+ville_create:
+    path: admin/ville/create
+    controller: App\Controller\VilleController::CreateVille
+
 ville_list:
     path: /ville
     controller: App\Controller\SiteController::List
