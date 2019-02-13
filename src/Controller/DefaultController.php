@@ -3,35 +3,19 @@
  * Created by PhpStorm.
  * User: sbrechet2017
  * Date: 11/02/2019
- * Time: 12:18
+ * Time: 11:41
  */
-
 namespace App\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class SiteController  extends AbstractController
+class DefaultController extends AbstractController
 {
 
-
-    public function List()
+    function Index()
     {
         return $this->render('default/index.html.twig');
     }
-
-    public function Search()
-    {
-    }
-
-    public function Update($id)
-    {
-    }
-
-    public function Delete($id)
-    {
-    }
-
-
 
 }

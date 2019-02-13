@@ -1,19 +1,14 @@
 # default controller
 
 index:
-    path: /sortie
-    controller: App\Controller\SortieController::List
-
+    path: /
+    controller: App\Controller\DefaultController::Index
 
 # security routing for user
-
 security_login:
     path: /login
-    controller: App\Controller\SecruityController::Login
+    controller: App\Controller\SecurityController::Login
 
-security_logout:
-    path: /logout
-    controller: App\Controller\SecurityController::Logout
 
 security_account:
     path: /account/{id}
@@ -22,10 +17,9 @@ security_account:
         id: '\d+'
 
 # Site Controller
-
 site_list:
     path: /site
-    controller: App\Controller\SiteController::List
+    controller: App\Controller\SiteController::ListAction
 
 site_update:
     path: /site/update/{id}
