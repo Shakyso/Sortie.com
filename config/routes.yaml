@@ -88,3 +88,9 @@ sortie_detail:
     controller: App\Controller\SortieController::Detail
     requirements:
         id: '\d+'
+
+sortie_detail_public:
+    path: /sortie/Detail/{id}
+    controller: App\Controller\SortieController::Detail_public
+    requirements:
+        id: '\d+'

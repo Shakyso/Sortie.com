@@ -58,7 +58,7 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Sortie", mappedBy="usersInscrit")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Sortie", mappedBy="users")
      */
     private $sortiesInscrit;
 
