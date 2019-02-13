@@ -1,19 +1,14 @@
 # default controller
 
 index:
-    path: /sortie
-    controller: App\Controller\SortieController::List
-
+    path: /
+    controller: App\Controller\DefaultController::Index
 
 # security routing for user
-
 security_login:
     path: /login
-    controller: App\Controller\SecruityController::Login
+    controller: App\Controller\SecurityController::Login
 
-security_logout:
-    path: /logout
-    controller: App\Controller\SecurityController::Logout
 
 security_account:
     path: /account/{id}
@@ -22,9 +17,8 @@ security_account:
         id: '\d+'
 
 # Site Controller
-
 site_list:
-    path: /site
+    path: admin/site
     controller: App\Controller\SiteController::List
 
 site_update:
@@ -49,29 +43,25 @@ site_create:
 
 # Ville Controller
 
-ville_create:
-    path: admin/ville/create
-    controller: App\Controller\VilleController::CreateVille
-
 ville_list:
-    path: /ville
-    controller: App\Controller\SiteController::List
+    path: admin/ville/create
+    controller: App\Controller\VilleController::List
 
 ville_update:
     path: /ville/update/{id}
-    controller: App\Controller\SiteController::Update
+    controller: App\Controller\VilleController::Update
     requirements:
         id: '\d+'
 
 ville_delete:
     path: /ville/delete/{id}
-    controller: App\Controller\SiteController::Delete
+    controller: App\Controller\VilleController::Delete
     requirements:
         id: '\d+'
 
 ville_search:
     path: /ville
-    controller: App\Controller\SiteController::Search
+    controller: App\Controller\VilleController::Search
 
 # Sortie Controller
 

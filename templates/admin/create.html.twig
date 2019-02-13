@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+ {% block body %}
+     <h1>Gérer les villes</h1>
+     <h3>Filtrer les villes</h3>
+     <p>formulaire de rechercher à faire</p>
+
+     <button class="btn btn-success">Rechercher</button>
+
+
+
+     <table border
+            class="table table-striped">
+
+         <tr>
+             <th>Ville</th>
+             <th>Code postal</th>
+             <th>Action</th>
+         </tr>
+         {% for ville in villesList %}
+             <tr>
+                 <td>{{ ville.nom}}</td>
+                 <td>{{ ville.codePostal}}</td>
+                 <td><a class="btn btn-success" href={{ path('ville_update', {'id': ville.id}) }}>Modifier</a> -
+                     <a class="btn btn-success" href={{ path('ville_delete',{'id' : ville.id}) }}>Supprimer</a>
+                 </td>
+             </tr>
+         {% endfor %}
+         <tr>
+             {{ form_start(villeForm)}}
+             <td>  {{ form_row(villeForm.nom,{'label':false}) }}</td>
+             <td>  {{ form_row(villeForm.codePostal,{'label':false}) }}</td>
+             <td><button class="btn btn-success">Ajouter</button></td>
+             {{ form_end(villeForm) }}
+         </tr>
+         {% if(formUpdate is defined) %}
+         <tr>
+             {{ form_start(formUpdate)}}
+             <td>  {{ form_row(formUpdate.nom,{'label':false}) }}</td>
+             <td>  {{ form_row(formUpdate.codePostal,{'label':false}) }}</td>
+             <td><button class="btn btn-success">Modifier</button></td>
+             {{ form_end(formUpdate) }}
+         </tr>
+         {% endif %}
+     </table>
+ {% endblock %}

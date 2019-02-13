@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+ {% block body %}
+     <h1>Gérer les sites</h1>
+     <h3>Filtrer les sites</h3>
+     <p>formulaire de rechercher à faire</p>
+
+     <button class="btn btn-success">Rechercher</button>
+
+
+
+     <table border
+            class="table table-striped">
+
+         <tr>
+             <th>Ville</th>
+             <th>Action</th>
+         </tr>
+         {% for site in sitesList %}
+             <tr>
+                 <td>{{ site.nom}}</td>
+                 <td>{#<a class="btn btn-success" href={{ path('site_upadte', {'id': site.id}) }}>Modifier</a> #}-
+                     <a class="btn btn-success" href={{ path('site_delete',{'id' : site.id}) }}>Supprimer</a>
+                 </td>
+             </tr>
+         {% endfor %}
+         <tr>
+             {{ form_start(siteForm)}}
+             <td>  {{ form_row(siteForm.nom,{'label':false}) }}</td>
+
+             <td><button class="btn btn-success">Ajouter</button></td>
+             {{ form_end(siteForm) }}
+         </tr>
+
+     </table>
+ {% endblock %}
