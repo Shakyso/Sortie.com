@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -61,6 +62,69 @@ class User implements UserInterface
      * @ORM\ManyToMany(targetEntity="App\Entity\Sortie", mappedBy="users")
      */
     private $sortiesInscrit;
+
+    private $newPassword;
+
+    private $photo;
+
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     *
+     * @Assert\Length(
+     *      min = 10,
+     *      max = 50,
+     *      minMessage = "Votre prénom doit avoir au moins {{ limit }} caracteres",
+     *      maxMessage = "Votré prénom ne peut pas contenir plus de {{ limit }} caracteres"
+     * )
+     */
+    protected $name;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     *  @Assert\Length(
+     *      min = 10,
+     *      max = 50,
+     *      minMessage = "Votre Nom de famille doit avoir au moins {{ limit }} caracteres",
+     *      maxMessage = "Votré Nom de famille ne peut pas contenir plus de {{ limit }} caracteres"
+     * )
+     */
+    private $lastname;
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * @param mixed $lastname
+     */
+    public function setLastname($lastname): void
+    {
+        $this->lastname = $lastname;
+    }
+
+
+
 
     public function __construct()
     {
@@ -176,6 +240,26 @@ class User implements UserInterface
         $this->site = $site;
 
         return $this;
+    }
+
+    public function getNewPassword(){
+        return $this->newPassword;
+    }
+
+
+    public function setNewPassword($newPassword){
+        $this->newPassword = $newPassword;
+        return $this->newPassword;
+    }
+
+    public function getPhoto(){
+        return $this->photo;
+    }
+
+    public function setPhoto($photo){
+        $this->photo = $photo;
+        return $this->photo;
+
     }
 
     /**

@@ -10,12 +10,16 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Entity\User;
+use App\Form\UserType;
 use App\Entity\Site;
 use App\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -23,9 +27,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Constraints\Length;
 
 class SecurityController  extends AbstractController{
+
 
 
     /**
@@ -47,8 +53,8 @@ class SecurityController  extends AbstractController{
      */
     public function logout()
     {
-        $message = "Vous êtes bien deconnecté";
-        return $this->redirectToRoute('/Sortie.com/public/', $message);
+
+        return $this->redirectToRoute('/Sortie.com/public/');
     }
 
 
@@ -66,48 +72,76 @@ class SecurityController  extends AbstractController{
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+
+
             return $this->redirectToRoute('index');
         }
 
         return $this->render('security/register.html.twig');
     }
 
-    public function Account($id, Request $request)
+    public function Account($id, Request $request, UserPasswordEncoderInterface $passwordEncoder)
+
     {
-        // Récupération d'un User en base
+
+        $errors = "";
+
+        // Récupération du User en base
         $em =  $this->getDoctrine()->getManager();
         $userRepo = $em->getRepository(User::class);
         $user = $userRepo->findOneById($id);
 
-        $form = $this->createFormBuilder($user)
-            ->add('Username', TextType::class, ['label' => 'Pseudo : '])
-            ->add('telephone', NumberType::class, ['label' => 'Numéro de téléphone : '])
-            ->add('mail', TextType::class, ['label' => 'Adresse mail : '])
-            ->add('site', EntityType::class, [
-                'label' => 'Sites : ',
-                'class' => Site::class,
-                'choice_label' => 'nom',
-            ])
-            ->add('save', SubmitType::class, ['label' => 'Modifier'])
-            ->getForm();
 
-            $form->handleRequest($request);
+        // Création du formualaire
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
 
-            if($form->isSubmitted() && $form->isValid()) {
 
-                $user = $form->getData();
+        // Vérififcation du formulaire
+        if($form->isSubmitted()) {
 
+            $errors = $form->getErrors(true, false);
+
+
+
+            echo 'je passe dans le submit';
+
+            $user = $form->getData();
+            $validator = Validation::createValidator();
+            $errors = $validator->validate($user);
+
+
+            foreach ($form as $fieldName => $formField) {
+                // each field has an array of errors
+                $errors[$fieldName] = $formField->getErrors();
+                var_dump($errors[$fieldName] = $formField->getErrors());
+            }
+
+
+
+
+            if($form->isValid()){
+                echo 'formulair evalide';
                 // Update des données
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->flush();
-
+            }else{
+                echo 'fiormulaire non valide';
             }
+
+
+        }
 
         return $this->render('default/account.html.twig', [
             'form' => $form->createView(),
-            'user' => $user
+            //'errors' => $errors,
+            //'formPassword' => $formPassword->createView(),
+
         ]);
 
     }
+
+
+
 
 }
