@@ -17,6 +17,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\HttpFoundation\Request;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FixturesCommand extends Command
 {
@@ -25,10 +28,12 @@ class FixturesCommand extends Command
     protected $em = null;
     protected $encoder = null;
 
-    public function __construct(EntityManagerInterface $em, UserPasswordEncoderInterface $encoder,?string $name = null)
+    public function __construct(EntityManagerInterface $em, UserPasswordEncoderInterface $encoder, ?string $name = null)
     {
         $this->encoder = $encoder;
         $this->em = $em;
+        $this->EtatSortieAll=$em->getRepository(EtatSortie::class)->findAll();
+
         parent::__construct($name);
     }
 
@@ -38,6 +43,8 @@ class FixturesCommand extends Command
             ->setDescription('Load dummy data in our database')
             ;
     }
+
+
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -159,7 +166,7 @@ class FixturesCommand extends Command
             $lieu->setNom($faker->unique()->city);
             $lieu->setRue($faker->unique()->address);
             $lieu->setLatitude($faker->unique()->latitude);
-            $lieu->setLatitude($faker->unique()->longitude);
+            $lieu->setLongitude($faker->unique()->longitude);
             $lieu->setVille($faker->randomElement($allVilles));
             $this->em->persist($lieu);
 
@@ -177,28 +184,33 @@ class FixturesCommand extends Command
             //hydrate toutes les propriétés...
             $sortie->setNom($faker->unique()->realText(100));
 
-            $sortie->setDateLimiteInscription($faker->dateTimeBetween('now','+3 month'));
 
+            $sortie->setEtat($faker->randomElement($allEtatSortie));
+            $statutSortie=$sortie->getEtat();
+            $io->text("Statut de la sortie...".$statutSortie);
+            if($statutSortie=='Passée') {
+                $sortie->setDateLimiteInscription($faker->dateTimeBetween('-3 month', 'now'));
+            }
+            else{
+                $sortie->setDateLimiteInscription($faker->dateTimeBetween('now', '+3 month'));
+            }
             $dateSortie=$sortie->getDateLimiteInscription();
             $date = $dateSortie->format('Y-m-d H:i:s');
-            $io->text($date);
-
+            //$io->text($date);
             //$dateLimite= new \DateTime();
             $dateSortieFormat = \DateTime::createFromFormat('Y-m-d H:i:s', $date);
-
             $dateFinale = $dateSortieFormat->modify('+4 hour');
             $sortie->setDateHeureDebut($dateFinale);
-
-
-
-
             $duration = new \DateInterval('P0Y0M0DT4H0M');
-
             $sortie->setDuree($duration);
             $sortie->setNbInscriptionMax($faker->numberBetween(1,20));
             $sortie->setInfosSortie($faker->realText(2500));
             $sortie->setLieu($faker->randomElement($allLieux));
-            $sortie->setEtat($faker->randomElement($allEtatSortie));
+            //TODO etat en fonction de la date
+            $maintenant=new \DateTime();
+            $maintenantString = $maintenant->format('Y-m-d H:i:s');
+
+
             $sortie->setOrganisateur($faker->randomElement($allUsers));
             $num=mt_rand(1,19);
             for($b=0;$b<$num;$b++){
@@ -217,4 +229,5 @@ class FixturesCommand extends Command
 
         $io->success('OK');
     }
+
 }
