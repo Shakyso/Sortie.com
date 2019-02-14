@@ -22,6 +22,13 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message = "Votre pseudo ne peut pas être vide")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 20,
+     *      minMessage = "Votre pseudo doit contenir au minimum {{ limit }} caracteres",
+     *      maxMessage = "Votre pseudo ne peut contenir plus de {{ limit }} caracteres"
+     *)
      */
     private $username;
 
@@ -32,17 +39,28 @@ class User implements UserInterface
 
     /**
      * @var string The hashed password
+     * @Assert\NotBlank(message = "je suis la")
      * @ORM\Column(type="string")
      */
     private $password;
 
+
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
+     * @Assert\Length(
+     *     min = 10,
+     *     max = 25,
+     *     minMessage = "Le numéro de téléphone doit contenir au moins {{ limit }}",
+     *     maxMessage = "Le numéro ne peut pas contenir plus de {{ limit }} chiffres"
+     * )
      */
     private $telephone;
 
     /**
      * @ORM\Column(type="string", length=150, nullable=true)
+     * @Assert\Email(
+     * message = "l'adresse '{{ value }}' n'est pas une adresse email valide .",
+     * )
      */
     private $mail;
 
@@ -65,6 +83,10 @@ class User implements UserInterface
 
     private $newPassword;
 
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     * @Assert\File(mimeTypes={ "image/png", "image/jpeg" })
+     */
     private $photo;
 
 
@@ -72,7 +94,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=150, nullable=true)
      *
      * @Assert\Length(
-     *      min = 10,
+     *      min = 2,
      *      max = 50,
      *      minMessage = "Votre prénom doit avoir au moins {{ limit }} caracteres",
      *      maxMessage = "Votré prénom ne peut pas contenir plus de {{ limit }} caracteres"
@@ -82,8 +104,8 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=150, nullable=true)
-     *  @Assert\Length(
-     *      min = 10,
+     * @Assert\Length(
+     *      min = 2,
      *      max = 50,
      *      minMessage = "Votre Nom de famille doit avoir au moins {{ limit }} caracteres",
      *      maxMessage = "Votré Nom de famille ne peut pas contenir plus de {{ limit }} caracteres"
