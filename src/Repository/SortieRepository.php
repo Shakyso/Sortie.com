@@ -86,7 +86,7 @@ class SortieRepository extends ServiceEntityRepository
             ->select('s,u')
             ->innerJoin('s.users','u')
             ->innerJoin('u.sortiesInscrit', 'si')
-            ->where('si.id = :id')
+            ->where('s.id = :id')
             ->setParameter('id',$id)
             ->getQuery()
             ->execute();

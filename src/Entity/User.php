@@ -46,7 +46,7 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=true)
+     * @ORM\Column(type="string", length=25, nullable=true)
      * @Assert\Length(
      *     min = 10,
      *     max = 25,

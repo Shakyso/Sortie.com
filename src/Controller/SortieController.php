@@ -83,12 +83,17 @@ class SortieController extends AbstractController
 
     public function Detail($id)
     {
+
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $sortieRepo->findOneById($id);
 
         $listParticipant = $sortieRepo->findListParticipant($id);
 
-        dd($listParticipant);
+       dd($listParticipant);
+       $data = [];
+
+      
+
 
         if(!$sortie){
             throw $this->createNotFoundException("Cette sortie n'existe pas !");
