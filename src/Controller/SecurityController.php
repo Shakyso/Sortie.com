@@ -8,21 +8,21 @@
 namespace App\Controller;
 
 
+use App\Classes\Validator;
 use App\Entity\Post;
 use App\Entity\User;
-use App\Entity\Site;
+use App\Form\UserType;
 use App\Repository\UserRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 
 class SecurityController  extends AbstractController{
@@ -41,14 +41,13 @@ class SecurityController  extends AbstractController{
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-
     /**
      * @Route("/logout", name="app_logout")
      */
     public function logout()
     {
-        $message = "Vous êtes bien deconnecté";
-        return $this->redirectToRoute('/Sortie.com/public/', $message);
+
+        return $this->redirectToRoute($this->container->get('router')->getContext()->getBaseUrl());
     }
 
 
@@ -66,48 +65,118 @@ class SecurityController  extends AbstractController{
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+
+
             return $this->redirectToRoute('index');
         }
 
         return $this->render('security/register.html.twig');
     }
 
-    public function Account($id, Request $request)
+    public function Account($id, Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        // Récupération d'un User en base
+
+        $messagePassword = null;
+
+
+
+        // Récupération du User en base
         $em =  $this->getDoctrine()->getManager();
         $userRepo = $em->getRepository(User::class);
         $user = $userRepo->findOneById($id);
 
-        $form = $this->createFormBuilder($user)
-            ->add('Username', TextType::class, ['label' => 'Pseudo : '])
-            ->add('telephone', NumberType::class, ['label' => 'Numéro de téléphone : '])
-            ->add('mail', TextType::class, ['label' => 'Adresse mail : '])
-            ->add('site', EntityType::class, [
-                'label' => 'Sites : ',
-                'class' => Site::class,
-                'choice_label' => 'nom',
-            ])
-            ->add('save', SubmitType::class, ['label' => 'Modifier'])
-            ->getForm();
+        // Création du formulaire
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
 
-            $form->handleRequest($request);
 
-            if($form->isSubmitted() && $form->isValid()) {
+        // Validation des champs / Contruction des erreures
+        if($form->isSubmitted()) {
 
-                $user = $form->getData();
+            $user = $form->getData();
+            if($form->isValid()){
 
-                // Update des données
+                $file = $user->getPhoto();
+                $fileName =  md5(uniqid()).'.'.$file->guessExtension();
+
+                try {
+                    $directory = $this->getParameter('photos_directory');
+                    $file->move($directory, $fileName);
+
+                }catch (FileException $e){
+                    $e->getMessage();
+                }
+
+
+                $user->setPhoto($fileName);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->flush();
 
             }
+        }
+
+
+        // Vérification formulaire mot de passe
+        if(isset($_POST['submitPassword']) && $_POST['submitPassword'] === 'Valider'){
+            // Nettoyage du $_POST
+            $post = array_map('trim', array_map('strip_tags', $_POST));
+            // Vérification du mot de passe
+            $passwordVerified = $this->verifPassword($post['password'], $post['confirmPassword']);
+            // Changement du mot de passe
+            $messagePassword = $this->changePassword($user, $passwordVerified, $passwordEncoder, $em);
+        }
 
         return $this->render('default/account.html.twig', [
+
             'form' => $form->createView(),
-            'user' => $user
+            'messagePassword' => $messagePassword,
+            'userPhoto' => $user->getPhoto(),
+
         ]);
 
     }
+
+
+    /**
+     * @param $password
+     * @param $confirmPassword
+     * @return |null
+     */
+    public function verifPassword($password, $confirmPassword){
+        if($password === $confirmPassword){
+            return $password;
+        }else{
+            return null;
+        }
+    }
+
+
+    /**
+     * @param User $user
+     * @param $verifiedPassword
+     * @param $passwordEncoder
+     * @param $em
+     * @return string
+     */
+    public function changePassword(User $user, $verifiedPassword, $passwordEncoder, $em): String{
+
+        if($verifiedPassword != null){
+
+            $newEncodedPassword = $passwordEncoder->encodePassword($user, $verifiedPassword);
+            $user->setPassword($newEncodedPassword);
+
+            $em->persist($user);
+            $em->flush();
+
+            $message = 'Votre mot de passe a bien été modifié';
+        }else{
+            $message = 'Mot de passe invalide';
+        }
+
+        return $message;
+    }
+
+
+
 
 }

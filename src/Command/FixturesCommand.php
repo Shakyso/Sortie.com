@@ -8,18 +8,15 @@ use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Entity\User;
 use App\Entity\Ville;
+
 use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\HttpFoundation\Request;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FixturesCommand extends Command
 {
@@ -43,7 +40,6 @@ class FixturesCommand extends Command
             ->setDescription('Load dummy data in our database')
             ;
     }
-
 
 
     protected function execute(InputInterface $input, OutputInterface $output)

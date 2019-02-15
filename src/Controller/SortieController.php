@@ -22,18 +22,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SortieController extends AbstractController
 {
-    public function List()
-    {
-        //Recupérer le repository des Sorties
-        $sortieRepository = $this->getDoctrine()->getRepository(Sortie::class);
-        //Find la liste de Sortie
-        $listeDesSorties = $sortieRepository->FindListSortie();
-        //envoie de la liste a la page d'accueille
-        return $this->render('default/index.html.twig', array(
-            'listeDesSorties' => $listeDesSorties
-        ));
-
-    }
 
     public function Create(Request $request)
     {
@@ -48,8 +36,6 @@ class SortieController extends AbstractController
         $etatlist = $etatRepo->findAll();
 
         foreach($etatlist as $e) {
-            var_dump($e);
-
             //test du formulaire
             if ($formSortie->isSubmitted() && $formSortie->isValid()) {
                 //recup des éléments $request du formulaire
@@ -57,27 +43,31 @@ class SortieController extends AbstractController
                 //crée un message flash à afficher sur la prochaine page
                 $this->addFlash('success', 'Votre sortie à été ajoutée !');
 
-                if (isset($data['save']) && $e == "Créée") {
+                if (isset($data['save']) && $e == "Créée")
+                {
                     $sortie->setEtat($e);
                     //recup entitymanager
                     $em = $this->getDoctrine()->getManager();
                     //on demande à Doctrine de sauvegarder notre instance
                     $em->persist($sortie);
                     //on exécute les requêtes
-                    //$em->flush();
+                    $em->flush();
                     //redirige vers la page de détails de cette ajout
                     return $this->redirectToRoute('sortie_detail',
                         ['id' => $sortie->getId()]
                     );
-                } elseif (isset($data['saveandpublished']) && $e == "Ouverte") {
+
+                } elseif (isset($data['saveandpublished']) && $e == "Ouverte")
+                {
                     $sortie->setEtat($e);
                     //recup entitymanager
                     $em = $this->getDoctrine()->getManager();
                     //on demande à Doctrine de sauvegarder notre instance
                     $em->persist($sortie);
                     //on exécute les requêtes
-                    //$em->flush();
-                    return $this->redirectToRoute('sortie_detail_public',
+                    $em->flush();
+                    //redirige vers la page de détails de cette ajout
+                    return $this->redirectToRoute('sortie_detail',
                         ['id' => $sortie->getId()]
                     );
                 }
@@ -96,28 +86,21 @@ class SortieController extends AbstractController
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $sortieRepo->findOneById($id);
 
+        $listParticipant = $sortieRepo->findListParticipant($id);
+
+        dd($listParticipant);
+
         if(!$sortie){
             throw $this->createNotFoundException("Cette sortie n'existe pas !");
         }
 
+
         return $this->render('sortie/detail.html.twig', array(
+            'participants' => $listParticipant,
            'sortie' => $sortie
         ));
 
 
-    }
-    public function Detail_public($id)
-    {
-        $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
-        $sortie = $sortieRepo->findOneById($id);
-
-        if(!$sortie){
-            throw $this->createNotFoundException("Cette sortie n'existe pas !");
-        }
-
-        return $this->render('sortie/detail.html.twig', array(
-            'sortie' => $sortie
-        ));
     }
 
     public function Delete($id)

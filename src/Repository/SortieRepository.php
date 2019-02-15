@@ -21,36 +21,76 @@ class SortieRepository extends ServiceEntityRepository
 
     public function findListSortie()
     {
-        /*SELECT * FROM sortie s
-        INNER JOIN sortie_user su
-         ON s.id = su.sortie_id
-        INNER JOIN user u
-         ON su.user_id = u.id
-        INNER JOIN etat_sortie es
-        ON s.etat_id = es.id**/
 
         $q = $this->createQueryBuilder('s')
             ->join('s.organisateur','o')
             ->join('o.sorties','sorties')
-            ->join('s.etat','e');
-
+            ->join('s.etat','e')
+            ->where('e.libelle != :e')
+            ->orderBy('s.dateHeureDebut', 'DESC')
+            ->setParameter('e', 'Créée');
 
         $q->getQuery()->execute();
-       // dd($q);
+
         return $q->getQuery()->execute();
 
     }
 
-    public function findNbParticipant($id)
-    {
+    public function findOrganisateur(){
 
         $q = $this->createQueryBuilder('s')
-            ->select('COUNT(s')
-            ->join('s.organisateur', 'o')
-            ->where('s.organisateur = :id');
+            ->join('s.organisateur','o')
+            ->join('o.sorties','sorties')
+            ->where('s.organisateur = sorties.organisateur');
 
-        //dd($q)
         return $q->getQuery()->execute();
+    }
+
+    public function findNbParticipant($idSortie)
+    {
+
+     /*   "SELECT COUNT(sortie_user.user_id)
+ FROM `sortie_user`  INNER JOIN sortie s 
+ ON sortie_user.sortie_id = s.id 
+ INNER JOIN user u 
+ ON u.id = sortie_user.user_id WHERE sortie_id = 1";*/
+
+        $q = $this->createQueryBuilder('s')
+            ->select('COUNT(u.id)')
+            ->innerjoin('s.users', 'u')
+            ->where('s.id = :idSortie')
+            ->setParameter('idSortie', $idSortie)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $q;
+
+    }
+
+    public function findParticipation($id)
+    {
+        $q = $this->createQueryBuilder('s')
+            ->select('s.id')
+            ->innerjoin('s.users', 'u')
+            ->where('u.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->execute();
+        return $q;
+
+    }
+
+    public function findListParticipant($id){
+
+        $q = $this->createQueryBuilder('s')
+            ->select('s,u')
+            ->innerJoin('s.users','u')
+            ->innerJoin('u.sortiesInscrit', 'si')
+            ->where('si.id = :id')
+            ->setParameter('id',$id)
+            ->getQuery()
+            ->execute();
+        return $q;
 
     }
 

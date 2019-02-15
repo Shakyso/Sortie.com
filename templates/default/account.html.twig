@@ -3,6 +3,85 @@
 
 
 {% block body %}
-    <h1>Profil</h1>
-    {{ form(form) }}
+    <h2>Profil</h2>
+
+
+    <div class="contain-flex">
+
+        <div class="photo">
+            <img src="{{ asset('uploads/photos/' ~ userPhoto) }}" alt="Smiley face" height="160" width="160">
+        </div>
+
+        <div class="form-profil">
+            {{ form_start(form) }}
+            <div class="my-custom-class-for-errors">
+                {{ form_errors(form) }}
+            </div>
+
+
+            <div class="row">
+
+                <div class="col">
+                    {{ form_label(form.username) }}
+                    {{ form_widget(form.username) }}
+                </div>
+                <div class="col">
+                    {{ form_label(form.name) }}
+                    {{ form_widget(form.name) }}
+                </div>
+                <div class="col">
+                    {{ form_label(form.lastname) }}
+                    {{ form_widget(form.lastname) }}
+                </div>
+                <div class="col">
+                    {{ form_label(form.mail) }}
+                    {{ form_widget(form.mail) }}
+                </div>
+                <div class="col">
+                    {{ form_label(form.telephone) }}
+                    {{ form_widget(form.telephone) }}
+                </div>
+                <div class="col">
+                    {{ form_label(form.site) }}
+                    {{ form_widget(form.site) }}
+                </div>
+                <div class="col">
+                    {{ form_label(form.photo) }}
+                    {{ form_widget(form.photo) }}
+                </div>
+
+            </div>
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+
+
+    <ul>
+        {% for error in form.vars.errors.form.getErrors(true) %}
+            <li>{{ error.message }}</li>
+        {% endfor %}
+    </ul>
+
+
+
+    <form method="post">
+
+        {% if messagePassword is defined %}
+            {{ messagePassword }}
+        {% endif %}
+
+        <h2>Mot de passe</h2>
+
+        <label for="password">Nouveau mot de passe : </label>
+        <input type="password" name="password"><br>
+
+        <label for="confirmPassword">Confirmation mot de passe : </label>
+        <input type="password" name="confirmPassword"><br>
+
+        <input type="submit" name="submitPassword" value="Valider">
+
+    </form>
+
+
 {% endblock %}

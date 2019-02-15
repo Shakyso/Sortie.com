@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -21,6 +22,13 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message = "Votre pseudo ne peut pas être vide")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 20,
+     *      minMessage = "Votre pseudo doit contenir au minimum {{ limit }} caracteres",
+     *      maxMessage = "Votre pseudo ne peut contenir plus de {{ limit }} caracteres"
+     *)
      */
     private $username;
 
@@ -31,17 +39,28 @@ class User implements UserInterface
 
     /**
      * @var string The hashed password
+     * @Assert\NotBlank(message = "je suis la")
      * @ORM\Column(type="string")
      */
     private $password;
 
+
     /**
-     * @ORM\Column(type="string", length=25, nullable=true)
+     * @ORM\Column(type="string", length=10, nullable=true)
+     * @Assert\Length(
+     *     min = 10,
+     *     max = 25,
+     *     minMessage = "Le numéro de téléphone doit contenir au moins {{ limit }}",
+     *     maxMessage = "Le numéro ne peut pas contenir plus de {{ limit }} chiffres"
+     * )
      */
     private $telephone;
 
     /**
      * @ORM\Column(type="string", length=150, nullable=true)
+     * @Assert\Email(
+     * message = "l'adresse '{{ value }}' n'est pas une adresse email valide .",
+     * )
      */
     private $mail;
 
@@ -61,6 +80,73 @@ class User implements UserInterface
      * @ORM\ManyToMany(targetEntity="App\Entity\Sortie", mappedBy="users")
      */
     private $sortiesInscrit;
+
+    private $newPassword;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     * @Assert\File(mimeTypes={ "image/png", "image/jpeg" })
+     */
+    private $photo;
+
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     *
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Votre prénom doit avoir au moins {{ limit }} caracteres",
+     *      maxMessage = "Votré prénom ne peut pas contenir plus de {{ limit }} caracteres"
+     * )
+     */
+    protected $name;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Votre Nom de famille doit avoir au moins {{ limit }} caracteres",
+     *      maxMessage = "Votré Nom de famille ne peut pas contenir plus de {{ limit }} caracteres"
+     * )
+     */
+    private $lastname;
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * @param mixed $lastname
+     */
+    public function setLastname($lastname): void
+    {
+        $this->lastname = $lastname;
+    }
+
+
+
 
     public function __construct()
     {
@@ -105,9 +191,10 @@ class User implements UserInterface
 
     public function setRoles(array $roles): self
     {
-        $this->roles = $roles;
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
 
-        return $this;
+        return array_unique($roles);
     }
 
     /**
@@ -176,6 +263,26 @@ class User implements UserInterface
         $this->site = $site;
 
         return $this;
+    }
+
+    public function getNewPassword(){
+        return $this->newPassword;
+    }
+
+
+    public function setNewPassword($newPassword){
+        $this->newPassword = $newPassword;
+        return $this->newPassword;
+    }
+
+    public function getPhoto(){
+        return $this->photo;
+    }
+
+    public function setPhoto($photo){
+        $this->photo = $photo;
+        return $this->photo;
+
     }
 
     /**

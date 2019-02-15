@@ -8,6 +8,8 @@
 namespace App\Controller;
 
 
+use App\Entity\Sortie;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DefaultController extends AbstractController
@@ -15,7 +17,31 @@ class DefaultController extends AbstractController
 
     function Index()
     {
-        return $this->render('default/index.html.twig');
+        $user = $this->getUser();
+        //Recupérer le repository des Sorties
+        $sortieRepository = $this->getDoctrine()->getRepository(Sortie::class);
+        //Find la liste de Sortie
+        $listeDesSorties = $sortieRepository->findListSortie();
+
+        if(!is_null($user)){
+            $maliste = $sortieRepository->findParticipation($user->getId());
+        } else {
+            $maliste = "";
+        }
+
+
+        $arrayParticipant = array();
+        foreach($listeDesSorties as $sortie){
+            $nombreParticipant = $sortieRepository->findNbParticipant($sortie->getId());
+            $arrayParticipant[$sortie->getId()] = $nombreParticipant;
+        }
+
+        //envoie de la liste a la page d'accueille
+        return $this->render('default/index.html.twig', array(
+            'listeDesSorties' => $listeDesSorties,
+            'nombreParticipant' => $arrayParticipant,
+            'maliste' => $maliste
+        ));
     }
 
 }
