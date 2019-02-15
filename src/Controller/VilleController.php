@@ -65,6 +65,8 @@ class VilleController  extends AbstractController
                 $em->flush();
                 return $this->redirectToRoute('ville_list');
             }
+
+            //return en json_encode('string');
         }
         //TODO si l'id n'existe pas
         $ville=new Ville();
