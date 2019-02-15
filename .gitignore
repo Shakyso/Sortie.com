@@ -19,5 +19,5 @@
 
 .idea
 .idea/workspace.xml
-.public/uploads/photos/
+.public/uploads/photos/*
 
