@@ -18,5 +18,5 @@
 ###< symfony/web-server-bundle ###
 
 .idea/*
-.public/uploads/photos/*
+/public/uploads/photos/*
 
