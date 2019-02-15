@@ -83,7 +83,7 @@ class SortieRepository extends ServiceEntityRepository
     public function findListParticipant($id){
 
         $q = $this->createQueryBuilder('s')
-            ->select('s,u')
+            ->select('s, u')
             ->innerJoin('s.users','u')
             ->innerJoin('u.sortiesInscrit', 'si')
             ->where('s.id = :id')

@@ -89,19 +89,22 @@ class SortieController extends AbstractController
 
         $listParticipant = $sortieRepo->findListParticipant($id);
 
-       dd($listParticipant);
+
        $data = [];
-
-      
-
+        $i=0;
+        foreach ($listParticipant[0] as $participants){
+            $data[$i] = $participants;
+            $i++;
+        }
 
         if(!$sortie){
             throw $this->createNotFoundException("Cette sortie n'existe pas !");
         }
 
 
+
         return $this->render('sortie/detail.html.twig', array(
-            'participants' => $listParticipant,
+            'participants' => $listParticipant[0],
            'sortie' => $sortie
         ));
 

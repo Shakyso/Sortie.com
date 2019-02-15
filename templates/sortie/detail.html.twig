@@ -23,21 +23,19 @@
      <div id="Divmap">
 
      </div>
-     <div class="tableau_participant">
-         <table class="participant">
+     <div class="tableau_participant" style="width:500px; height:300px; overflow:auto;">
+         <table class="participant" cellspacing="0" cellpadding="1" border="1" width="500">
              <tr>
                  <td>Pseudo</td>
                  <td>email</td>
              </tr>
+             {% for participant in participants.users %}
              <tr>
-                 {% for participant in participants %}
-                <td></td>
-                <td></td>
-                 {% endfor %}
+                 <td><a href="{{ path('public_account', {'id' : participant.id}) }}">{{ participant.username}}</a></td>
+                <td>{{ participant.mail }}</td>
              </tr>
-
+             {% endfor %}
          </table>
-
      </div>
 
 

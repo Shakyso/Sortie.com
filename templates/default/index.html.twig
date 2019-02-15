@@ -49,7 +49,7 @@
           {% endif %}
 
           <!-- Les organisateur -->
-                    <td><a href="{{ path('security_account'                                                                                                                      , {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.username }} </a></td>
+                    <td><a href="{{ path('public_account'                                                                                                                      , {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.username }} </a></td>
 
           {%  if app.user %}
             {% if maliste is defined %}
