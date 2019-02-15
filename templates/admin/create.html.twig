@@ -18,12 +18,12 @@
              <th>Action</th>
          </tr>
          {% for ville in villesList %}
-             <tr id="{{ ville.id }}">
+             <tr class="listeVille">
                  <td class="villeNom">{{ ville.nom}}</td>
                  <td class="villeCodePostal">{{ ville.codePostal}}</td>
-                 <td><button class="btn btn-success test" id="testVille" >test</button> -
+                 <td class="action">{#<button class="btn btn-success test" id="testVille" >test</button> -#}
                      {#href="{{ path('ville_update', {'id': ville.id})}}"#}
-                     <button class="button_modifier" id="updateVille_{{ ville.id}}" >Modifier</button> -
+                     <button class="button_modifier" id="{{ ville.id}}" >Modifier</button> -
                      <a class="btn btn-success" href={{ path('ville_delete',{'id' : ville.id}) }}>Supprimer</a>
                  </td>
              </tr>

@@ -1,29 +1,49 @@
 
 $(document).ready(function(){
+   /*
     $( "tr" ).each(function (index) {
         $( "#testVille" ).click(function() {
             alert( "Handler for .click() called." );
         });
     });
+*/
 
 
+   var i = 0;
     //faire une boucle
-   $( "tr" ).each(function (index) {
-       var villeId=$(this);
-       console.log($(villeId));
-      // $( "#updateVille_($(this))" ).click(function () {
-            //if(this.id=='modifier') {
-        //        console.log(index+ ":" + $(this).text());
-            //}
-       //récupérer l'id de l'objet
-       //var idVille = $('.villeNom').parent().attr('id');
-      //console.log(idVille);
-        // });
+   $( ".listeVille" ).each(function (index) {
 
 
-       //});
-  });
-});
+
+       //console.log($(ville));
+       // $( "button").click(function () {
+       //var id=$( ".button_modifier").attr("id");
+       console.log($(this));
+
+       var test = $('.action > .button_modifier').attr('id');
+       console.log('test => ', test);
+       var codePostal = $('.villeCodePostal').val();
+       console.log("Code postal => ", codePostal);
+       var villeId = $(".button_modifier").attr("id");
+       console.log(villeId);
+       $( ".button_modifier").click(function () {
+            console.log(villeId);
+       //var ville=$(this);
+
+           //if(this.id=='modifier') {
+           //        console.log(index+ ":" + $(this).text());
+           //}
+           //récupérer l'id de l'objet
+           //var idVille = $('.villeNom').parent().attr('id');
+           //console.log(idVille);
+           // });
+
+
+           //});
+       });
+
+   });
+   });
         //récupérer les cellules nom et de code postal pour un id bien particulier
        // $(".villeNom#id")
 
