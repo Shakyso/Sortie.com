@@ -3,7 +3,21 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+
         <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
+
+
+
+        {% block stylesheets %}{% endblock %}
+
+        <link href="{{ asset('assets/css/index.css') }}" rel="stylesheet" />
+
+    </head>
+    <body>
+        {% include 'default/partials/header.html.twig' %}
+        {% block body %}{% endblock %}
+
+        <link rel="stylesheet" href={{ asset("js/sdk-2d/GpSDK2D.js") }} />
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
               integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
               crossorigin=""/>
@@ -11,17 +25,12 @@
                 integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
                 crossorigin=""></script>
         <script src="{{ asset("js/sdk-2d/GpSDK2D.js") }}"></script>
-        <link rel="stylesheet" href={{ asset("js/sdk-2d/GpSDK2D.js") }} />
-
-    </head>
-    <body>
-        {% include 'default/partials/header.html.twig' %}
-        {% block body %}{% endblock %}
-
-
         <script src="{{ asset('js/jquery.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/map.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
         <script src="{{ asset('js/bootstrap.js') }}"></script>
     </body>
+
+    <script src="{{ asset('assets/js/index.js') }}"></script>
+
 </html>

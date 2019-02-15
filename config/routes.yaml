@@ -16,6 +16,12 @@ security_account:
     requirements:
         id: '\d+'
 
+public_account:
+    path: /account/visitor/{id}
+    controller: App\Controller\UserController::Account
+    requirements:
+        id: '\d+'
+
 # Site Controller
 site_list:
     path: /site
