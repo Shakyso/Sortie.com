@@ -19,7 +19,7 @@
          {% for site in sitesList %}
              <tr>
                  <td>{{ site.nom}}</td>
-                 <td>{#<a class="btn btn-success" href={{ path('site_upadte', {'id': site.id}) }}>Modifier</a> #}-
+                 <td><a class="btn btn-success" href={{ path('site_update', {'id': site.id}) }}>Modifier</a> -
                      <a class="btn btn-success" href={{ path('site_delete',{'id' : site.id}) }}>Supprimer</a>
                  </td>
              </tr>
