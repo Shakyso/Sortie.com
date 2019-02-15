@@ -60,7 +60,6 @@ ville_search:
 
 # Sortie Controller
 
-
 sortie_create:
     path: /sortie/Create
     controller: App\Controller\SortieController::Create
@@ -98,9 +97,4 @@ sortie_detail:
     requirements:
         id: '\d+'
 
-sortie_detail_public:
-    path: /sortie/Detail/{id}
-    controller: App\Controller\SortieController::Detail_public
-    requirements:
-        id: '\d+'
 

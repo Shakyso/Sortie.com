@@ -8,13 +8,10 @@
 namespace App\Controller;
 
 
-use App\Entity\Post;
 use App\Entity\User;
 use App\Entity\Site;
-use App\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -40,7 +37,6 @@ class SecurityController  extends AbstractController{
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
-
 
     /**
      * @Route("/logout", name="app_logout")

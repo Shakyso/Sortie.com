@@ -1,0 +1,10 @@
+#Divmap{
+    height: 400px;
+    width: 500px;
+}
+
+.tableau_sortie{
+    width: 1300px;
+    height: 1000px;
+    overflow: scroll;
+}
