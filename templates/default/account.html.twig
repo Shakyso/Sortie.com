@@ -8,9 +8,17 @@
 
     <div class="contain-flex">
 
-        <div class="photo">
-            <img src="{{ asset('uploads/photos/' ~ userPhoto) }}" alt="Smiley face" height="160" width="160">
-        </div>
+
+        {% if userPhoto is empty %}
+            <div class="photo">
+                Pas de photo
+        {% else %}
+            <div class="photo">
+                <img src="{{ asset('uploads/photos/' ~ userPhoto) }}" alt="Smiley face" height="160" width="160">
+            </div>
+        {% endif %}
+
+
 
         <div class="form-profil">
             {{ form_start(form) }}
@@ -18,9 +26,7 @@
                 {{ form_errors(form) }}
             </div>
 
-
             <div class="row">
-
                 <div class="col">
                     {{ form_label(form.username) }}
                     {{ form_widget(form.username) }}
