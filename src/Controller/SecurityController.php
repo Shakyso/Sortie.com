@@ -48,7 +48,7 @@ class SecurityController  extends AbstractController{
     public function logout()
     {
 
-        return $this->redirectToRoute('/Sortie.com/public/');
+        return $this->redirectToRoute($this->container->get('router')->getContext()->getBaseUrl());
     }
 
 
@@ -78,6 +78,8 @@ class SecurityController  extends AbstractController{
     {
 
         $messagePassword = null;
+
+
 
         // Récupération du User en base
         $em =  $this->getDoctrine()->getManager();
