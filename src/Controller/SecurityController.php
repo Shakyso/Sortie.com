@@ -80,11 +80,14 @@ class SecurityController  extends AbstractController{
         $messagePassword = null;
 
 
-
         // Récupération du User en base
         $em =  $this->getDoctrine()->getManager();
         $userRepo = $em->getRepository(User::class);
         $user = $userRepo->findOneById($id);
+
+        // Si une photo existe
+        $userPhoto = $user->getPhoto();
+        //var_dump($user->getPhoto());
 
         // Création du formulaire
         $form = $this->createForm(UserType::class, $user);
@@ -94,22 +97,28 @@ class SecurityController  extends AbstractController{
         // Validation des champs / Contruction des erreures
         if($form->isSubmitted()) {
 
+            // Récupération des données du formulaire
             $user = $form->getData();
+
             if($form->isValid()){
 
                 $file = $user->getPhoto();
-                $fileName =  md5(uniqid()).'.'.$file->guessExtension();
 
-                try {
-                    $directory = $this->getParameter('photos_directory');
-                    $file->move($directory, $fileName);
+                if($file != null){
+                    $fileName =  md5(uniqid()).'.'.$file->guessExtension();
 
-                }catch (FileException $e){
-                    $e->getMessage();
+                    try {
+                        $directory = $this->getParameter('photos_directory');
+                        $file->move($directory, $fileName);
+
+                    }catch (FileException $e){
+                        $e->getMessage();
+                    }
+                    $user->setPhoto($fileName);
+                }else{
+                    $user->setPhoto($userPhoto);
                 }
 
-
-                $user->setPhoto($fileName);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->flush();
 
@@ -141,7 +150,7 @@ class SecurityController  extends AbstractController{
     /**
      * @param $password
      * @param $confirmPassword
-     * @return |null
+     * @return String | null
      */
     public function verifPassword($password, $confirmPassword){
         if($password === $confirmPassword){
