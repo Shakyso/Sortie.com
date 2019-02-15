@@ -3,33 +3,33 @@
     {{ dump(app.user) }}
     <ul style="display: flex;justify-content: end;list-style-type: none;">
 
-        <li style="margin-right: 10px;"><a href="{{ path('index') }}">Acceuil</a></li>
+        <li class="menu-li"><a href="{{ path('index') }}">Acceuil</a></li>
 
+        {#TODO affichage en fonction des roles#}
+        <li class="menu-li">
+            <a href="{{ path('site_list') }}">Les sites</a>
+        </li>
+        <li class="menu-li">
+            <a href="{{ path('ville_list') }}">Les villes</a>
+        </li>
 
         {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') and not app.user %}
-            <li style="margin-right: 10px;">
+            <li class="menu-li">
                 <a href="{{ path('app_register') }}">Inscription</a>
             </li>
         {% endif %}
         {% if app.user  %}
-            <li style="margin-right: 10px;">
+            <li class="menu-li">
                 <a href="{{ path('app_logout') }}">Déconnexion</a>
             </li>
-            <li style="margin-right: 10px;">
+            <li class="menu-li">
                 <a href="{{ path('security_account', {'id' : app.user.id }) }}">Mon profil</a>
             </li>
 
         {% else %}
-            <li>
+            <li class="menu-li">
                 <a href="{{ path('app_login') }}">Connexion</a>
             </li>
         {% endif %}
-        {#TODO affichage en fonction des roles#}
-            <li>
-                <a href="{{ path('site_list') }}">Les sites</a>
-            </li>
-            <li>
-                <a href="{{ path('ville_list') }}">Les villes</a>
-            </li>
     </ul>
 </div>
