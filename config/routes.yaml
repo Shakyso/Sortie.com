@@ -24,7 +24,7 @@ public_account:
 
 # Site Controller
 site_list:
-    path: /site
+    path: admin/site
     controller: App\Controller\SiteController::List
 
 site_update:
@@ -43,26 +43,31 @@ site_search:
     path: /site
     controller: App\Controller\SiteController::Search
 
+site_create:
+    path: admin/site/create
+    controller: App\Controller\SiteController::CreateSite
+
 # Ville Controller
+
 ville_list:
-    path: /ville
-    controller: App\Controller\SiteController::List
+    path: admin/ville/create
+    controller: App\Controller\VilleController::List
 
 ville_update:
     path: /ville/update/{id}
-    controller: App\Controller\SiteController::Update
+    controller: App\Controller\VilleController::Update
     requirements:
         id: '\d+'
 
 ville_delete:
     path: /ville/delete/{id}
-    controller: App\Controller\SiteController::Delete
+    controller: App\Controller\VilleController::Delete
     requirements:
         id: '\d+'
 
 ville_search:
     path: /ville
-    controller: App\Controller\SiteController::Search
+    controller: App\Controller\VilleController::Search
 
 # Sortie Controller
 
