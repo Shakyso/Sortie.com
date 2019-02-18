@@ -143,21 +143,34 @@ class SortieController extends AbstractController
 
     public function Update($id, Request $request)
     {
+        $sortie = new Sortie();
+        $ville = new Ville();
 
         //recup repository
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
-
         //find la sortie
         $sortie = $sortieRepo->findAllInformtion($id);
+        $ville = $sortie[0]->getlieu()->getville();
 
+    dd($ville);
         //creation du formulaire
-        $sortieForm = $this->createForm(SortieType::class,$sortie);
+        $sortieForm = $this->createForm(SortieType::class,$sortie[0]);
+        $sortieVilleForm = $this->createForm(SortieVilleType::class, $ville);
+   // dd($sortieVilleForm);
         $sortieForm->handleRequest($request);
+        $sortieForm->handleRequest($request);
+        $sortieVilleForm->handleRequest($request);
 
-        if($sortieForm->isSubmitted() && $sortieForm->isValid()){
+      //  dd( $sortie[0]->getlieu()->setVille($ville));
+        if($sortieForm->isSubmitted() && $sortieForm->isValid() && $sortieVilleForm->isSubmitted() && $sortieVilleForm->isValid()){
+
+            $sortie[0]->setId($id);
+            $sortie[0]->setlieu($sortieForm->get('lieu')->getData());
+            $sortie[0]->getlieu()->setVille($ville);
             //recup entitymanager
             $em = $this->getDoctrine()->getManager();
             $em->persist($sortie);
+            $em->persist($ville);
             //on exécute les requêtes
             $em->flush();
 
@@ -172,7 +185,9 @@ class SortieController extends AbstractController
 
         //return home
         return $this->render('sortie/update.html.twig', array(
-            'sortieForm' => $sortieForm,
+            'sortie' => $sortie[0],
+            'formSortie' => $sortieForm->createView(),
+            'formVille' =>$sortieVilleForm->createView(),
             'id' => $id
         ));
     }
