@@ -45,17 +45,6 @@ class SortieType extends AbstractType
                 'class' => Lieu::class,
                 'choice_label' => 'nom'
                 ))
-            ->add('ville', EntityType::class, array(
-                'multiple' => false,
-                'label' => 'Votre Ville',
-                'expanded' => false,
-                'class' => Ville::class,
-                'choice_label' => 'nom',
-                'entry_type'   => SortieVilleType::class,
-                'allow_add'    => true,
-                'allow_delete' => true
-            ))
-
             ->add('save and published', SubmitType::class, [
                 'attr' =>  ['class' =>'savepub'],
                 'label' => 'Save and Published'

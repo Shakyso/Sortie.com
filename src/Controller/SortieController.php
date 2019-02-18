@@ -152,11 +152,12 @@ class SortieController extends AbstractController
         $sortie = $sortieRepo->findAllInformtion($id);
         $ville = $sortie[0]->getlieu()->getville();
 
-
+    dd($ville);
         //creation du formulaire
         $sortieForm = $this->createForm(SortieType::class,$sortie[0]);
         $sortieVilleForm = $this->createForm(SortieVilleType::class, $ville);
    // dd($sortieVilleForm);
+        $sortieForm->handleRequest($request);
         $sortieForm->handleRequest($request);
         $sortieVilleForm->handleRequest($request);
 

@@ -28,4 +28,7 @@ class SortieVilleType extends AbstractType
             'data_class' => Ville::class,
         ]);
     }
-}
+    public function getName()
+    {
+        return 'Entity/Ville.php';
+    }}
