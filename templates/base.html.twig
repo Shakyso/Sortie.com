@@ -6,22 +6,16 @@
 
         <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
 
-
-
         {% block stylesheets %}{% endblock %}
-
         <link href="{{ asset('assets/css/index.css') }}" rel="stylesheet" />
 
     </head>
-    <body>
+    <body style="margin: 0;padding: 0;">
         {% include 'default/partials/header.html.twig' %}
-        {% include 'default/partials/footer.html.twig' %}
+
         {% block body %}{% endblock %}
 
+        {% include 'default/partials/footer.html.twig' %}
         {% block javascripts %}{% endblock %}
-
     </body>
-
-
-
 </html>

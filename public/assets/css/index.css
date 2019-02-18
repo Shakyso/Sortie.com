@@ -1,3 +1,82 @@
+
+/* ---- MENU ---- */
+.navbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #dfe6e9;
+    height: 55px;
+
+}
+
+.navbar-logo{
+    margin-left: 15px;
+}
+
+.navbar-ul{
+    display: flex;
+    justify-content: end;
+    list-style-type: none;
+}
+
 .menu-li{
-    margin-right: 10px;
+    margin-right: 15px;
+}
+
+/* ---- BODY ---- */
+.contain-flex{
+    display: flex;
+    justify-content: center;
+    height: auto;
+}
+
+.profil-title{
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+}
+
+.photo{
+    position: relative;
+    display: flex;
+    justify-content: start;
+}
+/*
+.form-display{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+}*/
+
+.form-modif{
+    width: 400px
+}
+.input-form{
+    border-radius: 3px;
+    width: 100%;
+    border: 1px solid grey;
+    height: 30px;
+}
+
+.group{
+    margin-bottom: 17px;
+}
+
+
+
+/* ---- FOOTER ---- */
+.footer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-right{
+    margin-left: 15px;
+}
+
+.footer-left{
+    margin-right: 15px;
 }
