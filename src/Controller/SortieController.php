@@ -10,11 +10,16 @@ namespace App\Controller;
 
 
 use App\Entity\EtatSortie;
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 
 use App\Entity\User;
 
+use App\Entity\Ville;
 use App\Form\SortieType;
+
+use App\Form\SortieVilleType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,17 +32,29 @@ class SortieController extends AbstractController
     {
         //instance d'une Sortie
         $sortie = new Sortie();
+        $ville =new Ville();
+
         //Création d'un formulaire de sortie
         $formSortie = $this->createForm(SortieType::class, $sortie);
+        $formVille = $this->createForm(SortieVilleType::class,$ville);
+
         $formSortie->handleRequest($request);
+        $formVille->handleRequest($request);
 
         //Recup de tout les états
         $etatRepo = $this->getDoctrine()->getRepository(EtatSortie::class);
         $etatlist = $etatRepo->findAll();
 
+        $lieuRepo = $this->getDoctrine()->getRepository(Lieu::class);
+        $villeRepo = $this->getDoctrine()->getRepository(Ville::class);
+
+        $listVille = $villeRepo->findAllVille();
+        $listVilleLieu = $lieuRepo->findAllLieuVille();
+
+
         foreach($etatlist as $e) {
             //test du formulaire
-            if ($formSortie->isSubmitted() && $formSortie->isValid()) {
+            if ($formSortie->isSubmitted() && $formSortie->isValid() && $formVille->isSubmitted() && $formVille->isValid()) {
                 //recup des éléments $request du formulaire
                 $data = $request->request->get('sortie');
                 //crée un message flash à afficher sur la prochaine page
@@ -50,6 +67,7 @@ class SortieController extends AbstractController
                     $em = $this->getDoctrine()->getManager();
                     //on demande à Doctrine de sauvegarder notre instance
                     $em->persist($sortie);
+                    $em->persist($ville);
                     //on exécute les requêtes
                     $em->flush();
                     //redirige vers la page de détails de cette ajout
@@ -64,6 +82,7 @@ class SortieController extends AbstractController
                     $em = $this->getDoctrine()->getManager();
                     //on demande à Doctrine de sauvegarder notre instance
                     $em->persist($sortie);
+                    $em->persist($ville);
                     //on exécute les requêtes
                     $em->flush();
                     //redirige vers la page de détails de cette ajout
@@ -76,39 +95,34 @@ class SortieController extends AbstractController
 
         //envoi du form a la page
        return $this->render('sortie/create.html.twig', array(
-           'formSortie' => $formSortie->createView()
+           'listeVilleLieu' => $listVilleLieu,
+           'formSortie' => $formSortie->createView(),
+            'formVille' => $formVille->createView()
        ));
 
     }
 
     public function Detail($id)
     {
-
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $sortieRepo->findOneById($id);
 
         $listParticipant = $sortieRepo->findListParticipant($id);
 
-
        $data = [];
         $i=0;
         foreach ($listParticipant[0] as $participants){
             $data[$i] = $participants;
-            $i++;
-        }
+            $i++;        }
 
         if(!$sortie){
             throw $this->createNotFoundException("Cette sortie n'existe pas !");
         }
 
-
-
         return $this->render('sortie/detail.html.twig', array(
             'participants' => $listParticipant[0],
            'sortie' => $sortie
         ));
-
-
     }
 
     public function Delete($id)
@@ -132,8 +146,9 @@ class SortieController extends AbstractController
 
         //recup repository
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
+
         //find la sortie
-        $sortie = $sortieRepo->find($id);
+        $sortie = $sortieRepo->findAllInformtion($id);
 
         //creation du formulaire
         $sortieForm = $this->createForm(SortieType::class,$sortie);
@@ -156,7 +171,8 @@ class SortieController extends AbstractController
         }
 
         //return home
-        return $this->render('sortie/detail.html.twig', array(
+        return $this->render('sortie/update.html.twig', array(
+            'sortieForm' => $sortieForm,
             'id' => $id
         ));
     }

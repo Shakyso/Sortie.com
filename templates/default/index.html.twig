@@ -34,72 +34,40 @@
        <td>{{ sortie.etat }}</td>
 
           <!-- Savoir la ou je participe-->
+
           {% if maliste is defined %}
-
             {% for masortie in maliste %}
-
                 {% if(sortie.id == masortie) %}
                      <td>+</td>
                 {% endif %}
-
           {% else %}
                 <td></td>
             {% endfor %}
-
           {% endif %}
 
           <!-- Les organisateur -->
-                    <td><a href="{{ path('public_account'                                                                                                                      , {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.username }} </a></td>
 
-          {%  if app.user %}
-            {% if maliste is defined %}
-              {% for masortie in maliste %}
-                 {% if(sortie.organisateur.id == masortie) %}
-                    <td>
-                        <a href="{{ path('sortie_update') }}">Modfier</a>
-                        <a href="{{ path('sortie_delete') }}">Annuler</a>
 
-                        {% if masortie.etat == "Créée" %}
-                            <a href="">Publier</a>
-                        {% endif %}
-                    </td>
-                 {% elseif (sortie.id == masortie) %}
-                    <td>
-                        <a href="{{ path('sortie_detail', {'id' : sortie.id}) }}">Afficher</a>
-                        <a href="{{ path('sortie_desistement') }}">Desinscription</a>
-                    </td>
-                 {% else %}
-
-                     <td>
-                         {#TODO gérer le passage des paramètres idSOrtie et idParticipant#}
-                         <a href="{{ path('sortie_detail', {'id' : sortie.id}) }}">Afficher</a>
-                        S'inscrire{# <a href="{{ path('sortie_inscrire', {'idSortie':idSortie,'idParticipant':idParticipant}) }}">s'inscrire</a>#}
-                     </td>
-
-                 {% endif %}
-
-              {% endfor %}
-            {% else %}
-                <a href="{{ path('sortie_detail', {'id' : sortie.id}) }}">Afficher</a>
-                s'inscrire{#<a href="{{ path('sortie_inscrire', {'idSortie':idSortie,'idParticipant':idParticipant}) }}">s'inscrire</a>#}
-             {% endif %}
-
-        {% else %}
-            <td>
-                <a href="{{ path('sortie_detail', {'id' : sortie.id}) }}">Afficher</a>
-            </td>
-        {% endif %}
-
+          <td><a href="{{ path('public_account', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.username }} </a> </td>
+          <td>
+              <a href="{{ path('sortie_update', {'id' : sortie.id}) }}">Modfier</a>
+              <a href="{{ path('sortie_update', {'id' : sortie.id}) }}">Annuler</a>
+              <a href="">Publier</a>
+                {% if app.user %}
+              <a href="{{ path('sortie_desistement', {'id' : app.user.id }, {'id' : sortie.id}) }}">Desinscription</a>
+                {% endif %}
+                {% if app.user %}
+              <a href="{{ path('sortie_inscrire', {'id' : app.user.id}, {'id' : sortie.id}) }}">s'inscrire</a>
+                {% endif %}
+              <a href="{{ path('sortie_detail', {'id' : sortie.id}) }}">Afficher</a>
+          </td>
       </tr>
-
       {% endfor %}
-    {% endif %}
-
-
    </table>
   </div>
 
      <a href='{{ path('sortie_create') }}'><button>Create Sortie</button></a>
 
+    {% endif %}
  {% endblock %}
 
