@@ -9,13 +9,7 @@
         <div class="form-profil">
 
 
-            <div class="photo">
-                {% if userPhoto is empty %}
-                    <img src="{{ asset('assets/img/photo_null.png') }}" alt="Photo de profil non renseignée" height="75" width="75">
-                {% else %}
-                    <img src="{{ asset('uploads/photos/' ~ userPhoto) }}" alt="Photo de profil" height="75" width="75">
-                {% endif %}
-            </div>
+
 
 
             {{ form_start(form) }}
@@ -24,6 +18,15 @@
                 <div class="profil-title">
                     <h1>Profil</h1>
                 </div>
+
+                <div class="photo">
+                    {% if userPhoto is empty %}
+                        <img src="{{ asset('assets/img/photo_null.png') }}" alt="Photo de profil non renseignée" height="75" width="75">
+                    {% else %}
+                        <img src="{{ asset('uploads/photos/' ~ userPhoto) }}" alt="Photo de profil" height="75" width="75">
+                    {% endif %}
+                </div>
+
                 <div class="form-errors">
 
                     <div class="my-custom-class-for-errors">
@@ -70,7 +73,7 @@
                         {{ form_widget(form.site, {'attr': {'class': 'input-form'}}) }}
                     </div>
                     <div class="group col">
-                        {{ form_label(form.photo) }}
+                        {{ form_label(form.photo, "Choisir une photo : ",  { 'attr': { 'class' : 'input-label' } }) }}
                         {{ form_widget(form.photo) }}
                     </div>
 

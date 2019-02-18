@@ -65,6 +65,19 @@
     margin-bottom: 17px;
 }
 
+/*label[for="user_photo"]{
+    padding: 10px;
+    background: red;
+    display: table;
+    color: #fff;
+}
+
+
+
+input[type="file"] {
+    display: none;
+}*/
+
 
 
 /* ---- FOOTER ---- */
