@@ -152,6 +152,7 @@ class SortieController extends AbstractController
 
         //creation du formulaire
         $sortieForm = $this->createForm(SortieType::class,$sortie);
+        $sortieVilleForm = $this->createForm(SortieVilleType::class);
         $sortieForm->handleRequest($request);
 
         if($sortieForm->isSubmitted() && $sortieForm->isValid()){
