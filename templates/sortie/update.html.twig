@@ -29,17 +29,18 @@
     <th>{{ form_widget(formSortie.infosSortie) }}</th>
     <th class="sortie_ville">{{ form_widget(formVille.nom) }}</th>
     <th class="sortie_lieu">{{ form_widget(formSortie.lieu) }}</th>
-    <th class="sortie_lieu_rue"></th>
-    <th class="sortie_ville_codepstal"></th>
-    <th class="sortie_lieu_lat"></th>
-    <th class="sortie_lieu_long"></th>
+    <th class="sortie_lieu_rue">{{ sortie.lieu.rue }}</th>
+    <th class="sortie_ville_codepstal">{{ sortie.lieu.ville.codepostal }}</th>
+    <th class="sortie_lieu_lat">{{ sortie.lieu.latitude }}</th>
+    <th class="sortie_lieu_long">{{ sortie.lieu.longitude }}</th>
    </tr>
    </thead>
   </table>
+  <a href="{{ path('sortie_delete', {'id' : sortie.id}) }}"><button>Delete la sortie</button></a>
 
   {{ form_end(formVille) }}
   {{ form_end(formSortie) }}
-
+  <a href="{{ path('index') }}"><button>Annuler</button></a>
 
 
  {% endblock %}

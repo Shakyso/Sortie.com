@@ -10,6 +10,7 @@ use App\Repository\LieuRepository;
 
 
 use App\Repository\VilleRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -44,6 +45,16 @@ class SortieType extends AbstractType
                 'class' => Lieu::class,
                 'choice_label' => 'nom'
                 ))
+            ->add('ville', EntityType::class, array(
+                'multiple' => false,
+                'label' => 'Votre Ville',
+                'expanded' => false,
+                'class' => Ville::class,
+                'choice_label' => 'nom',
+                'entry_type'   => SortieVilleType::class,
+                'allow_add'    => true,
+                'allow_delete' => true
+            ))
 
             ->add('save and published', SubmitType::class, [
                 'attr' =>  ['class' =>'savepub'],
@@ -54,8 +65,7 @@ class SortieType extends AbstractType
                  'attr' => ['class'=>'save'],
                 'label' => 'Save'
     ]);
-
-    }
+                }
 
     public function configureOptions(OptionsResolver $resolver)
     {
