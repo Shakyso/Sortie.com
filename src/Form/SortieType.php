@@ -9,6 +9,8 @@ use App\Entity\Ville;
 use App\Repository\LieuRepository;
 
 
+use App\Repository\VilleRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
@@ -35,12 +37,14 @@ class SortieType extends AbstractType
             ->add('dateLimiteInscription', DateType::class, ['label' => 'S\'inscrir avant le :'])
             ->add('nbInscriptionMax', IntegerType::class, ['label' => 'Nombre max participant'])
             ->add('infosSortie', TextareaType::class, ['label' => 'Information'])
-            ->add('lieu',ChoiceType::class, array(
-                'label' => 'Votre ville',
-                'data_class' => Ville::class,
-                'choice_label' => function(LieuRepository $repository)
-                {  return $repository->findAllLieu(); },
-            ))
+            ->add('lieu',EntityType::class, array(
+                'multiple' => false,
+                'label' => 'Votre lieu',
+                'expanded' => false,
+                'class' => Lieu::class,
+                'choice_label' => 'nom'
+                ))
+
             ->add('save and published', SubmitType::class, [
                 'attr' =>  ['class' =>'savepub'],
                 'label' => 'Save and Published'

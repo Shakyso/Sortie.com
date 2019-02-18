@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+ {% block body %}
+     <h1>La sortie</h1>
+
+     <div class="row">
+         <div>Nom de la sortie :{{ sortie.nom }}</div>
+         <div>Date et heure de la sortie :{{ sortie.dateHeureDebut|date('m:d:Y:H:i') }}</div>
+         <div>Date limite d'inscription{{ sortie.dateLimiteInscription|date('m:d:Y') }}</div>
+         <div>Nombre de place :{{ sortie.nbInscriptionMax }}</div>
+         <div>Durée : {{ sortie.duree|date('H:i') }}</div>
+         <div>Description et info : {{ sortie.infosSortie }}</div>
+     </div>
+     <div class="row">
+         <div>Ville organisatrice {{ sortie.lieu.ville.nom }}</div>
+         <div>Lieu : {{ sortie.lieu.nom }}</div>
+         <div>Rue : {{ sortie.lieu.rue }}</div>
+         <div>Code postal : {{ sortie.lieu.ville.codepostal }}</div>
+         <div id="lat">{{ sortie.lieu.latitude }}</div>
+         <div id="long">{{ sortie.lieu.longitude }}</div>
+     </div>
+
+     <div id="Divmap">
+
+     </div>
+     <div class="tableau_participant" style="width:500px; height:300px; overflow:auto;">
+         <table class="participant" cellspacing="0" cellpadding="1" border="1" width="500">
+             <tr>
+                 <td>Pseudo</td>
+                 <td>email</td>
+             </tr>
+             {% for participant in participants.users %}
+                 <tr>
+                     <td><a href="{{ path('public_account', {'id' : participant.id}) }}">{{ participant.username}}</a></td>
+                     <td>{{ participant.mail }}</td>
+                 </tr>
+             {% endfor %}
+         </table>
+     </div>
+
+
+
+ {% endblock %}

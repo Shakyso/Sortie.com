@@ -21,8 +21,9 @@ class VilleRepository extends ServiceEntityRepository
 
     public function findAllVille(){
         $q = $this->createQueryBuilder('v')
+            ->select('v , l')
+            ->innerJoin('v.lieux', 'l')
             ->orderBy('v.nom', 'ASC');
-
 
         return $q->getQuery()->execute();
     }

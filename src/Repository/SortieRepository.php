@@ -93,6 +93,19 @@ class SortieRepository extends ServiceEntityRepository
         return $q;
 
     }
+    public function findAllInformtion($id){
+
+        $q = $this->createQueryBuilder('s')
+            ->select('s, l, v ,si')
+            ->innerJoin('s.lieu', 'l')
+            ->innerJoin('l.ville', 'v')
+            ->innerJoin('s.siteOrganisateur', 'si')
+            ->where('s.id = :id' )
+            ->setParameter('id',$id)
+            ->getQuery()
+            ->execute();
+        return $q;
+    }
 
 
 
