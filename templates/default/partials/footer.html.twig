@@ -1,20 +1,94 @@
 {% block javascripts %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/js/app.js') }}"></script>
-    <script src="{{ asset('assets/js/index.js') }}"></script>
     <link rel="stylesheet" href={{ asset("js/sdk-2d/GpSDK2D.js") }} />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
             integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
             crossorigin=""></script>
-    <script src="{{ asset("js/sdk-2d/GpSDK2D.js") }}"></script>
-    <script src="{{ asset('js/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/map.js') }}"></script>
+    <script src="{{ asset("js/sdk-2d/GpSDK2D.js") }}"></script>
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('assets/js/index.js') }}"></script>
+
+    <script src="{{ asset('js/jquery.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/sortie.js') }}"></script>
     <script src="{{ asset('js/bootstrap.js') }}"></script>
+    <script>
+        $(function(){
+
+            $('.button_modifier').each(function(){
+                console.log($(this));
+
+                $($(this)).on('click', function(){
+
+
+                    var idVille = $(this).attr('id');
+                    // console.log('nom id => ', $('#liste-ville-' + idVille));
+                    console.log('nom id  premier clic=> ', idVille);
+
+                    var codePostal=$('#code-postal-' +idVille).text();
+                    console.log('codePostal  premier clic => ',codePostal );
+
+                    var nomVille=$('#nom-' +idVille).text();
+                    console.log('nomVille  premier clic => ',nomVille );
+
+                    var newInputCP=document.createElement("input");
+                    newInputCP.type="text";
+                    newInputCP.name="nvCodePostal";
+                    newInputCP.value=codePostal;
+                    newInputCP.id="nvCodePostal";
+
+                    var newInputNom=document.createElement("input");
+                    newInputNom.type="text";
+                    newInputNom.name="nvNom";
+                    newInputNom.value=nomVille;
+                    newInputNom.id="nvNom";
+
+
+                    var codePostal2=$('#codeVille');
+                    var nom2=$('#nomVille');
+                    codePostal2.replaceWith(newInputCP);
+                    nom2.replaceWith(newInputNom);
+                    //TODO récupére les données
+                    $('.button_modifier').on('click', function(){
+                        //récupérer les valeurs des inouts
+                        var nvCP=$('#nvCodePostal').val();
+                        var nvnom=$('#nvNom').val();
+                        console.log('nv Code postal modifié=>', nvCP);
+                        console.log('nv nom modifié=>', nvnom);
+                        console.log('id NON MODIFIE=>', idVille);
+                        //faire une requete ajax
+
+                        var request = $.ajax({
+                            url : '{{ path('ville_update') }}',
+                            type : 'POST',
+                            //optionnnel date_type : json
+                            data : {'nvNomVille' : nvnom, 'nvCode' : nvCP, 'idVille' : idVille},
+                           // data :{'test': 'les données de app.js'}
+                           success : function (res){
+                              JSON.parse(res);
+                                 console.log(res.nom);
+                                 console.log(res.codePostal);
+                                 console.log('je suis dans la console de ajax partie success =>', res);
+                            }
+                            //error : alert ("erreur de mise à jour des données")
+                            // réafficher le tableau à jour
+                            // complete : réafficher la page
+                        });
+                        //réaficher le tableau
+                        // réléctioner ma migne
+                        // supprimer le form
+                        //réafficher les données dans le table
+
+                    });
+                });
+
+            });
+        });
+    </script>
 {% endblock %}
 

@@ -54,7 +54,7 @@ ville_list:
     controller: App\Controller\VilleController::List
 
 ville_update:
-    path: /ville/update/{id}
+    path: /ville/update/
     controller: App\Controller\VilleController::Update
     requirements:
         id: '\d+'
@@ -107,5 +107,3 @@ sortie_detail:
     controller: App\Controller\SortieController::Detail
     requirements:
         id: '\d+'
-
-

@@ -93,6 +93,7 @@ class SortieRepository extends ServiceEntityRepository
         return $q;
 
     }
+
     public function findAllInformtion($id){
 
         $q = $this->createQueryBuilder('s')
