@@ -19,4 +19,24 @@
     <script type="text/javascript" src="{{ asset('js/map.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/bootstrap.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+
+            $.ajax({
+                method: 'POST',
+                url: "{{ path('ville_update')}}",
+                data : {"test" : "test"},
+                success: function(res){
+
+                    JSON.parse(res);
+
+                    console.log(res.name)// => value1
+                    console.log('je suis le resultat ajax => ', res);
+            }});
+
+
+        });
+
+
+    </script>
 {% endblock %}

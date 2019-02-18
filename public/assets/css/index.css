@@ -65,6 +65,14 @@
     margin-bottom: 17px;
 }
 
+
+.block-profil{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
 /*label[for="user_photo"]{
     padding: 10px;
     background: red;
