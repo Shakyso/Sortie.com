@@ -28,10 +28,9 @@ site_list:
     controller: App\Controller\SiteController::List
 
 site_update:
-    path: /site/update/{id}
+    path: /site/update/
     controller: App\Controller\SiteController::Update
-    requirements:
-        id: '\d+'
+
 
 site_delete:
     path: /site/delete/{id}
