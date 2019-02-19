@@ -11,7 +11,7 @@ use App\Form\VilleType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -71,8 +71,7 @@ return $serializer;
             $villeAMAJ->setCodePostal($nvCode);
             $em->flush();
         }
-      //  var_dump($villeAMAJ);
-        //récupére le donnée sd'une ville modifier
+//récupére le donnée sd'une ville modifier
 $tab = array(
     "idVille"=>$idVille,
         "nomVille"=>$nvNomVille,

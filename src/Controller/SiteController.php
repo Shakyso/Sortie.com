@@ -60,7 +60,7 @@ class SiteController  extends AbstractController
             return $this->redirectToRoute('site_list');
         }
 
-        var_dump($siteForm->createView());
+       // var_dump($siteForm->createView());
 
         return $this->render('admin/createSite.html.twig', [
             "sitesList" => $sitesList,

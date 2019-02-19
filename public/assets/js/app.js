@@ -5,6 +5,8 @@ $(function(){
         var idVille = $(this).attr('id');
         console.log("je récupère l'id de chaque bouton modifier=> ", idVille);
         console.log($(this));
+
+
         $('.button_modifier[id='+idVille+']').on('click', function() {
             var idVille = $(this).attr('id');
             // console.log('nom id => ', $('#liste-ville-' + idVille));

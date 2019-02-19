@@ -43,7 +43,7 @@ class SortieType extends AbstractType
         //var_dump($this->em);
 
        /* $lieux = $this->em->getRepository(Lieu::class)->findAll();
-        var_dump($lieux);*/
+       // var_dump($lieux);*/
 
 
         $builder

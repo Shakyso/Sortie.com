@@ -48,7 +48,7 @@
           <!-- Les organisateur -->
 
 
-          {{ dump(app.user.id) }}
+
           <td><a href="{{ path('public_account', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.username }} </a> </td>
           <td>
               <a href="{{ path('sortie_update', {'id' : sortie.id}) }}">Modfier</a>
