@@ -47,6 +47,8 @@ class FixturesCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $faker = \Faker\Factory::create('fr_FR');
+        $faker->addProvider(new \Faker\Provider\fr_FR\Address($faker));
+
 
 
         $conn = $this->em->getConnection();
@@ -161,8 +163,8 @@ class FixturesCommand extends Command
             //hydrate toutes les propriétés...
             $lieu->setNom($faker->unique()->city);
             $lieu->setRue($faker->unique()->address);
-            $lieu->setLatitude($faker->unique()->latitude);
-            $lieu->setLongitude($faker->unique()->longitude);
+            $lieu->setLatitude($faker->unique()->latitude(8.000000,51.000000));
+            $lieu->setLongitude($faker->unique()->longitude(-5.000000,2.000000));
             $lieu->setVille($faker->randomElement($allVilles));
             $this->em->persist($lieu);
 
@@ -178,7 +180,7 @@ class FixturesCommand extends Command
 
             $sortie = new Sortie();
             //hydrate toutes les propriétés...
-            $sortie->setNom($faker->unique()->realText(100));
+            $sortie->setNom($faker->unique()->realText(50));
 
 
             $sortie->setEtat($faker->randomElement($allEtatSortie));
@@ -200,6 +202,11 @@ class FixturesCommand extends Command
             $duration = new \DateInterval('P0Y0M0DT4H0M');
             $sortie->setDuree($duration);
             $sortie->setNbInscriptionMax($faker->numberBetween(1,20));
+            $num=mt_rand(1,$sortie->getNbInscriptionMax());
+            for($b=0;$b<$num;$b++){
+                $participants=$faker->randomElement($allUsers);
+                $sortie->addUser($participants);
+            }
             $sortie->setInfosSortie($faker->realText(2500));
             $sortie->setLieu($faker->randomElement($allLieux));
             //TODO etat en fonction de la date
@@ -208,11 +215,7 @@ class FixturesCommand extends Command
 
 
             $sortie->setOrganisateur($faker->randomElement($allUsers));
-            $num=mt_rand(1,19);
-            for($b=0;$b<$num;$b++){
-                $participants=$faker->randomElement($allUsers);
-                $sortie->addUser($participants);
-            }
+
             $sortie->setSiteOrganisateur($faker->randomElement($allSiteList));
 
             $this->em->persist($sortie);

@@ -63,7 +63,6 @@ class SecurityController  extends AbstractController{
             $user->setUsername($request->request->get('nomComplet'));
             $user->setPassword($passwordEncoder->encodePassword($user, $request->request->get('password')));
             //$user->setSite($site);
-            $user->setRoles(['ROLE_ADMIN']);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
@@ -92,11 +91,10 @@ class SecurityController  extends AbstractController{
         $userRepo = $em->getRepository(User::class);
         $user = $userRepo->findOneById($id);
 
-        var_dump($user->getRoles());
 
 
-
-
+        // pour ajouter  ->
+        //$user->setRoles('ROLE_ADMIN');
 
 
 

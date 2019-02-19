@@ -49,8 +49,8 @@ class SiteController  extends AbstractController
         $sitesList=$siteRepository->findAll();
 
         //formulaire de saisie d'une nouvelle ville
-        $site=new Site();
-        $siteForm=$this->createForm(SiteType::class, $site);
+        $site = new Site();
+        $siteForm = $this->createForm(SiteType::class, $site);
         $siteForm->handleRequest($request);
         if ($siteForm->isSubmitted() && $siteForm->isValid()){
             $em = $this->getDoctrine()->getManager();
@@ -58,6 +58,9 @@ class SiteController  extends AbstractController
             $em->flush();
             return $this->redirectToRoute('site_list');
         }
+
+        var_dump($siteForm->createView());
+
         return $this->render('admin/createSite.html.twig', [
             "sitesList" => $sitesList,
             "siteForm" => $siteForm->createView(),

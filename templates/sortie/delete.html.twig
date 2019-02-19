@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
  {% block body %}
-<h1>La sortie</h1>
+     <h1>La sortie</h1>
 
      <div class="row">
          <div>Nom de la sortie :{{ sortie.nom }}</div>
@@ -20,10 +20,9 @@
          <div id="long">{{ sortie.lieu.longitude }}</div>
      </div>
 
+     <div id="Divmap">
 
-     <!-- Map -->
-     <div id="Divmap"> </div>
-
+     </div>
      <div class="tableau_participant" style="width:500px; height:300px; overflow:auto;">
          <table class="participant" cellspacing="0" cellpadding="1" border="1" width="500">
              <tr>
@@ -31,12 +30,14 @@
                  <td>email</td>
              </tr>
              {% for participant in participants.users %}
-             <tr>
-                 <td><a href="{{ path('public_account', {'id' : participant.id}) }}">{{ participant.username}}</a></td>
-                <td>{{ participant.mail }}</td>
-             </tr>
+                 <tr>
+                     <td><a href="{{ path('public_account', {'id' : participant.id}) }}">{{ participant.username}}</a></td>
+                     <td>{{ participant.mail }}</td>
+                 </tr>
              {% endfor %}
          </table>
      </div>
+
+
 
  {% endblock %}

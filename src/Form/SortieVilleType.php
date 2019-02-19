@@ -8,17 +8,19 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class VilleType extends AbstractType
+class SortieVilleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('Ville', EntityType::class, [
-            'label' => 'Ville : ',
-            'class' => Ville::class,
-            'choice_label' => 'nom']);
+            ->add('nom', EntityType::class, array(
+        'multiple' => false,
+        'label' => 'Votre ville',
+        'expanded' => false,
+        'class' => Ville::class,
+        'choice_label' => 'nom'
+    ));
     }
-
 
     public function configureOptions(OptionsResolver $resolver)
     {

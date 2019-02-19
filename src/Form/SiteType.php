@@ -6,6 +6,7 @@ use App\Entity\Site;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Doctrine\DBAL\Types\TextType;
 
 class SiteType extends AbstractType
 {

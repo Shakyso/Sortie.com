@@ -6,7 +6,6 @@
  var lat = $('#lat').text();
  var lon = $('#long').text();
 
- console.log(lat, lon);
 
  var macarte = null;
  // Fonction d'initialisation de la carte

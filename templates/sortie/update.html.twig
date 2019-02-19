@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+ {% block body %}
+  {{ form_start(formSortie) }}
+  {{ form_start(formVille) }}
+
+  <table class="table table-bordered table-striped table-condensed">
+   <thead>
+   <tr>
+    <th>Nom de la Sortie</th>
+    <th>Date et heure de la sortie</th>
+    <th>Date limite d'inscription</th>
+    <th>Nombre de place</th>
+    <th>Durée</th>
+    <th>Description et Information</th>
+    <th>Ville organisatrice</th>
+    <th> Lieu</th>
+    <th>Rue</th>
+    <th>Code postal</th>
+    <th> Longitude</th>
+    <th> Latitude </th>
+   </tr>
+   <tr>
+    <th>{{ form_widget(formSortie.nom) }}</th>
+    <th>{{ form_widget(formSortie.dateHeureDebut) }}</th>
+    <th> {{ form_widget(formSortie.dateLimiteInscription) }}</th>
+    <th>{{ form_widget(formSortie.nbInscriptionMax) }}</th>
+    <th>{{ form_widget(formSortie.duree) }}</th>
+    <th>{{ form_widget(formSortie.infosSortie) }}</th>
+    <th class="sortie_ville">{{ form_widget(formVille.nom) }}</th>
+    <th class="sortie_lieu">{{ form_widget(formSortie.lieu) }}</th>
+    <th class="sortie_lieu_rue">{{ sortie.lieu.rue }}</th>
+    <th class="sortie_ville_codepstal">{{ sortie.lieu.ville.codepostal }}</th>
+    <th class="sortie_lieu_lat">{{ sortie.lieu.latitude }}</th>
+    <th class="sortie_lieu_long">{{ sortie.lieu.longitude }}</th>
+   </tr>
+   </thead>
+  </table>
+  <a href="{{ path('sortie_delete', {'id' : sortie.id}) }}"><button>Delete la sortie</button></a>
+
+  {{ form_end(formVille) }}
+  {{ form_end(formSortie) }}
+  <a href="{{ path('index') }}"><button>Annuler</button></a>
+
+
+ {% endblock %}

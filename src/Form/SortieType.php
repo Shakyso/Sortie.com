@@ -3,44 +3,65 @@
 namespace App\Form;
 
 use App\Entity\Lieu;
-
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use App\Repository\LieuRepository;
-
-
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\FormTypeInterface;
+use App\Repository\VilleRepository;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SortieType extends AbstractType
+
+
 {
+
+   /* private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+
+        $this->em = $em;
+    }*/
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
+
+        //var_dump($this->em);
+
+       /* $lieux = $this->em->getRepository(Lieu::class)->findAll();
+        var_dump($lieux);*/
+
+
         $builder
-            ->add('nom', TextType::class, ['label' => 'Nom de la sortie'] , ['attr' => ['id' => Sortie::class]])
+            ->add('nom', TextType::class, ['label' => 'Nom de la sortie'])
             ->add('dateHeureDebut', DateTimeType::class, ['label' => 'Commence le'])
             ->add('duree', DateIntervalType::class, ['label' => 'Durée Maximal'])
             ->add('dateLimiteInscription', DateType::class, ['label' => 'S\'inscrir avant le :'])
             ->add('nbInscriptionMax', IntegerType::class, ['label' => 'Nombre max participant'])
             ->add('infosSortie', TextareaType::class, ['label' => 'Information'])
-            ->add('lieu',ChoiceType::class, array(
-                'label' => 'Votre ville',
-                'data_class' => Ville::class,
-                'choice_label' => function(LieuRepository $repository)
-                {  return $repository->findAllLieu(); },
-            ))
+            ->add('lieu', LieuType::class)
+            /*->add('Lieu', CollectionType::class, array(
+                'entry_type' => ChoiceType::class,
+                'entry_options' => array(
+                    'choices' => $lieu,
+                ),*/
+
+
+
             ->add('save and published', SubmitType::class, [
                 'attr' =>  ['class' =>'savepub'],
                 'label' => 'Save and Published'
@@ -50,8 +71,7 @@ class SortieType extends AbstractType
                  'attr' => ['class'=>'save'],
                 'label' => 'Save'
     ]);
-
-    }
+                }
 
     public function configureOptions(OptionsResolver $resolver)
     {

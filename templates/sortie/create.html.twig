@@ -2,10 +2,10 @@
 
  {% block body %}
 
-  {{ form_start(formSortie) }}
+     {{ form_start(formSortie) }}
+         {{ form_widget(formSortie) }}
 
-
-  {{ form_end(formSortie) }}
-
+         <input type="submit" class="btn" value="Create" />
+     {{ form_end(formSortie) }}
 
  {% endblock %}

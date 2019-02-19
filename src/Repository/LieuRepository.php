@@ -21,6 +21,8 @@ class LieuRepository extends ServiceEntityRepository
 
     public function findAllLieu(){
         $q = $this->createQueryBuilder('l')
+            ->select('l , v')
+            ->innerJoin('l.ville', 'v')
             ->orderBy('l.nom', 'ASC');
 
         return $q->getQuery()->execute();
