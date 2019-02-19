@@ -8,6 +8,7 @@
 namespace App\Controller;
 
 
+use App\Entity\EtatSortie;
 use App\Entity\Sortie;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,15 +21,15 @@ class DefaultController extends AbstractController
         $user = $this->getUser();
         //Recupérer le repository des Sorties
         $sortieRepository = $this->getDoctrine()->getRepository(Sortie::class);
-        //Find la liste de Sortie
-        $listeDesSorties = $sortieRepository->findListSortie();
 
         if(!is_null($user)){
             $maliste = $sortieRepository->findParticipation($user->getId());
+            $listeDesSorties = $sortieRepository->findListSortieUser();
         } else {
             $maliste = "";
+            //Find la liste de Sortie
+            $listeDesSorties = $sortieRepository->findListSortie();
         }
-
 
         $arrayParticipant = array();
         foreach($listeDesSorties as $sortie){
