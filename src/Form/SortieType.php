@@ -53,15 +53,6 @@ class SortieType extends AbstractType
             ->add('dateLimiteInscription', DateType::class, ['label' => 'S\'inscrir avant le :'])
             ->add('nbInscriptionMax', IntegerType::class, ['label' => 'Nombre max participant'])
             ->add('infosSortie', TextareaType::class, ['label' => 'Information'])
-            ->add('lieu', LieuType::class)
-            /*->add('Lieu', CollectionType::class, array(
-                'entry_type' => ChoiceType::class,
-                'entry_options' => array(
-                    'choices' => $lieu,
-                ),*/
-
-
-
             ->add('save and published', SubmitType::class, [
                 'attr' =>  ['class' =>'savepub'],
                 'label' => 'Save and Published'
@@ -70,7 +61,13 @@ class SortieType extends AbstractType
             ->add('save', SubmitType::class, [
                  'attr' => ['class'=>'save'],
                 'label' => 'Save'
-    ]);
+    ])      ->add('lieu', EntityType::class, array(
+                'multiple' => false,
+                'label' => 'Votre lieu',
+                'expanded' => false,
+                'class' => Lieu::class,
+                'choice_label' => 'nom'
+            ));
                 }
 
     public function configureOptions(OptionsResolver $resolver)

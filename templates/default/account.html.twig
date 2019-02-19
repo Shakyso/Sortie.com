@@ -21,91 +21,113 @@
 
                 <div class="photo">
                     {% if userPhoto is empty %}
-                        <img src="{{ asset('assets/img/photo_null.png') }}" alt="Photo de profil non renseignée" height="75" width="75">
+                        <img src="{{ asset('assets/img/no_photo.jpg') }}" alt="Photo de profil non renseignée" height="75" width="75">
                     {% else %}
                         <img src="{{ asset('uploads/photos/' ~ userPhoto) }}" alt="Photo de profil" height="75" width="75">
                     {% endif %}
                 </div>
 
-                <div class="form-errors">
+                <div class="container">
 
-                    <div class="my-custom-class-for-errors">
-                        {{ form_errors(form) }}
+                    <div class="row alert alert-warning">
+                        <div class="my-custom-class-for-errors">
+                            {{ form_errors(form) }}
+                        </div>
+
+                        <ul>
+                            {% for error in form.vars.errors.form.getErrors(true) %}
+                                <li>{{ error.message }}</li>
+                            {% endfor %}
+
+                            {% if messagePassword is defined %}
+                                {{ messagePassword }}
+                            {% endif %}
+                        </ul>
                     </div>
 
-                    <ul>
-                        {% for error in form.vars.errors.form.getErrors(true) %}
-                            <li>{{ error.message }}</li>
-                        {% endfor %}
 
-                        {% if messagePassword is defined %}
-                            {{ messagePassword }}
-                        {% endif %}
-                    </ul>
 
                 </div>
 
 
 
-                <div class="row">
-                    <div class="group col">
-                        {{ form_label(form.username) }}
-                        {{ form_widget(form.username, {'attr': {'class': 'input-form'}}) }}
+                <div class="container profil-container">
+
+                    <div class="row">
+
+                        <div class="col-12 col-xs-12 col-sm-12 col-md-6">
+                            {{ form_label(form.username) }}
+                            {{ form_widget(form.username, {'attr': {'class': 'input-form form-control'}}) }}
+                        </div>
+                        <div class="col-12 col-xs-12 col-sm-12 col-md-6">
+                            {{ form_label(form.name) }}
+                            {{ form_widget(form.name, {'attr': {'class': 'input-form form-control'}}) }}
+                        </div>
+
                     </div>
-                    <div class="group col">
-                        {{ form_label(form.name) }}
-                        {{ form_widget(form.name, {'attr': {'class': 'input-form'}}) }}
+                    <div class="row">
+                        <div class="col-12 col-xs-12 col-sm-12 col-md-6">
+                            {{ form_label(form.lastname) }}
+                            {{ form_widget(form.lastname, {'attr': {'class': 'input-form form-control'}}) }}
+                        </div>
+                        <div class="col-12 col-xs-12 col-sm-12 col-md-6">
+                            {{ form_label(form.mail) }}
+                            {{ form_widget(form.mail, {'attr': {'class': 'input-form form-control'}}) }}
+                        </div>
                     </div>
-                    <div class="group col">
-                        {{ form_label(form.lastname) }}
-                        {{ form_widget(form.lastname, {'attr': {'class': 'input-form'}}) }}
+
+                    <div class="row">
+                        <div class="col-12 col-xs-12 col-sm-12 col-md-6">
+                            {{ form_label(form.telephone) }}
+                            {{ form_widget(form.telephone, {'attr': {'class': 'input-form form-control'}}) }}
+                        </div>
+                        <div class="col-12 col-xs-12 col-sm-12 col-md-6">
+                            {{ form_label(form.site) }}
+                            {{ form_widget(form.site, {'attr': {'class': 'input-form form-control'}}) }}
+                        </div>
                     </div>
-                    <div class="group col">
-                        {{ form_label(form.mail) }}
-                        {{ form_widget(form.mail, {'attr': {'class': 'input-form'}}) }}
-                    </div>
-                    <div class="group col">
-                        {{ form_label(form.telephone) }}
-                        {{ form_widget(form.telephone, {'attr': {'class': 'input-form'}}) }}
-                    </div>
-                    <div class="group col">
-                        {{ form_label(form.site) }}
-                        {{ form_widget(form.site, {'attr': {'class': 'input-form'}}) }}
-                    </div>
-                    <div class="group col">
+
+
+
+                    <div class="form-group">
                         {{ form_label(form.photo, "Choisir une photo : ",  { 'attr': { 'class' : 'input-label' } }) }}
                         {{ form_widget(form.photo) }}
+                    </div>
+                    <div class="form-group btn-container">
+                        {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary col col-sm-4 offset-4'}}) }}
                     </div>
 
                 </div>
                 {{ form_end(form) }}
             </div>
 
-            <div class="form-password">
-                <div class="row">
-                    <form method="post">
 
-                        <div class="profil-title">
-                            <h1>Mot de passe</h1>
+
+            <div class="container profil-container">
+                <form method="post">
+
+                    <div class="profil-title">
+                        <h1>Mot de passe</h1>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <label for="password">Nouveau mot de passe : </label>
+                            <input class="form-control input-form" type="password" name="password">
                         </div>
 
-                        <div class="form-display">
-                            <label for="password" style="width: 50%">Nouveau mot de passe : </label><br>
-                            <input class="input-form" type="password" name="password"><br>
+                        <div class="col">
+                            <label for="confirmPassword">Confirmation mot de passe : </label>
+                            <input class="form-control input-form" type="password" name="confirmPassword">
                         </div>
+                    </div>
 
-                        <div class="form-display"><br>
-                            <label for="confirmPassword">Confirmation mot de passe : </label><br>
-                            <input class="input-form" type="password" name="confirmPassword"><br>
-                        </div>
+                    <div class="row btn-container">
+                        <input class="btn btn-primary col col-sm-4 offset-4 " type="submit" name="submitPassword" value="Modifier">
+                    </div>
 
-
-                        <input type="submit" name="submitPassword" value="Valider">
-                    </form>
-                </div>
+                </form>
             </div>
-
-
         </div>
     </div>
 </main>

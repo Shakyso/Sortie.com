@@ -23,42 +23,27 @@
     margin-right: 15px;
 }
 
-/* ---- BODY ---- */
-.contain-flex{
-    display: flex;
-    justify-content: center;
-    height: auto;
+.photo{
+    width: 70px;
+    margin: auto;
+    /*margin-top: 25px;*/
 }
+
+
 
 .profil-title{
     margin-left: auto;
     margin-right: auto;
-    width: 200px;
+    width: auto;
     display: flex;
     justify-content: center;
+    margin-bottom: 25px;
 }
 
-.photo{
-    position: relative;
-    display: flex;
-    justify-content: start;
-}
-/*
-.form-display{
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
 
-}*/
-
-.form-modif{
-    width: 400px
-}
 .input-form{
-    border-radius: 3px;
-    width: 100%;
-    border: 1px solid grey;
-    height: 30px;
+
+    margin-bottom: 15px;
 }
 
 .group{
@@ -73,15 +58,28 @@
     flex-direction: column;
 }
 
+.btn-container{
+    margin-top: 45px;
+
+}
+
 /*label[for="user_photo"]{
     padding: 10px;
     background: red;
     display: table;
     color: #fff;
+}*/
+
+.profil-container{
+    margin-top: 75px;
+    border-radius: 5px;
+    border: 1px solid lightgrey;
+    padding-top: 15px;
+    padding-bottom: 25px;
 }
 
 
-
+/*
 input[type="file"] {
     display: none;
 }*/

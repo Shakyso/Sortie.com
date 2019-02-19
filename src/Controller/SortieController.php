@@ -15,6 +15,7 @@ use App\Entity\Sortie;
 use Symfony\Component\Form\FormTypeInterface;
 use App\Entity\User;
 use App\Entity\Ville;
+use App\Form\SortieLieuVilleType;
 use App\Form\SortieType;
 use App\Form\SortieVilleType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -148,26 +149,32 @@ class SortieController extends AbstractController
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         //find la sortie
         $sortie = $sortieRepo->findAllInformtion($id);
+        $lieu = $sortie[0]->getlieu();
         $ville = $sortie[0]->getlieu()->getville();
-
 
         //creation du formulaire
         $sortieForm = $this->createForm(SortieType::class,$sortie[0]);
-        $sortieVilleForm = $this->createForm(SortieVilleType::class, $ville);
-   // dd($sortieVilleForm);
+        $sortieVilleForm = $this->createForm(SortieVilleType::class,$ville);
+        $sortieLieuVilleForm = $this->createForm(SortieLieuVilleType::class, $lieu);
+
+    //    dd($ville);
         $sortieForm->handleRequest($request);
         $sortieVilleForm->handleRequest($request);
+        $sortieLieuVilleForm->handleRequest($request);
 
-      //  dd( $sortie[0]->getlieu()->setVille($ville));
-        if($sortieForm->isSubmitted() && $sortieForm->isValid() && $sortieVilleForm->isSubmitted() && $sortieVilleForm->isValid()){
+      //  dd( $sortieVilleForm);
+        if($sortieForm->isSubmitted() && $sortieForm->isValid()
+        && $sortieLieuVilleForm->isSubmitted() && $sortieLieuVilleForm->isValid()
+        && $sortieLieuVilleForm->isSubmitted() && $sortieLieuVilleForm->isValid()){
 
             $sortie[0]->setId($id);
             $sortie[0]->setlieu($sortieForm->get('lieu')->getData());
-            $sortie[0]->getlieu()->setVille($ville);
+            $sortie[0]->getlieu()->setville($sortieLieuVilleForm->get('nom')->getData());
             //recup entitymanager
             $em = $this->getDoctrine()->getManager();
             $em->persist($sortie);
             $em->persist($ville);
+            $em->persist($lieu);
             //on exécute les requêtes
             $em->flush();
 
@@ -184,7 +191,8 @@ class SortieController extends AbstractController
         return $this->render('sortie/update.html.twig', array(
             'sortie' => $sortie[0],
             'formSortie' => $sortieForm->createView(),
-            'formVille' =>$sortieVilleForm->createView(),
+            'formVille' => $sortieVilleForm->createView(),
+            'formLieu' =>  $sortieLieuVilleForm->createView(),
             'id' => $id
         ));
     }
