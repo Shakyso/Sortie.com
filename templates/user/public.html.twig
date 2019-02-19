@@ -4,20 +4,29 @@
 
 
     {% if user is null  %}
+
     <p>L'utilisateur recherché n'existe pas</p>
+
     {% else %}
-        <h2>{{ user.username }}</h2>
+
         <div class="block-profil">
-            <div>Prénom : {{ user.name ? user.name : 'non renseigné' }} </div>
-            <div>Nom : {{ user.lastname ? user.lastname : 'non renseigné' }}</div>
-            <div>Téléphone : {{ user.telephone ? user.telephone : 'non renseigné' }}</div>
-            <div>E-mail : {{ user.mail ? user.mail : 'non renseigné' }}</div>
-            <div>Ville de ratachement : {{ user.site ? user.site.nom : 'non renseigné' }}</div>
+
+            <h2>{{ user.username | capitalize }}</h2>
+
+            <div>
+                <div>Prénom : {{ user.name ? user.name | capitalize : 'non renseigné' }} </div>
+                <div>Nom : {{ user.lastname ? user.lastname | capitalize : 'non renseigné' }}</div>
+                <div>Téléphone : {{ user.telephone ? user.telephone : 'non renseigné' }}</div>
+                <div>E-mail : {{ user.mail ? user.mail : 'non renseigné' }}</div>
+                <div>Ville de ratachement : {{ user.site ? user.site.nom : 'non renseigné' }}</div>
+            </div>
+
         </div>
+
+
+
     {% endif %}
 
-
    <a href="{{ path('index') }}">Retour</a>
-
 
 {% endblock %}

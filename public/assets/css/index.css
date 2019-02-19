@@ -1,3 +1,101 @@
+
+/* ---- MENU ---- */
+.navbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #dfe6e9;
+    height: 55px;
+
+}
+
+.navbar-logo{
+    margin-left: 15px;
+}
+
+.navbar-ul{
+    display: flex;
+    justify-content: end;
+    list-style-type: none;
+}
+
 .menu-li{
-    margin-right: 10px;
+    margin-right: 15px;
+}
+
+.photo{
+    width: 70px;
+    margin: auto;
+    /*margin-top: 25px;*/
+}
+
+
+
+.profil-title{
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+
+.input-form{
+
+    margin-bottom: 15px;
+}
+
+.group{
+    margin-bottom: 17px;
+}
+
+
+.block-profil{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.btn-container{
+    margin-top: 45px;
+
+}
+
+/*label[for="user_photo"]{
+    padding: 10px;
+    background: red;
+    display: table;
+    color: #fff;
+}*/
+
+.profil-container{
+    margin-top: 75px;
+    border-radius: 5px;
+    border: 1px solid lightgrey;
+    padding-top: 15px;
+    padding-bottom: 25px;
+}
+
+
+/*
+input[type="file"] {
+    display: none;
+}*/
+
+
+
+/* ---- FOOTER ---- */
+.footer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-right{
+    margin-left: 15px;
+}
+
+.footer-left{
+    margin-right: 15px;
 }

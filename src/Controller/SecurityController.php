@@ -23,6 +23,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\File;
 
 
 class SecurityController  extends AbstractController{
@@ -73,6 +74,12 @@ class SecurityController  extends AbstractController{
         return $this->render('security/register.html.twig');
     }
 
+    /**
+     * @param $id
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return Response
+     */
     public function Account($id, Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
 
@@ -84,13 +91,21 @@ class SecurityController  extends AbstractController{
         $userRepo = $em->getRepository(User::class);
         $user = $userRepo->findOneById($id);
 
+
+
+        // pour ajouter  ->
+        //$user->setRoles('ROLE_ADMIN');
+
+
+
+
         // Si une photo existe
         $userPhoto = $user->getPhoto();
-        //var_dump($user->getPhoto());
 
         // Création du formulaire
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
+
 
 
         // Validation des champs / Contruction des erreures
@@ -101,9 +116,14 @@ class SecurityController  extends AbstractController{
 
             if($form->isValid()){
 
+
+
+                echo 'je suis valide';
+
                 $file = $user->getPhoto();
 
-                if($file != null){
+
+                if($user->getPhoto()){
                     $fileName =  md5(uniqid()).'.'.$file->guessExtension();
 
                     try {
@@ -114,13 +134,16 @@ class SecurityController  extends AbstractController{
                         $e->getMessage();
                     }
                     $user->setPhoto($fileName);
-                }else{
+                }elseif($userPhoto){
                     $user->setPhoto($userPhoto);
                 }
+
 
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->flush();
 
+            }else{
+                $user->setPhoto($userPhoto);
             }
         }
 
@@ -142,8 +165,8 @@ class SecurityController  extends AbstractController{
             'userPhoto' => $user->getPhoto(),
 
         ]);
-
     }
+
 
 
     /**

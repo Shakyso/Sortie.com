@@ -12,6 +12,7 @@ namespace App\Controller;
 use App\Entity\Ville;
 use App\Form\VilleType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class VilleController  extends AbstractController
@@ -43,48 +44,61 @@ class VilleController  extends AbstractController
     }
 
 
-    public function Update($id, Request $request)
+    public function Update(Request $request)
     {
-        $villeRepository=$this->getDoctrine()->getRepository(Ville::class);
-        $villesList=$villeRepository->findAll();
-
-        $villeRepository=$this->getDoctrine()->getRepository(Ville::class);
-        $villeId=$villeRepository->find($id);
-        var_dump($id);
-
-        //TODO gérer la modofcation des données en javascript
-        if($id!=null){
-
-            $villeUpdate = $this->createForm(VilleType::class, $villeId);
-
-            if ($villeUpdate->isSubmitted() && $villeUpdate->isValid()){
-                $em = $this->getDoctrine()->getManager();
-                $villeId->$em->setNom();
-                $villeId->$em->setCodePostal();
-                $villeId->$em->setId($id);
-                $em->flush();
-                return $this->redirectToRoute('ville_list');
-            }
-
-            //return en json_encode('string');git status
-        }
-        //TODO si l'id n'existe pas
-        $ville=new Ville();
-        $villeForm=$this->createForm(VilleType::class, $ville);
-        $villeForm->handleRequest($request);
-        if ($villeForm->isSubmitted() && $villeForm->isValid()){
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($ville);
-            $em->flush();
-            return $this->redirectToRoute('ville_list');
-        }
 
 
-        return $this->render('admin/create.html.twig', [
-            "villesList" => $villesList,
-            'formUpdate' => $villeUpdate->createView(),
-            "villeForm" => $villeForm->createView(),
-        ]);
+        var_dump($_POST);
+//        $villeRepository=$this->getDoctrine()->getRepository(Ville::class);
+//        $villesList=$villeRepository->findAll();
+//
+//        $villeRepository=$this->getDoctrine()->getRepository(Ville::class);
+//        $villeId=$villeRepository->find($id);
+//        var_dump($id);
+//
+//        //TODO gérer la modofcation des données en javascript
+//        if($id!=null){
+//
+//            $villeUpdate = $this->createForm(VilleType::class, $villeId);
+//
+//            if ($villeUpdate->isSubmitted() && $villeUpdate->isValid()){
+//                $em = $this->getDoctrine()->getManager();
+//                $villeId->$em->setNom();
+//                $villeId->$em->setCodePostal();
+//                $villeId->$em->setId($id);
+//                $em->flush();
+//                return $this->redirectToRoute('ville_list');
+//            }
+//
+//            //return en json_encode('string');git status
+//        }
+//        //TODO si l'id n'existe pas
+//        $ville=new Ville();
+//        $villeForm=$this->createForm(VilleType::class, $ville);
+//        $villeForm->handleRequest($request);
+//        if ($villeForm->isSubmitted() && $villeForm->isValid()){
+//            $em = $this->getDoctrine()->getManager();
+//            $em->persist($ville);
+//            $em->flush();
+//            return $this->redirectToRoute('ville_list');
+//        }
+//
+//
+//        return $this->render('admin/create.html.twig', [
+//            "villesList" => $villesList,
+//            'formUpdate' => $villeUpdate->createView(),
+//            "villeForm" => $villeForm->createView(),
+//        ]);
+
+        $var = [
+            "name" => 'value1',
+            "2" => 'value2',
+        ];
+
+        $var  = json_encode($var);
+
+
+        return new Response($var);
     }
 
     public function Delete($id)
