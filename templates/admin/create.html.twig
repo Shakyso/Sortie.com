@@ -19,10 +19,12 @@
          </tr>
          {% for ville in villesList %}
              <tr class="listeVille" id="liste-ville-{{ ville.id }}">
-                 <td class="villeNom" id="nom-{{ ville.id }}"><span id="nomVille">{{ ville.nom}}</span></td>
-                 <td class="villeCodePostal" id="code-postal-{{ ville.id }}"><span id="codeVille">{{ ville.codePostal}}</span></td>
+                 <td class="villeNom" id="nom-{{ ville.id }}"><span id="nomVille{{ ville.id }}">{{ ville.nom}}</span></td>
+                 <td class="villeCodePostal" id="code-postal-{{ ville.id }}"><span id="codeVille{{ ville.id }}">{{ ville.codePostal}}</span></td>
                  <td class="action">
                      <button class="button_modifier" id="{{ ville.id}}" >Modifier</button>
+                     <button class="buttonMAJ" id="{{ ville.id}}" hidden>Mettre à jour</button>
+
                      -
                      <a class="btn btn-success" href={{ path('ville_delete',{'id' : ville.id}) }}>Supprimer</a>
                  </td>

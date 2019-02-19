@@ -56,8 +56,7 @@ ville_list:
 ville_update:
     path: /ville/update/
     controller: App\Controller\VilleController::Update
-    requirements:
-        id: '\d+'
+
 
 ville_delete:
     path: /ville/delete/{id}

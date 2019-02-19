@@ -15,15 +15,18 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
-//$encoders = new JsonEncoder();
-//$normalizers = new ObjectNormalizer();
-//$serializer =new Serializer ($normalizers, $encoders);
+
 
 class VilleController   extends AbstractController
 {
-
-
-
+    /*
+public function convertirJson(){
+$encoders = new JsonEncoder();
+$normalizers = new ObjectNormalizer();
+$serializer =new Serializer ($normalizers, $encoders);
+return $serializer;
+}
+    */
 
     public function Search()
     {
@@ -66,13 +69,17 @@ class VilleController   extends AbstractController
             $villeAMAJ->setCodePostal($nvCode);
             $em->flush();
         }
-        //var_dump($villeAMAJ);
+      //  var_dump($villeAMAJ);
         //récupére le donnée sd'une ville modifier
-
-        //$villeModif=$serializer->serialize($villeAMAJ, 'jason');
-        echo($villeModif);
+$tab = array(
+    "idVille"=>$idVille,
+        "nomVille"=>$nvNomVille,
+        "codePostal"=>$nvCode,
+    );
+        $villeModif=json_encode($tab);
+      //  var_dump('ma ville modifier =>',$villeModif);
+      //return  json_encode($villeAMAJ);
       return new Response ($villeModif);
-      //  return new Response ('test');
     }
 
     public function Delete($id)
