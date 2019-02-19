@@ -34,10 +34,13 @@ class SecurityController  extends AbstractController{
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
+
+
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
@@ -116,8 +119,6 @@ class SecurityController  extends AbstractController{
 
             if($form->isValid()){
 
-
-
                 echo 'je suis valide';
 
                 $file = $user->getPhoto();
@@ -149,7 +150,7 @@ class SecurityController  extends AbstractController{
 
 
         // Vérification formulaire mot de passe
-        if(isset($_POST['submitPassword']) && $_POST['submitPassword'] === 'Valider'){
+        if(isset($_POST['submitPassword']) && $_POST['submitPassword'] === 'Modifier'){
             // Nettoyage du $_POST
             $post = array_map('trim', array_map('strip_tags', $_POST));
             // Vérification du mot de passe
@@ -157,6 +158,7 @@ class SecurityController  extends AbstractController{
             // Changement du mot de passe
             $messagePassword = $this->changePassword($user, $passwordVerified, $passwordEncoder, $em);
         }
+
 
         return $this->render('default/account.html.twig', [
 
@@ -200,9 +202,9 @@ class SecurityController  extends AbstractController{
             $em->persist($user);
             $em->flush();
 
-            $message = 'Votre mot de passe a bien été modifié';
+            $message = 'success';
         }else{
-            $message = 'Mot de passe invalide';
+            $message = 'error';
         }
 
         return $message;
