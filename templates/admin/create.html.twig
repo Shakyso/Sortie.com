@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
  {% block body %}
+<div id="url" data-path="{{ path('ville_update') }}">
      <h1>Gérer les villes</h1>
      <h3>Filtrer les villes</h3>
      <p>formulaire de rechercher à faire</p>
@@ -47,6 +48,6 @@
          </tr>
          {% endif %}
      </table>
-
+</div>
 
  {% endblock %}
