@@ -9,6 +9,7 @@ namespace App\Controller;
 use App\Entity\Ville;
 use App\Form\VilleType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -51,6 +52,7 @@ return $serializer;
             "villeForm" => $villeForm->createView(),
         ]);
     }
+
     public function Update()
     {
       //  echo 'echo';
@@ -80,6 +82,7 @@ $tab = array(
       //  var_dump('ma ville modifier =>',$villeModif);
       //return  json_encode($villeAMAJ);
       return new Response ($villeModif);
+
     }
 
     public function Delete($id)

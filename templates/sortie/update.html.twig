@@ -2,6 +2,8 @@
 
  {% block body %}
   {{ form_start(formSortie) }}
+
+  {{ form_start(formVille) }}
   {{ form_start(formLieu) }}
 
   <table class="table table-bordered table-striped table-condensed">
@@ -28,21 +30,19 @@
     <th>{{ form_widget(formSortie.duree) }}</th>
     <th>{{ form_widget(formSortie.infosSortie) }}</th>
 
-    <th></th>
-
-{#
-    <th class="sortie_ville">{{ form_widget(formLieu.ville.nom) }}</th>
-    <th class="sortie_ville_codepstal">{{ form_widget(formLieu.ville.codepostal) }}</th>
-#}
-
-
-
+    <th class="sortie_ville">{{form_widget( formLieu.ville) }}</th>
+    <th class="sortie_lieu">{{ form_widget(formSortie.lieu) }}</th>
+    <th class="sortie_lieu_rue">{{form_widget(formLieu.rue)}}</th>
+    <th class="sortie_ville_codepstal">{{ form_widget(formVille.codePostal) }}</th>
+    <th class="sortie_lieu_lat">{{ form_widget(formLieu.latitude) }}</th>
+    <th class="sortie_lieu_long">{{ form_widget(formLieu.longitude) }}</th>
    </tr>
    </thead>
   </table>
   <a href="{{ path('sortie_delete', {'id' : sortie.id}) }}"><button>Delete la sortie</button></a>
 
   {{ form_end(formLieu) }}
+  {{ form_end(formVille) }}
   {{ form_end(formSortie) }}
   <a href="{{ path('index') }}"><button>Annuler</button></a>
 

@@ -205,7 +205,7 @@ class Sortie
         return $this->lieu;
     }
 
-    public function setLieu(?Lieu $lieu): self
+    public function setLieu(Lieu $lieu): self
     {
         $this->lieu = $lieu;
 

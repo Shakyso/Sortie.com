@@ -57,6 +57,7 @@ ville_update:
     controller: App\Controller\VilleController::Update
 
 
+
 ville_delete:
     path: /ville/delete/{id}
     controller: App\Controller\VilleController::Delete
@@ -84,7 +85,6 @@ sortie_delete:
     controller: App\Controller\SortieController::Delete
     requirements:
         id: '\d+'
-
 
 sortie_inscrire:
     path: /sortie/InscrireSortie/{idSortie}/{idParticipant}
