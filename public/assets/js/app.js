@@ -4,10 +4,10 @@ $(function(){
         //récupère ID
         var idVille = $(this).attr('id');
         console.log("je récupère l'id de chaque bouton modifier=> ", idVille);
-        console.log($(this));
+       // console.log($(this));
         $('.button_modifier[id='+idVille+']').on('click', function() {
             var idVille = $(this).attr('id');
-            // console.log('nom id => ', $('#liste-ville-' + idVille));
+            console.log('nom id => ', $('#liste-ville-' + idVille));
             console.log('nom id  premier clic=> ', idVille);
             var codePostal = $('#code-postal-' + idVille).text();
             console.log('codePostal  premier clic => ', codePostal);
@@ -37,7 +37,10 @@ $(function(){
 
             //$($(this)).removeClass("button_modifier").addClass("buttonMAJ").text('mettre à jour');
             //$('.button_MAJ').innerHTML('Mettre à jour');
-            $($(this)).hide();
+            // $($(this)).hide();
+            // var boutonMAJ = $('.buttonMAJ[id='+idVille+']');
+            // console.log ('mon button MAJ=>', boutonMAJ);
+            $('.button_modifier[id='+idVille+']').hide();
             $('.buttonMAJ[id='+idVille+']').show();
 
         });//
@@ -46,10 +49,10 @@ $(function(){
 
 
     $('.buttonMAJ').each(function(){
-        //TODO récupére les données
+
         var idVille = $(this).attr('id');
         console.log("je récupère l'id de chaque bouton MAJ=> ", idVille);
-        console.log($(this));
+       // console.log($(this));
 
         $('.buttonMAJ[id='+idVille+']').on('click', function() {
 
@@ -78,11 +81,11 @@ $(function(){
                     console.log('ma nouvelle ville =>', nvVille);
                     //remplacer les input
                     var nomVilleSpan=document.createElement('span');
-                    nomVilleSpan.id="nomVille";
+                    nomVilleSpan.id="nomVille"+idVille;
                     nomVilleSpan.innerHTML=nvVille.nomVille;
 
                     var codeVilleSpan=document.createElement('span');
-                    codeVilleSpan.id="codeVille";
+                    codeVilleSpan.id="codeVille"+idVille;
                     codeVilleSpan.innerHTML=nvVille.codePostal;
 
                     var inputCodePostal = $('#nvCodePostal');

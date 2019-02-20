@@ -2,46 +2,10 @@
 
  {% block body %}
 
-  {{ form_start(formSortie) }}
-{{ form_start(formVille) }}
+     {{ form_start(formSortie) }}
+         {{ form_widget(formSortie) }}
 
-     <table class="table table-bordered table-striped table-condensed">
-         <thead>
-         <tr>
-             <th>Nom de la Sortie</th>
-             <th>Date et heure de la sortie</th>
-             <th>Date limite d'inscription</th>
-             <th>Nombre de place</th>
-             <th>Durée</th>
-             <th>Description et Information</th>
-             <th>Ville organisatrice</th>
-             <th> Lieu</th>
-             <th>Rue</th>
-             <th>Code postal</th>
-             <th> Longitude</th>
-             <th> Latitude </th>
-         </tr>
-         <tr>
-             <th>{{ form_widget(formSortie.nom) }}</th>
-             <th>{{ form_widget(formSortie.dateHeureDebut) }}</th>
-             <th> {{ form_widget(formSortie.dateLimiteInscription) }}</th>
-             <th>{{ form_widget(formSortie.nbInscriptionMax) }}</th>
-             <th>{{ form_widget(formSortie.duree) }}</th>
-             <th>{{ form_widget(formSortie.infosSortie) }}</th>
-             <th class="sortie_ville">{{ form_widget(formVille.nom) }}</th>
-             <th class="sortie_lieu">{{ form_widget(formSortie.lieu) }}</th>
-             <th class="sortie_lieu_rue"></th>
-             <th class="sortie_ville_codepstal"></th>
-             <th class="sortie_lieu_lat"></th>
-             <th class="sortie_lieu_long"></th>
-         </tr>
-         </thead>
-     </table>
-
-     {{ form_end(formVille) }}
-  {{ form_end(formSortie) }}
-
-
-
+         <input type="submit" class="btn" value="Create" />
+     {{ form_end(formSortie) }}
 
  {% endblock %}

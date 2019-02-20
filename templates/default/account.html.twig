@@ -3,91 +3,135 @@
 
 
 {% block body %}
-    <h2>Profil</h2>
 
-
+<main style="height: auto;">
     <div class="contain-flex">
-
-
-        {% if userPhoto is empty %}
-            <div class="photo">
-                Pas de photo
-        {% else %}
-            <div class="photo">
-                <img src="{{ asset('uploads/photos/' ~ userPhoto) }}" alt="Smiley face" height="160" width="160">
-            </div>
-        {% endif %}
-
-
-
         <div class="form-profil">
+
+
+
+
+
             {{ form_start(form) }}
-            <div class="my-custom-class-for-errors">
-                {{ form_errors(form) }}
+
+            <div class="form-modif">
+                <div class="profil-title">
+                    <h1>Profil</h1>
+                </div>
+
+                <div class="photo">
+                    {% if userPhoto is empty %}
+                        <img src="{{ asset('assets/img/no_photo.jpg') }}" alt="Photo de profil non renseignée" height="75" width="75">
+                    {% else %}
+                        <img src="{{ asset('uploads/photos/' ~ userPhoto) }}" alt="Photo de profil" height="75" width="75">
+                    {% endif %}
+                </div>
+
+                <div class="container">
+
+                    <div class="row alert alert-warning">
+                        <div class="my-custom-class-for-errors">
+                            {{ form_errors(form) }}
+                        </div>
+
+                        <ul>
+                            {% for error in form.vars.errors.form.getErrors(true) %}
+                                <li>{{ error.message }}</li>
+                            {% endfor %}
+
+                            {% if messagePassword is defined %}
+                                {{ messagePassword }}
+                            {% endif %}
+                        </ul>
+                    </div>
+
+
+
+                </div>
+
+
+
+                <div class="container profil-container">
+
+                    <div class="row">
+
+                        <div class="col-12 col-xs-12 col-sm-12 col-md-6">
+                            {{ form_label(form.username) }}
+                            {{ form_widget(form.username, {'attr': {'class': 'input-form form-control'}}) }}
+                        </div>
+                        <div class="col-12 col-xs-12 col-sm-12 col-md-6">
+                            {{ form_label(form.name) }}
+                            {{ form_widget(form.name, {'attr': {'class': 'input-form form-control'}}) }}
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-xs-12 col-sm-12 col-md-6">
+                            {{ form_label(form.lastname) }}
+                            {{ form_widget(form.lastname, {'attr': {'class': 'input-form form-control'}}) }}
+                        </div>
+                        <div class="col-12 col-xs-12 col-sm-12 col-md-6">
+                            {{ form_label(form.mail) }}
+                            {{ form_widget(form.mail, {'attr': {'class': 'input-form form-control'}}) }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 col-xs-12 col-sm-12 col-md-6">
+                            {{ form_label(form.telephone) }}
+                            {{ form_widget(form.telephone, {'attr': {'class': 'input-form form-control'}}) }}
+                        </div>
+                        <div class="col-12 col-xs-12 col-sm-12 col-md-6">
+                            {{ form_label(form.site) }}
+                            {{ form_widget(form.site, {'attr': {'class': 'input-form form-control'}}) }}
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        {{ form_label(form.photo, "Choisir une photo : ",  { 'attr': { 'class' : 'input-label' } }) }}
+                        {{ form_widget(form.photo) }}
+                    </div>
+                    <div class="form-group btn-container">
+                        {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary col col-sm-4 offset-4'}}) }}
+                    </div>
+
+                </div>
+                {{ form_end(form) }}
             </div>
 
-            <div class="row">
-                <div class="col">
-                    {{ form_label(form.username) }}
-                    {{ form_widget(form.username) }}
-                </div>
-                <div class="col">
-                    {{ form_label(form.name) }}
-                    {{ form_widget(form.name) }}
-                </div>
-                <div class="col">
-                    {{ form_label(form.lastname) }}
-                    {{ form_widget(form.lastname) }}
-                </div>
-                <div class="col">
-                    {{ form_label(form.mail) }}
-                    {{ form_widget(form.mail) }}
-                </div>
-                <div class="col">
-                    {{ form_label(form.telephone) }}
-                    {{ form_widget(form.telephone) }}
-                </div>
-                <div class="col">
-                    {{ form_label(form.site) }}
-                    {{ form_widget(form.site) }}
-                </div>
-                <div class="col">
-                    {{ form_label(form.photo) }}
-                    {{ form_widget(form.photo) }}
-                </div>
 
+
+            <div class="container profil-container">
+                <form method="post">
+
+                    <div class="profil-title">
+                        <h1>Mot de passe</h1>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <label for="password">Nouveau mot de passe : </label>
+                            <input class="form-control input-form" type="password" name="password">
+                        </div>
+
+                        <div class="col">
+                            <label for="confirmPassword">Confirmation mot de passe : </label>
+                            <input class="form-control input-form" type="password" name="confirmPassword">
+                        </div>
+                    </div>
+
+                    <div class="row btn-container">
+                        <input class="btn btn-primary col col-sm-4 offset-4 " type="submit" name="submitPassword" value="Modifier">
+                    </div>
+
+                </form>
             </div>
-            {{ form_end(form) }}
-
         </div>
     </div>
+</main>
 
-
-    <ul>
-        {% for error in form.vars.errors.form.getErrors(true) %}
-            <li>{{ error.message }}</li>
-        {% endfor %}
-    </ul>
-
-
-
-    <form method="post">
-
-        {% if messagePassword is defined %}
-            {{ messagePassword }}
-        {% endif %}
-
-        <h2>Mot de passe</h2>
-
-        <label for="password">Nouveau mot de passe : </label>
-        <input type="password" name="password"><br>
-
-        <label for="confirmPassword">Confirmation mot de passe : </label>
-        <input type="password" name="confirmPassword"><br>
-
-        <input type="submit" name="submitPassword" value="Valider">
-
-    </form>
 
 
 {% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Ville;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,11 +13,14 @@ class VilleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom')
+            ->add('nom', EntityType::class, [
+            'label' => 'Ville : ',
+            'class' => Ville::class,
+            'choice_label' => 'nom'])
             ->add('codePostal')
-
         ;
     }
+
 
     public function configureOptions(OptionsResolver $resolver)
     {
