@@ -21,8 +21,8 @@
              <tr>
                  <td class="siteNom" id="nom-{{ site.id }}"><span id="nomSite{{ site.id }}">{{ site.nom}}</td>
                  <td><button class="button_modifier" id="{{ site.id}}" >Modifier</button>
-                     <button class="buttonMAJ" id="{{ site.id}}" hidden>Mettre à jour</button> -
-                     <a class="btn btn-success" href={{ path('site_delete',{'id' : site.id}) }}>Supprimer</a>
+                     <button class="buttonMAJ" id="{{ site.id}}" style ="display :none;">Mettre à jour</button> -
+                     <a class="btn btn-error" href={{ path('site_delete',{'id' : site.id}) }}>Supprimer</a>
                  </td>
              </tr>
          {% endfor %}

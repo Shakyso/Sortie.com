@@ -15,16 +15,11 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormTypeInterface;
 use Doctrine\ORM\EntityRepository;
-
-use App\Entity\Ville;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Entity\Ville;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class LieuType extends AbstractType
 {
