@@ -23,7 +23,8 @@
       <tr>
        <td> {{ sortie.nom }}</td>
        <td> {{ sortie.dateHeureDebut|date('m:d:Y:H:i') }}</td>
-       <td> {{ sortie.dateLimiteInscription|date('m:d:Y') }}</td>
+       <td> {{ sortie.dateLimiteInscription|date('m:d:Y') }}
+       {{ sortie.siteOrganisateur.nom }}</td>
 
          {% for key, participant in nombreParticipant %}
            {% if(key == sortie.id) %}
@@ -48,7 +49,7 @@
           <!-- Les organisateur -->
 
 
-         
+
           <td><a href="{{ path('public_account', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.username }} </a> </td>
           <td>
               <a href="{{ path('sortie_update', {'id' : sortie.id}) }}">Modfier</a>

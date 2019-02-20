@@ -4,6 +4,12 @@ index:
     path: /
     controller: App\Controller\DefaultController::Index
 
+index_site:
+    path: /{idSite}
+    controller: App\Controller\DefaultController::Index
+    requirements:
+        id: '\d+'
+
 # security routing for user
 security_login:
     path: /login

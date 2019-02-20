@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Site;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -19,20 +20,33 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    public function findListSortie()
+    public function findListSortie(?Site $site=null)
     {
+       //var_dump('je suis dans mon repository');
+        //$nomSite=$site->getNom();
+        //var_dump($site);
 
         $q = $this->createQueryBuilder('s')
             ->join('s.organisateur','o')
-            ->join('o.sorties','sorties')
+            ->join('s.siteOrganisateur','si')
             ->join('s.etat','e')
             ->where('e.libelle != :e')
-            ->orderBy('s.dateHeureDebut', 'DESC')
             ->setParameter('e', 'Créée');
 
-        $q->getQuery()->execute();
+        if($site!==0){
+            $q->andWhere('si = :site');
+            $q->setParameter('site', $site);
+        }
 
-        return $q->getQuery()->execute();
+        $q->orderBy('s.dateHeureDebut', 'DESC');
+
+
+        //$q->getQuery()->execute();
+
+        //dd($q);
+        $query = $q->getQuery();
+        return $query->getResult();
+
 
     }
 
