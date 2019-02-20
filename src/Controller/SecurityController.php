@@ -9,6 +9,7 @@ namespace App\Controller;
 
 
 use App\Classes\Validator;
+use App\Classes\NotGranted;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\UserType;
@@ -35,7 +36,12 @@ class SecurityController  extends AbstractController{
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
 
-        var_dump($this->isGranted('IS_AUTHENTICATED_FULLY'));
+
+        if($this->isGranted('IS_AUTHENTICATED_FULLY') && $this->getUser()->getId()){
+            return $this->render('security/redirect.html.twig');
+        }
+
+
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
@@ -88,6 +94,26 @@ class SecurityController  extends AbstractController{
 
         $messagePassword = null;
 
+        if($this->isGranted('IS_AUTHENTICATED_FULLY') && $this->getUser()->getId() != (int)$id || !$this->getUser()){
+            echo 'je pase ici';
+            return $this->render('security/redirect.html.twig');
+        }else{
+            echo 'je passe la';
+        }
+
+        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY', null, 'You cannot edit this item.');
+
+
+
+
+        if($this->isGranted('IS_AUTHENTICATED_FULLY') && $this->getUser()->getId() != (int)$id || !$this->getUser()){
+            return $this->render('security/redirect.html.twig');
+        }
+        /*$this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $this->getUser();*/
+        //var_dump($this->isGranted('IS_AUTHENTICATED_FULLY'));
+
+
 
         // Récupération du User en base
         $em =  $this->getDoctrine()->getManager();
@@ -95,11 +121,8 @@ class SecurityController  extends AbstractController{
         $user = $userRepo->findOneById($id);
 
 
-
-        // pour ajouter  ->
+        // pour ajouter un admin
         //$user->setRoles('ROLE_ADMIN');
-
-
 
 
         // Si une photo existe

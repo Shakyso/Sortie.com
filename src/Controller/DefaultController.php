@@ -23,10 +23,13 @@ class DefaultController extends AbstractController
         //Find la liste de Sortie
         $listeDesSorties = $sortieRepository->findListSortie();
 
+
+
+
         if(!is_null($user)){
             $maliste = $sortieRepository->findParticipation($user->getId());
         } else {
-            $maliste = "";
+            $maliste = [];
         }
 
 

@@ -23,6 +23,6 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
         $content = '<p>je suis une page d\'erreur</p>';
         return new Response($content, 403);
 
-        //return $this->router->render()
+        //return $this->render('je.html.twig');
     }
 }
