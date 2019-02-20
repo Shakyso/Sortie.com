@@ -16,9 +16,7 @@ class VilleType extends AbstractType
             ->add('nom', EntityType::class, [
             'label' => 'Ville : ',
             'class' => Ville::class,
-            'choice_label' => 'nom'
-            ])
-
+            'choice_label' => 'nom'])
             ->add('codePostal')
         ;
     }

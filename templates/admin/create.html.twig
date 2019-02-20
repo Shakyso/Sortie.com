@@ -24,10 +24,11 @@
                  <td class="villeCodePostal" id="code-postal-{{ ville.id }}"><span id="codeVille{{ ville.id }}">{{ ville.codePostal}}</span></td>
                  <td class="action">
                      <button class="button_modifier" id="{{ ville.id}}" >Modifier</button>
-                     <button class="buttonMAJ" id="{{ ville.id}}" hidden >Mettre à jour</button>
+
+                     <button class="buttonMAJ" id="{{ ville.id}}" style ="display :none;">Mettre à jour</button>
 
                      -
-                     <a class="btn btn-success" href={{ path('ville_delete',{'id' : ville.id}) }}>Supprimer</a>
+                     <a class="btn btn-error" href={{ path('ville_delete',{'id' : ville.id}) }}>Supprimer</a>
                  </td>
              </tr>
          {% endfor %}

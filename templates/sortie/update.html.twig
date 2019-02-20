@@ -2,7 +2,6 @@
 
  {% block body %}
   {{ form_start(formSortie) }}
-
   {{ form_start(formVille) }}
   {{ form_start(formLieu) }}
 
@@ -29,7 +28,6 @@
     <th>{{ form_widget(formSortie.nbInscriptionMax) }}</th>
     <th>{{ form_widget(formSortie.duree) }}</th>
     <th>{{ form_widget(formSortie.infosSortie) }}</th>
-
     <th class="sortie_ville">{{form_widget( formLieu.ville) }}</th>
     <th class="sortie_lieu">{{ form_widget(formSortie.lieu) }}</th>
     <th class="sortie_lieu_rue">{{form_widget(formLieu.rue)}}</th>

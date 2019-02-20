@@ -56,8 +56,6 @@ ville_update:
     path: /ville/update/
     controller: App\Controller\VilleController::Update
 
-
-
 ville_delete:
     path: /ville/delete/{id}
     controller: App\Controller\VilleController::Delete
