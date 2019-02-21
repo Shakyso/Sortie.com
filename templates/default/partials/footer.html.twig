@@ -1,13 +1,15 @@
 
-<div class="footer">
+{#<div class="footer">
     <div class="footer-right">test footer gauche</div>
     <div>test footer centre</div>
     <div class="footer-left">Test footer droit</div>
-</div>
+</div>#}
 
 
 {% block javascripts %}
 
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="{{ asset('assets/lib/bootstrap-4.3.1-dist/js/bootstrap.js') }}"></script>
     <script src="{{ asset('assets/lib/bootstrap-4.3.1-dist/js/bootstrap.bundle.js') }}"></script>
 
@@ -18,10 +20,10 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
             integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
             crossorigin=""></script>
+
 
     <script type="text/javascript" src="{{ asset('js/map.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/sortie.js') }}"></script>
@@ -31,22 +33,6 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/map.js') }}"></script>
     <script src="{{ asset('js/sortie.js') }}"></script>
-
-    <script src="{{ asset('assets/js/app.js') }}"></script>
-    <script src="{{ asset('assets/js/index.js') }}"></script>
-
-    <script>
-        $(document).ready(function(){
-
-            $.ajax({
-                method: 'POST',
-                url: "{{ path('ville_update') }}",
-                data: {"test": "test"},
-                success: function (res) {
-
-                    JSON.parse(res);
-                }
-            });
 {% endblock %}
 
 

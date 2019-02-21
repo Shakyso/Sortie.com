@@ -1,52 +1,54 @@
 
+
+
+
 <div class="navbar">
 
 
-    <div class="navbar-logo">
+    <div class="navbar-logo nav-parent">
         <p>LOGO ICI</p>
     </div>
 
+    <div class="nav-parent">
 
-    <div>
-        <div class="navbar-link">
-            <ul class="navbar-ul">
+        <ul class="navbar-ul">
 
-                <li class="menu-li"><a href="{{ path('index') }}">Acceuil</a></li>
-
-                {#TODO affichage en fonction des roles#}
-
-                {% if is_granted('ROLE_ADMIN') %}
-                    <li class="menu-li">
-                        <a href="{{ path('site_list') }}">Les sites</a>
-                    </li>
-
-                    <li class="menu-li">
-                        <a href="{{ path('ville_list') }}">Les villes</a>
-                    </li>
-                {% endif %}
+            <li class="menu-li"><a href="{{ path('index') }}">Acceuil</a></li>
 
 
-                {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') and not app.user %}
-                    <li class="menu-li">
-                        <a href="{{ path('app_register') }}">Inscription</a>
-                    </li>
-                {% endif %}
-                {% if app.user  %}
-                    <li class="menu-li">
-                        <a href="{{ path('security_account', {'id' : app.user.id }) }}">Mon profil</a>
-                    </li>
-                    <li class="menu-li">
-                        <a href="{{ path('app_logout') }}">Déconnexion</a>
-                    </li>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="menu-li">
+                    <a href="{{ path('site_list') }}">Les sites</a>
+                </li>
+
+                <li class="menu-li">
+                    <a href="{{ path('ville_list') }}">Les villes</a>
+                </li>
+            {% endif %}
 
 
-                {% else %}
-                    <li class="menu-li">
-                        <a href="{{ path('app_login') }}">Connexion</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
+            {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') and not app.user %}
+                <li class="menu-li">
+                    <a href="{{ path('app_register') }}">Inscription</a>
+                </li>
+            {% endif %}
+            {% if app.user  %}
+                <li class="menu-li">
+                    <a href="{{ path('security_account', {'id' : app.user.id }) }}">Mon profil</a>
+                </li>
+                <li class="menu-li">
+                    <a href="{{ path('app_logout') }}">Déconnexion</a>
+                </li>
+
+
+            {% else %}
+                <li class="menu-li">
+                    <a href="{{ path('app_login') }}">Connexion</a>
+                </li>
+            {% endif %}
+        </ul>
+
     </div>
 
 

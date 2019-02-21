@@ -10,6 +10,27 @@
 
             {{ form_start(form) }}
 
+
+            {% if not form.vars.valid %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for error in form.vars.errors.form.getErrors(true) %}
+                            <li>{{ error.message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            {% if messagePassword is not empty %}
+                <div class="alert alert-{{ messagePassword.type }}">
+                    <ul>
+                        <li>{{ messagePassword.message }}</li>
+                    </ul>
+                </div>
+            {% endif %}
+
+
+
             <div class="form-modif">
                 <div class="profil-title">
                     <h1>Profil</h1>
@@ -23,27 +44,10 @@
                     {% endif %}
                 </div>
 
-                <div class="container">
-
-                    <div class="row alert alert-warning">
-                        <ul>
-                            {% for error in form.vars.errors.form.getErrors(true) %}
-                                <li>{{ error.message }}</li>
-                            {% endfor %}
-
-                            {% if messagePassword is defined %}
-                                {{ messagePassword }}
-                            {% endif %}
-                        </ul>
-                    </div>
 
 
 
-                </div>
-
-
-
-                <div class="container profil-container">
+                <div class="container profil-container" style="width: 60%">
 
                     <div class="row">
 
@@ -79,8 +83,6 @@
                         </div>
                     </div>
 
-
-
                     <div class="form-group">
                         {{ form_label(form.photo, "Choisir une photo : ",  { 'attr': { 'class' : 'input-label' } }) }}
                         {{ form_widget(form.photo) }}
@@ -95,7 +97,7 @@
 
 
 
-            <div class="container profil-container">
+            <div class="container profil-container" style="width: 60%">
                 <form method="post">
 
                     <div class="profil-title">

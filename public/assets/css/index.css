@@ -1,7 +1,22 @@
 /* ---- Others ---- */
 
+
+body{
+    position: relative;
+}
+main{
+    padding-bottom: 80px;
+}
+
+.acceuil-title{
+    margin-bottom: 25px;
+}
 .strong{
     font-weight: bold;
+}
+
+.weigth-normal{
+    font-weight: normal;
 }
 
 /* ---- MENU ---- */
@@ -11,7 +26,14 @@
     justify-content: space-between;
     background-color: #dfe6e9;
     height: 55px;
+    margin-bottom: 25px;
 
+}
+
+.nav-parent{
+    height: 10px;
+    line-height: 10px;
+    white-space: nowrap;
 }
 
 .navbar-logo{
@@ -22,10 +44,17 @@
     display: flex;
     justify-content: end;
     list-style-type: none;
+
 }
 
-.menu-li{
+.menu-li > a{
     margin-right: 15px;
+    text-decoration: none;
+}
+
+.menu-li > a:hover{
+    margin-right: 15px;
+    text-decoration: none;
 }
 
 .photo{
@@ -110,3 +139,18 @@ input[type="file"] {
 .footer-left{
     margin-right: 15px;
 }
+
+.table {
+    border-radius: 5px;
+    width: 50%;
+    margin: 0px auto;
+    float: none;
+}
+
+
+/*
+@media screen and (max-width: 950px){
+    .table-responsive {
+        display: none;
+    }
+}*/
