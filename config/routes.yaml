@@ -81,17 +81,11 @@ sortie_update:
     requirements:
         id: '\d+'
 
-sortie_update_ville:
-    path:  /sortie/Update/{idSortie}/{idLieu}
-    controller: App\Controller\SortieController::UpdateListVille
+sortie_update_lieu:
+    path: /sortie/Update/
+    controller: App\Controller\SortieController::UpdateListLieu
     requirements:
         id: '/d+'
-
-
-sortie_update_lieu:
-    path: /sortie/Update/{idSortie}/{idVille}
-    controller: App\Controller\SortieController::UpdateListLieu
-
 
 sortie_delete:
     path: /sortie/Delete/{id}

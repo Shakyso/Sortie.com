@@ -2,7 +2,6 @@
 
  {% block body %}
   {{ form_start(formSortie) }}
-  {{ form_start(formVille) }}
   {{ form_start(formLieu) }}
 
   <table class="table table-bordered table-striped table-condensed">
@@ -28,10 +27,10 @@
     <th>{{ form_widget(formSortie.nbInscriptionMax) }}</th>
     <th>{{ form_widget(formSortie.duree) }}</th>
     <th>{{ form_widget(formSortie.infosSortie) }}</th>
-    <th class="sortie_ville">{{form_widget( formLieu.ville) }}</th>
-    <th class="sortie_lieu">{{ form_widget(formSortie.lieu) }}</th>
+    <th class="sortie_ville" data-path="{{ path('sortie_update_lieu') }}">{{form_widget( formLieu.ville) }}</th>
+    <th class="sortie_lieu" >{{ form_widget(formSortie.lieu) }}</th>
     <th class="sortie_lieu_rue">{{form_widget(formLieu.rue)}}</th>
-    <th class="sortie_ville_codepstal">{{ form_widget(formVille.codePostal) }}</th>
+    <th class="sortie_ville_codepstal">{{ form_widget(formLieu.ville) }}</th>
     <th class="sortie_lieu_lat">{{ form_widget(formLieu.latitude) }}</th>
     <th class="sortie_lieu_long">{{ form_widget(formLieu.longitude) }}</th>
    </tr>
@@ -39,8 +38,10 @@
   </table>
   <a href="{{ path('sortie_delete', {'id' : sortie.id}) }}"><button>Delete la sortie</button></a>
 
+  {{ form_widget(formSortie.save, { 'label' : 'Click for Save'}) }}
+  {{ form_widget(formSortie.saveandpublished, { 'label' : 'Click for Save and published'}) }}
+  {{ form_row(formSortie._token) }}
   {{ form_end(formLieu) }}
-  {{ form_end(formVille) }}
   {{ form_end(formSortie) }}
   <a href="{{ path('index') }}"><button>Annuler</button></a>
 

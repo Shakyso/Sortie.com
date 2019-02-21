@@ -1,37 +1,71 @@
 $(function() {
 
-  var idSortie =  $('.sortie_id').attr('id');
-  var path = $('#path_data').text();
-    var valueVilleSend = $('#sortie_lieu_ville_ville').val();
+    var pathVille = $('.sortie_ville').attr('data-path');
+    var valueVille = $('#sortie_lieu_ville_ville').val();
+console.log(valueVille);
+    $.ajax({
+        url: pathVille,
+        method: 'POST',
+        data: {'idVille': valueVille},
+        error: function (result) {
 
-    console.log(valueVilleSend);
+        },
+        success: function (result) {
+            var res = JSON.parse(result);
+            var lieu = res['listeLieu'];
+            var listLieu = $('#sortie_lieu');
 
-$('#sortie_lieu_ville_ville').click(function() {
+            listLieu.empty();
+            listLieu.removeAttr('value');
+            listLieu.removeAttr('selected');
 
-
-    console.log(valueVilleSend);
-    $($(this)).on("click",function() {
-        $.ajax({
-            url: 'http://localhost/Sortir/public/sortie/Update/{idSortie}/{idVille}' ,
-            method: 'GET',
-            data: {'idSortie' : idSortie, 'idVille' : valueVilleSend},
-            error: function(msg) {
-                console.log(msg)
-            },
-            success: function(msg) {
-                console.log(msg)
+            for (var i = 0; i < lieu.length; i++) {
+                listLieu.append($('<option />').attr('value', lieu[i].id).html(lieu[i].nom));
+                $('.sortie_lieu_rue').html(lieu[i].rue);
+                $('.sortie_lieu_lat').html(lieu[i].latitude);
+                $('.sortie_lieu_long').html(lieu[i].longitude);
+                $('.sortie_ville_codepstal').html(lieu[i].codePostal);
+                $('.sortie_lieu option').eq(lieu[0].id).attr('selected', true);
             }
-        });
-
-        return false;
+        }
     });
 
 
-});
+$('#sortie_lieu_ville_ville').on("change", function(){
 
-$('.sortie_lieu').change(function(){
+        var valueVille = $(this).val();
+    console.log(valueVille);
 
-        var valueLieuSend = $('#sortie_lieu').val();
+    $.ajax({
+        url: pathVille ,
+        method: 'POST',
+        data: {'idVille' : valueVille},
+        error: function(result) {
+
+        },
+        success: function(result) {
+            var res = JSON.parse(result);
+            console.log(res['listeLieu']);
+            var lieu =  res['listeLieu'];
+            var listLieu = $('#sortie_lieu');
+
+            listLieu.empty();
+            listLieu.removeAttr('value');
+            listLieu.removeAttr('selected');
+
+            for(var i=0; i<lieu.length;i++)            {
+                listLieu.append($('<option />').attr('value', lieu[i].id).html(lieu[i].nom));
+                 $('.sortie_lieu_rue').html(lieu[i].rue);
+                 $('.sortie_lieu_lat').html(lieu[i].latitude);
+                 $('.sortie_lieu_long').html(lieu[i].longitude);
+                 $('.sortie_ville_codepstal').html(lieu[i].codePostal);
+
+                $('.sortie_lieu option').eq(lieu[0].id).attr('selected', true);
+            }
+        }
+    });
+
+    return false;
 
 });
 

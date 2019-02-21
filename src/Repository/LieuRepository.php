@@ -28,13 +28,29 @@ class LieuRepository extends ServiceEntityRepository
         return $q->getQuery()->execute();
     }
 
-    public function findAllLieuVille(){
+    public function findAllLieuVille($idLieu){
+    $q = $this->createQueryBuilder('l')
+        ->select('v.id')
+        ->innerjoin('l.ville','v')
+        ->where('l.id = :idLieu')
+        ->orderBy('v.nom', 'ASC')
+        ->setParameter('idLieu' , $idLieu);
+
+    return $q->getQuery()->execute();
+}
+    public function findAllLieuParVille($idVille){
+
         $q = $this->createQueryBuilder('l')
-            ->join('l.ville','v')
-            ->orderBy('v.nom', 'ASC');
+            ->select('l')
+            ->innerJoin('l.ville', 'v')
+            ->where('v.id = :idVille' )
+            ->orderBy('v.nom', 'ASC')
+            ->setParameter('idVille', $idVille);
 
         return $q->getQuery()->execute();
     }
+
+
 
     // /**
     //  * @return Lieu[] Returns an array of Lieu objects

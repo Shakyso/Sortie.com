@@ -48,7 +48,7 @@
           <!-- Les organisateur -->
 
 
-          {{ dump(app.user.id) }}
+
           <td><a href="{{ path('public_account', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.username }} </a> </td>
           <td>
                   {% if(sortie.etat.libelle == "Créée") %}
@@ -60,17 +60,16 @@
 
               <a href="">Publier</a>
                 {% if app.user %}
-<<<<<<< HEAD
+
               <a href="{{ path('sortie_desistement',{'idSortie' : sortie.id , 'idParticipant' : app.user.id}) }}">Desinscription</a>
                 {% endif %}
                 {% if app.user %}
               <a href="{{ path('sortie_inscrire', {'idSortie' : sortie.id , 'idParticipant' : app.user.id}) }}">s'inscrire</a>
-=======
               <a href="{{ path('sortie_desistement', {'idSortie' : sortie.id, 'idParticipant' : app.user.id}) }}">Desinscription</a>
                 {% endif %}
                 {% if app.user %}
               <a href="{{ path('sortie_inscrire', {'idSortie' : sortie.id, 'idParticipant' : app.user.id}) }}">s'inscrire</a>
->>>>>>> 44408147b1937a4a270c73ba57017068feddfed4
+
                 {% endif %}
               <a href="{{ path('sortie_detail', {'id' : sortie.id}) }}">Afficher</a>
           </td>
@@ -78,8 +77,10 @@
       {% endfor %}
    </table>
   </div>
+        <div class="container">
+            <a href='{{ path('sortie_create') }}'><button class="btn btn-success">Create Sortie</button></a>
+        </div>
 
-     <a href='{{ path('sortie_create') }}'><button>Create Sortie</button></a>
 
     {% endif %}
  {% endblock %}

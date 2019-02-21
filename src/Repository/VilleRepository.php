@@ -20,13 +20,27 @@ class VilleRepository extends ServiceEntityRepository
     }
 
     public function findAllVille(){
+    $q = $this->createQueryBuilder('v')
+        ->select('v , l')
+        ->innerJoin('v.lieux', 'l')
+        ->orderBy('v.nom', 'ASC');
+
+    return $q->getQuery()->execute();
+}
+    public function findAllVilleLieu($idVille){
+
         $q = $this->createQueryBuilder('v')
-            ->select('v , l')
+            ->select('l.id, l.nom,l.rue, l.latitude, l.longitude, v.codePostal')
             ->innerJoin('v.lieux', 'l')
-            ->orderBy('v.nom', 'ASC');
+            ->where('v.id = :idVille' )
+            ->orderBy('v.nom', 'ASC')
+        ->setParameter('idVille', $idVille);
 
         return $q->getQuery()->execute();
     }
+
+
+
 
     // /**
     //  * @return Ville[] Returns an array of Ville objects
