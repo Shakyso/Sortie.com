@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Site;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -24,30 +25,54 @@ class SortieRepository extends ServiceEntityRepository
 
         $q = $this->createQueryBuilder('s')
             ->join('s.organisateur','o')
-            ->join('o.sorties','sorties')
+            ->join('s.users','u')
             ->join('s.etat','e')
             ->orderBy('s.dateHeureDebut', 'DESC');
 
-        $q->getQuery()->execute();
-
-        return $q->getQuery()->execute();
+        $query = $q->getQuery();
+        return $query->getResult();
 
     }
-
     public function findListSortie()
     {
+        $q = $this->createQueryBuilder('s')
+            ->join('s.organisateur','o')
+            ->join('s.siteOrganisateur','si')
+            ->join('s.etat','e')
+            ->where('e.libelle != :e')
+            ->setParameter('e', 'Créée');
+        $q->orderBy('s.dateHeureDebut', 'DESC');
+        $query = $q->getQuery();
+        return $query->getResult();
+    }
+
+    public function selectListSortie(?Site $site=null)
+    {
+        //var_dump('je suis dans mon repository');
+        //$nomSite=$site->getNom();
+        //var_dump($site);
 
         $q = $this->createQueryBuilder('s')
             ->join('s.organisateur','o')
-            ->join('o.sorties','sorties')
+            ->join('s.siteOrganisateur','si')
             ->join('s.etat','e')
             ->where('e.libelle != :e')
-            ->orderBy('s.dateHeureDebut', 'DESC')
             ->setParameter('e', 'Créée');
 
-        $q->getQuery()->execute();
+        if($site!==0){
+            $q->andWhere('si = :site');
+            $q->setParameter('site', $site);
+        }
 
-        return $q->getQuery()->execute();
+        $q->orderBy('s.dateHeureDebut', 'DESC');
+
+
+        //$q->getQuery()->execute();
+
+        //dd($q);
+        $query = $q->getQuery();
+        return $query->getResult();
+
 
     }
 
@@ -108,6 +133,7 @@ class SortieRepository extends ServiceEntityRepository
         return $q;
 
     }
+
     public function findAllInformtion($id){
 
         $q = $this->createQueryBuilder('s')

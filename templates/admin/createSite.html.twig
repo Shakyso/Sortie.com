@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
  {% block body %}
+<div id="url" data-path="{{ path('site_update') }}">
      <h1>Gérer les sites</h1>
      <h3>Filtrer les sites</h3>
      <p>formulaire de rechercher à faire</p>
@@ -18,9 +19,10 @@
          </tr>
          {% for site in sitesList %}
              <tr>
-                 <td>{{ site.nom}}</td>
-                 <td><a class="btn btn-success" href={{ path('site_update', {'id': site.id}) }}>Modifier</a> -
-                     <a class="btn btn-success" href={{ path('site_delete',{'id' : site.id}) }}>Supprimer</a>
+                 <td class="siteNom" id="nom-{{ site.id }}"><span id="nomSite{{ site.id }}">{{ site.nom}}</td>
+                 <td><button class="button_modifier" id="{{ site.id}}" >Modifier</button>
+                     <button class="buttonMAJ" id="{{ site.id}}" style ="display :none;">Mettre à jour</button> -
+                     <a class="btn btn-error" href={{ path('site_delete',{'id' : site.id}) }}>Supprimer</a>
                  </td>
              </tr>
          {% endfor %}
@@ -35,4 +37,8 @@
          </tr>
 
      </table>
- {% endblock %}
+    {% endblock %}
+
+    {% block javascripts %}
+        <script src="{{ asset('assets/js/site.js') }}">   </script>
+    {% endblock %}

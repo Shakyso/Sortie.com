@@ -40,6 +40,7 @@
 
      {{ form_widget(formSortie.save, { 'label' : 'Click for Save'}) }}
      {{ form_widget(formSortie.saveandpublished, { 'label' : 'Click for Save and published'}) }}
+     {{ form_row(formSortie._token) }}
      {{ form_end(formLieu) }}
      {{ form_end(formSortie) }}
      <a href="{{ path('index') }}"><button>Annuler</button></a>

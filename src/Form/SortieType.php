@@ -39,7 +39,8 @@ class SortieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom', TextType::class, ['label' => 'Nom de la sortie'] )
+            ->add('nom', TextType::class, ['label' => 'Nom de la sortie'])
+
             ->add('dateHeureDebut', DateTimeType::class, ['label' => 'Commence le'])
             ->add('duree', DateIntervalType::class, ['label' => 'Durée Maximal'])
             ->add('dateLimiteInscription', DateType::class, ['label' => 'S\'inscrir avant le :'])

@@ -5,23 +5,34 @@
  * Date: 11/02/2019
  * Time: 12:18
  */
-
 namespace App\Controller;
-
-
 use App\Entity\Ville;
 use App\Form\VilleType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class VilleController  extends AbstractController
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+
+
+
+class VilleController   extends AbstractController
 {
+    /*
+public function convertirJson(){
+$encoders = new JsonEncoder();
+$normalizers = new ObjectNormalizer();
+$serializer =new Serializer ($normalizers, $encoders);
+return $serializer;
+}
+    */
 
     public function Search()
     {
-    }
 
+    }
     public function List(Request $request)
     {
         $villeRepository=$this->getDoctrine()->getRepository(Ville::class);
@@ -31,6 +42,7 @@ class VilleController  extends AbstractController
         $ville=new Ville();
         $villeForm=$this->createForm(VilleType::class, $ville);
         $villeForm->handleRequest($request);
+
         if ($villeForm->isSubmitted() && $villeForm->isValid()){
             $em = $this->getDoctrine()->getManager();
             $em->persist($ville);
@@ -40,63 +52,35 @@ class VilleController  extends AbstractController
         return $this->render('admin/create.html.twig', [
             "villesList" => $villesList,
             "villeForm" => $villeForm->createView(),
-            ]);
+        ]);
     }
 
-
-    public function Update(Request $request)
+    public function Update()
     {
-
-//        $villeRepository=$this->getDoctrine()->getRepository(Ville::class);
-//        $villesList=$villeRepository->findAll();
-//
-//        $villeRepository=$this->getDoctrine()->getRepository(Ville::class);
-//        $villeId=$villeRepository->find($id);
-//        var_dump($id);
-//
-//        //TODO gérer la modofcation des données en javascript
-//        if($id!=null){
-//
-//            $villeUpdate = $this->createForm(VilleType::class, $villeId);
-//
-//            if ($villeUpdate->isSubmitted() && $villeUpdate->isValid()){
-//                $em = $this->getDoctrine()->getManager();
-//                $villeId->$em->setNom();
-//                $villeId->$em->setCodePostal();
-//                $villeId->$em->setId($id);
-//                $em->flush();
-//                return $this->redirectToRoute('ville_list');
-//            }
-//
-//            //return en json_encode('string');git status
-//        }
-//        //TODO si l'id n'existe pas
-//        $ville=new Ville();
-//        $villeForm=$this->createForm(VilleType::class, $ville);
-//        $villeForm->handleRequest($request);
-//        if ($villeForm->isSubmitted() && $villeForm->isValid()){
-//            $em = $this->getDoctrine()->getManager();
-//            $em->persist($ville);
-//            $em->flush();
-//            return $this->redirectToRoute('ville_list');
-//        }
-//
-//
-//        return $this->render('admin/create.html.twig', [
-//            "villesList" => $villesList,
-//            'formUpdate' => $villeUpdate->createView(),
-//            "villeForm" => $villeForm->createView(),
-//        ]);
-
-        $var = [
-            "name" => 'value1',
-            "2" => 'value2',
-        ];
-
-        $var  = json_encode($var);
-
-
-        return new Response($var);
+        // recup les données du post
+        $nvCode = $_POST ['nvCode'];
+        $nvNomVille = $_POST['nvNomVille'];
+        $idVille = $_POST['idVille'];
+        //recherche et mise à jour des données en base
+        if($idVille!=null) {
+            $villeRepository = $this->getDoctrine()->getRepository(Ville::class);
+            $villeAMAJ = $villeRepository->find($idVille);
+            $em = $this->getDoctrine()->getManager();
+            $villeAMAJ->setNom($nvNomVille);
+            $villeAMAJ->setCodePostal($nvCode);
+            $em->flush();
+        }
+        //récupére le donnée sd'une ville modifier
+        // mise en tableau pour préparer pour le json
+            $tab = array(
+                "idVille"=>$idVille,
+                "nomVille"=>$nvNomVille,
+                "codePostal"=>$nvCode,
+            );
+        //encadage du tableau en json
+        $villeModif=json_encode($tab);
+            //  var_dump('ma ville modifier =>',$villeModif);
+      return new Response ($villeModif);
     }
 
     public function Delete($id)
@@ -107,8 +91,6 @@ class VilleController  extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->remove($villeId);
         $em->flush();
-            return $this->redirectToRoute('ville_list');
-        }
-
-
+        return $this->redirectToRoute('ville_list');
+    }
 }

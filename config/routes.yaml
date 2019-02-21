@@ -4,6 +4,11 @@ index:
     path: /
     controller: App\Controller\DefaultController::Index
 
+index_select:
+    path: /resultSearch/
+    controller: App\Controller\DefaultController::selectIndex
+
+
 # security routing for user
 security_login:
     path: /login
@@ -28,10 +33,9 @@ site_list:
     controller: App\Controller\SiteController::List
 
 site_update:
-    path: /site/update/{id}
+    path: /site/update/
     controller: App\Controller\SiteController::Update
-    requirements:
-        id: '\d+'
+
 
 site_delete:
     path: /site/delete/{id}
@@ -54,10 +58,8 @@ ville_list:
     controller: App\Controller\VilleController::List
 
 ville_update:
-    path: admin/ville/update
+    path: /ville/update/
     controller: App\Controller\VilleController::Update
-
-
 
 ville_delete:
     path: /ville/delete/{id}
@@ -112,5 +114,3 @@ sortie_detail:
     controller: App\Controller\SortieController::Detail
     requirements:
         id: '\d+'
-
-
