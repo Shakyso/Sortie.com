@@ -22,13 +22,20 @@ class DefaultController extends AbstractController
         //Recupérer le repository des Sorties
         $sortieRepository = $this->getDoctrine()->getRepository(Sortie::class);
 
+
+
+
         if(!is_null($user)){
             $maliste = $sortieRepository->findParticipation($user->getId());
             $listeDesSorties = $sortieRepository->findListSortieUser();
         } else {
+<<<<<<< HEAD
             $maliste = "";
             //Find la liste de Sortie
             $listeDesSorties = $sortieRepository->findListSortie();
+=======
+            $maliste = [];
+>>>>>>> a29a5081398c69edee9ef80598897c44a9696071
         }
 
         $arrayParticipant = array();

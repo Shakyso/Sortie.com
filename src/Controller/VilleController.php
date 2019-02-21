@@ -47,8 +47,6 @@ class VilleController  extends AbstractController
     public function Update(Request $request)
     {
 
-
-        var_dump($_POST);
 //        $villeRepository=$this->getDoctrine()->getRepository(Ville::class);
 //        $villesList=$villeRepository->findAll();
 //

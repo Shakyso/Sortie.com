@@ -240,24 +240,20 @@ class SortieController extends AbstractController
         }
 
         return $this->render('sortie/update.html.twig', array(
-            'sortie' => $sortie[0],
+            'sortie'     => $sortie[0],
             'formSortie' => $sortieForm->createView(),
-            'formVille' => $sortieVilleForm->createView(),
-            'formLieu' =>  $sortieLieuVilleForm->createView(),
+            'formVille'  => $sortieVilleForm->createView(),
+            'formLieu'   =>  $sortieLieuVilleForm->createView(),
             'id' => $id
         ));
     }
 
 
-
     public function inscrireSortie (int $idParticipant, int $idSortie) {
-        $sortie= new Sortie();
+        $sortie = new Sortie();
         $participant = new User();
         //associer les objects sortie et user entre eux
 
-
-        //TODO gérer l'accès en fonction des roles
-        //TODO gérer la récupéréation de l'ID participant et id sortie
 
         // récupérer l'objet sortie en entier
         $sortieRepository = $this->getDoctrine()->getRepository(Sortie::class);

@@ -9,6 +9,7 @@ namespace App\Controller;
 
 
 use App\Classes\Validator;
+use App\Classes\NotGranted;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\UserType;
@@ -34,10 +35,18 @@ class SecurityController  extends AbstractController{
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+
+
+        if($this->isGranted('IS_AUTHENTICATED_FULLY') && $this->getUser()->getId()){
+            return $this->render('security/redirect.html.twig');
+        }
+
+
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
+
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
@@ -85,6 +94,26 @@ class SecurityController  extends AbstractController{
 
         $messagePassword = null;
 
+        if($this->isGranted('IS_AUTHENTICATED_FULLY') && $this->getUser()->getId() != (int)$id || !$this->getUser()){
+            echo 'je pase ici';
+            return $this->render('security/redirect.html.twig');
+        }else{
+            echo 'je passe la';
+        }
+
+        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY', null, 'You cannot edit this item.');
+
+
+
+
+        if($this->isGranted('IS_AUTHENTICATED_FULLY') && $this->getUser()->getId() != (int)$id || !$this->getUser()){
+            return $this->render('security/redirect.html.twig');
+        }
+        /*$this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $this->getUser();*/
+        //var_dump($this->isGranted('IS_AUTHENTICATED_FULLY'));
+
+
 
         // Récupération du User en base
         $em =  $this->getDoctrine()->getManager();
@@ -92,11 +121,8 @@ class SecurityController  extends AbstractController{
         $user = $userRepo->findOneById($id);
 
 
-
-        // pour ajouter  ->
+        // pour ajouter un admin
         //$user->setRoles('ROLE_ADMIN');
-
-
 
 
         // Si une photo existe
@@ -115,8 +141,6 @@ class SecurityController  extends AbstractController{
             $user = $form->getData();
 
             if($form->isValid()){
-
-
 
                 echo 'je suis valide';
 
@@ -149,7 +173,7 @@ class SecurityController  extends AbstractController{
 
 
         // Vérification formulaire mot de passe
-        if(isset($_POST['submitPassword']) && $_POST['submitPassword'] === 'Valider'){
+        if(isset($_POST['submitPassword']) && $_POST['submitPassword'] === 'Modifier'){
             // Nettoyage du $_POST
             $post = array_map('trim', array_map('strip_tags', $_POST));
             // Vérification du mot de passe
@@ -157,6 +181,7 @@ class SecurityController  extends AbstractController{
             // Changement du mot de passe
             $messagePassword = $this->changePassword($user, $passwordVerified, $passwordEncoder, $em);
         }
+
 
         return $this->render('default/account.html.twig', [
 
@@ -200,9 +225,9 @@ class SecurityController  extends AbstractController{
             $em->persist($user);
             $em->flush();
 
-            $message = 'Votre mot de passe a bien été modifié';
+            $message = 'success';
         }else{
-            $message = 'Mot de passe invalide';
+            $message = 'error';
         }
 
         return $message;
