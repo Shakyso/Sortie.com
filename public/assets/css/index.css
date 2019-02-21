@@ -93,8 +93,14 @@ input[type="file"] {
 
 /* ---- FOOTER ---- */
 .footer{
+    height: 75px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
 }
 
 .footer-right{
