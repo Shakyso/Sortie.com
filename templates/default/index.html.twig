@@ -2,14 +2,42 @@
 
  {% block body %}
 
+
 <main>
     <div class="container">
 
         <h1 class="acceuil-title">Acceuil</h1>
 
+
+
+    <h2>Filtrer les sorties</h2>
+    {{ form_start(searchAccueilForm)}}
+    <table>
+        <tr>
+    <td>  {{ form_row(searchAccueilForm.site)}}
+        {{ form_row(searchAccueilForm.motCle)}}
+        {#{{ form_row(searchAccueilForm.startDateTime)}}#}
+
+    </td>
+    <td>  {{ form_widget(searchAccueilForm.organisateur )}} {{ form_label(searchAccueilForm.passees, "Sortie dont je suis l'organisateur/trice") }}<br>
+      {{ form_widget(searchAccueilForm.inscrite )}} {{ form_label(searchAccueilForm.passees, 'Sorties auxquelles je suis inscrit/e') }}<br>
+      {{ form_widget(searchAccueilForm.pasInscrite) }} {{ form_label(searchAccueilForm.passees, 'Sorties auxquelles je ne suis pas inscrite') }}<br>
+      {{ form_widget(searchAccueilForm.passees) }} {{ form_label(searchAccueilForm.passees, 'Sorties passées') }}
+    </td>
+            <td>
+    {#<button class="btn btn-success">Rechercher</button>#}
+            </td>
+    </tr>
+    </table>
+
+    {{ form_end(searchAccueilForm) }}
+
+
+
         <table class="table table-hover table-responsive table-responsive-sm">
 
-            <thead class="thead-light">
+            <thead class="thead-light"><thead>
+
             <tr style="background-color: #dfe6e9">
                 <th scope="col">Nom de la sortie</th>
                 <th scope="col">Date de la sortie</th>
@@ -43,9 +71,11 @@
 
                         <td>{{ sortie.etat }}</td>
 
+
                         {% if app.user %}
                             <!-- Savoir la ou je participe-->
                             {% if maliste is defined %}
+
 
                                 {% for key, maSortie in maliste if maSortie.id == sortie.id %}
                                     <td class="strong" style="color: forestgreen;">oui</td>

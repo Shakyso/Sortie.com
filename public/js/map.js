@@ -7,6 +7,10 @@
  var lon = $('#long').text();
 
 
+ console.log(lat, lon);
+ console.log('bonjour');
+
+
  var macarte = null;
  // Fonction d'initialisation de la carte
  function initMap() {

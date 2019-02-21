@@ -163,8 +163,8 @@ class FixturesCommand extends Command
             //hydrate toutes les propriétés...
             $lieu->setNom($faker->unique()->city);
             $lieu->setRue($faker->unique()->address);
-            $lieu->setLatitude($faker->unique()->latitude(8.000000,51.000000));
-            $lieu->setLongitude($faker->unique()->longitude(-5.000000,2.000000));
+            $lieu->setLatitude($faker->unique()->latitude(48.000000,51.000000));
+            $lieu->setLongitude($faker->unique()->longitude(-5.0,8.2));
             $lieu->setVille($faker->randomElement($allVilles));
             $this->em->persist($lieu);
 
