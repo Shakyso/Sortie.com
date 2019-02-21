@@ -2,14 +2,14 @@
 
  {% block body %}
 
+<main>
+    <div class="container">
 
-<div class="container">
+        <h1 class="acceuil-title">Acceuil</h1>
 
-    <h1>Acceuil</h1>
+        <table class="table table-hover table-responsive table-responsive-sm">
 
-    <table class="table">
-
-        <thead>
+            <thead class="thead-light">
             <tr style="background-color: #dfe6e9">
                 <th scope="col">Nom de la sortie</th>
                 <th scope="col">Date de la sortie</th>
@@ -20,79 +20,81 @@
                     <th scope="col">Inscrit</th>
                 {% endif %}
                 <th scope="col">Organisateur</th>
-                <th scope="col">Action</th>
+                <th scope="col" style="text-align: center;">Action</th>
             </tr>
-        </thead>
+            </thead>
 
 
-    {% if listeDesSorties is defined %}
+            {% if listeDesSorties is defined %}
 
-        {% for sortie in listeDesSorties %}
+                {% for sortie in listeDesSorties %}
 
-            <!-- informations sur les sorties-->
-            <tr>
-                <th> {{ sortie.nom | capitalize }}</th>
-                <th> {{ sortie.dateHeureDebut|date('d-m-Y') }}</th>
-                <th> {{ sortie.dateLimiteInscription|date('d-m-Y') }}</th>
+                    <!-- informations sur les sorties-->
+                    <tr>
+                        <td> {{ sortie.nom | capitalize }}</td>
+                        <td> {{ sortie.dateHeureDebut|date('d-m-Y') }}</td>
+                        <td> {{ sortie.dateLimiteInscription|date('d-m-Y') }}</td>
 
-                {% for key, participant in nombreParticipant %}
-                    {% if(key == sortie.id) %}
-                        <th>  {{ participant }} / {{ sortie.nbInscriptionMax }} </th>
-                    {% endif %}
+                        {% for key, participant in nombreParticipant %}
+                            {% if(key == sortie.id) %}
+                                <td>  {{ participant }} / {{ sortie.nbInscriptionMax }} </td>
+                            {% endif %}
+                        {% endfor %}
+
+                        <td>{{ sortie.etat }}</td>
+
+                        {% if app.user %}
+                            <!-- Savoir la ou je participe-->
+                            {% if maliste is defined %}
+
+                                {% for key, maSortie in maliste if maSortie.id == sortie.id %}
+                                    <td class="strong" style="color: forestgreen;">oui</td>
+                                {% else %}
+                                    <td class="strong" style="color: orange">non</td>
+                                {% endfor %}
+
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                        {% endif %}
+
+
+                        <!-- Les organisateur -->
+                        <th><a href="{{ path('public_account', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.username }} </a> </th>
+                        <th>
+
+                            <a href="{{ path('sortie_detail', {'id' : sortie.id}) }}">Afficher</a>
+
+                            {% if app.user %}
+
+                                {% if maliste is defined %}
+
+                                    {% for key, maSortie in maliste if maSortie.id == sortie.id %}
+                                        <a href="{{ path('sortie_desistement', {'idSortie' : sortie.id, 'idParticipant' : app.user.id}) }}">Désinscription</a>
+                                    {% else %}
+                                        <a href="{{ path('sortie_inscrire', {'idSortie' : sortie.id, 'idParticipant' : app.user.id}) }}">s'inscrire</a>
+                                    {% endfor %}
+                                {% endif %}
+
+
+                                {% if sortie.organisateur.id == app.user.id %}
+                                    <a href="{{ path('sortie_update', {'id' : sortie.id}) }}">Modfier</a>
+                                    <a href="{{ path('sortie_update', {'id' : sortie.id}) }}">Annuler</a>
+                                    <a href="">Publier</a>
+                                {% endif %}
+                            {% endif %}
+
+                        </th>
+                    </tr>
                 {% endfor %}
+            {% endif %}
+        </table>
 
-                <th>{{ sortie.etat }}</th>
+        {% if app.user %}
+            <a href='{{ path('sortie_create') }}'><button class="btn btn-primary">Créer une sortie</button></a>
+        {% endif %}
+    </div>
+</main>
 
-                {% if app.user %}
-                    <!-- Savoir la ou je participe-->
-                    {% if maliste is defined %}
-
-                        {% for key, maSortie in maliste if maSortie.id == sortie.id %}
-                            <th class="strong" style="color: forestgreen;">oui</th>
-                        {% else %}
-                            <th class="strong" style="color: orange">non</th>
-                        {% endfor %}
-
-                    {% else %}
-                        <th></th>
-                    {% endif %}
-                {% endif %}
-
-
-                <!-- Les organisateur -->
-                <th><a href="{{ path('public_account', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.username }} </a> </th>
-                <th>
-
-                <a href="{{ path('sortie_detail', {'id' : sortie.id}) }}">Afficher</a>
-
-                {% if app.user %}
-
-                    {% if maliste is defined %}
-
-                        {% for key, maSortie in maliste if maSortie.id == sortie.id %}
-                            <a href="{{ path('sortie_desistement', {'idSortie' : sortie.id, 'idParticipant' : app.user.id}) }}">Désinscription</a>
-                        {% else %}
-                            <a href="{{ path('sortie_inscrire', {'idSortie' : sortie.id, 'idParticipant' : app.user.id}) }}">s'inscrire</a>
-                        {% endfor %}
-                    {% endif %}
-
-
-                    {% if sortie.organisateur.id == app.user.id %}
-                        <a href="{{ path('sortie_update', {'id' : sortie.id}) }}">Modfier</a>
-                        <a href="{{ path('sortie_update', {'id' : sortie.id}) }}">Annuler</a>
-                        <a href="">Publier</a>
-                    {% endif %}
-                {% endif %}
-
-                </th>
-            </tr>
-        {% endfor %}
-    {% endif %}
-    </table>
-
-    {% if app.user %}
-    <a href='{{ path('sortie_create') }}'><button class="btn btn-primary">Créer une sortie</button></a>
-    {% endif %}
-</div>
 {% endblock %}
 
