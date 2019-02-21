@@ -37,10 +37,12 @@ return $serializer;
     {
         $villeRepository=$this->getDoctrine()->getRepository(Ville::class);
         $villesList=$villeRepository->findAll();
+
         //formulaire de saisie d'une nouvelle ville
         $ville=new Ville();
         $villeForm=$this->createForm(VilleType::class, $ville);
         $villeForm->handleRequest($request);
+
         if ($villeForm->isSubmitted() && $villeForm->isValid()){
             $em = $this->getDoctrine()->getManager();
             $em->persist($ville);
@@ -55,14 +57,11 @@ return $serializer;
 
     public function Update()
     {
-      //  echo 'echo';
-        // récupère les données du POST
-
-        // fonctionne
+        // recup les données du post
         $nvCode = $_POST ['nvCode'];
         $nvNomVille = $_POST['nvNomVille'];
         $idVille = $_POST['idVille'];
-
+        //recherche et mise à jour des données en base
         if($idVille!=null) {
             $villeRepository = $this->getDoctrine()->getRepository(Ville::class);
             $villeAMAJ = $villeRepository->find($idVille);
@@ -71,17 +70,17 @@ return $serializer;
             $villeAMAJ->setCodePostal($nvCode);
             $em->flush();
         }
-//récupére le donnée sd'une ville modifier
-$tab = array(
-    "idVille"=>$idVille,
-        "nomVille"=>$nvNomVille,
-        "codePostal"=>$nvCode,
-    );
+        //récupére le donnée sd'une ville modifier
+        // mise en tableau pour préparer pour le json
+            $tab = array(
+                "idVille"=>$idVille,
+                "nomVille"=>$nvNomVille,
+                "codePostal"=>$nvCode,
+            );
+        //encadage du tableau en json
         $villeModif=json_encode($tab);
-      //  var_dump('ma ville modifier =>',$villeModif);
-      //return  json_encode($villeAMAJ);
+            //  var_dump('ma ville modifier =>',$villeModif);
       return new Response ($villeModif);
-
     }
 
     public function Delete($id)

@@ -8,10 +8,6 @@
     <div class="contain-flex">
         <div class="form-profil">
 
-
-
-
-
             {{ form_start(form) }}
 
             <div class="form-modif">
@@ -30,10 +26,6 @@
                 <div class="container">
 
                     <div class="row alert alert-warning">
-                        <div class="my-custom-class-for-errors">
-                            {{ form_errors(form) }}
-                        </div>
-
                         <ul>
                             {% for error in form.vars.errors.form.getErrors(true) %}
                                 <li>{{ error.message }}</li>

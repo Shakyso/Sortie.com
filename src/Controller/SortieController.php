@@ -41,7 +41,7 @@ class SortieController extends AbstractController
 //        $formVille = $this->createForm(SortieVilleType::class,$ville);
 
         $formSortie->handleRequest($request);
-/
+
 
         //envoi du form a la page
        return $this->render('sortie/create.html.twig', array(
@@ -186,24 +186,24 @@ class SortieController extends AbstractController
 
         //return home
         return $this->render('sortie/update.html.twig', array(
+// mon code<<<<<<< HEAD
             'sortie' => $sortie,
+// ode de THEO
+            //'sortie'     => $sortie[0],
+//>>>>>>> a29a5081398c69edee9ef80598897c44a9696071
             'formSortie' => $sortieForm->createView(),
-            'formVille' => $sortieVilleForm->createView(),
-            'formLieu' =>  $sortieLieuVilleForm->createView(),
+            'formVille'  => $sortieVilleForm->createView(),
+            'formLieu'   =>  $sortieLieuVilleForm->createView(),
             'id' => $id
         ));
     }
 
 
-
     public function inscrireSortie (int $idParticipant, int $idSortie) {
-        $sortie= new Sortie();
+        $sortie = new Sortie();
         $participant = new User();
         //associer les objects sortie et user entre eux
 
-
-        //TODO gérer l'accès en fonction des roles
-        //TODO gérer la récupéréation de l'ID participant et id sortie
 
         // récupérer l'objet sortie en entier
         $sortieRepository = $this->getDoctrine()->getRepository(Sortie::class);
