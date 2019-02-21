@@ -20,9 +20,35 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    public function findListSortie(?Site $site=null)
+    public function findListSortieUser()
     {
-       //var_dump('je suis dans mon repository');
+
+        $q = $this->createQueryBuilder('s')
+            ->join('s.organisateur','o')
+            ->join('s.users','u')
+            ->join('s.etat','e')
+            ->orderBy('s.dateHeureDebut', 'DESC');
+
+        $query = $q->getQuery();
+        return $query->getResult();
+
+    }
+    public function findListSortie()
+    {
+        $q = $this->createQueryBuilder('s')
+            ->join('s.organisateur','o')
+            ->join('s.siteOrganisateur','si')
+            ->join('s.etat','e')
+            ->where('e.libelle != :e')
+            ->setParameter('e', 'Créée');
+        $q->orderBy('s.dateHeureDebut', 'DESC');
+        $query = $q->getQuery();
+        return $query->getResult();
+    }
+
+    public function selectListSortie(?Site $site=null)
+    {
+        //var_dump('je suis dans mon repository');
         //$nomSite=$site->getNom();
         //var_dump($site);
 

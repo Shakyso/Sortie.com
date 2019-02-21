@@ -22,7 +22,7 @@
     <th> Latitude </th>
    </tr>
    <tr>
-    <th>{{ form_widget(formSortie.nom) }}</th>
+    <th id="{{ sortie.id }}" class="sortie_id">{{ form_widget(formSortie.nom) }}</th>
     <th>{{ form_widget(formSortie.dateHeureDebut) }}</th>
     <th> {{ form_widget(formSortie.dateLimiteInscription) }}</th>
     <th>{{ form_widget(formSortie.nbInscriptionMax) }}</th>

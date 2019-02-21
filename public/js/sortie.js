@@ -1,8 +1,30 @@
 $(function() {
 
-$('.sortie_ville').change(function(){
+  var idSortie =  $('.sortie_id').attr('id');
+  var path = $('#path_data').text();
+    var valueVilleSend = $('#sortie_lieu_ville_ville').val();
 
-    var valueVilleSend = $('#sortie_ville_nom').val();
+    console.log(valueVilleSend);
+
+$('#sortie_lieu_ville_ville').click(function() {
+
+
+    console.log(valueVilleSend);
+    $($(this)).on("click",function() {
+        $.ajax({
+            url: 'http://localhost/Sortir/public/sortie/Update/{idSortie}/{idVille}' ,
+            method: 'GET',
+            data: {'idSortie' : idSortie, 'idVille' : valueVilleSend},
+            error: function(msg) {
+                console.log(msg)
+            },
+            success: function(msg) {
+                console.log(msg)
+            }
+        });
+
+        return false;
+    });
 
 
 });
