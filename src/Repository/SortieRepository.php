@@ -93,25 +93,25 @@ class SortieRepository extends ServiceEntityRepository
             $qb->andWhere('e.siteOrganisateur=:site');
             $qb->setParameter('site', $site);
         }
-/*
+
         //liste les events selon rechercher
         if($searchBar!==""){
-            $qb->andWhere('e.name LIKE :searchBar');
+            $qb->andWhere('e.nom LIKE :searchBar');
             $qb->setParameter('searchBar', '%'.$searchBar.'%');
         }
+        /*
+                //liste les events à partir de dateStart
+                if($dateStart!==""){
+                    $qb->andWhere('e.rdvTime>:dateStart');
+                    $qb->setParameter('dateStart', $dateStart);
+                }
 
-        //liste les events à partir de dateStart
-        if($dateStart!==""){
-            $qb->andWhere('e.rdvTime>:dateStart');
-            $qb->setParameter('dateStart', $dateStart);
-        }
-
-        //liste les events après dateEnd
-        if($dateEnd!==""){
-            $qb->andWhere('e.rdvTime<:dateEnd');
-            $qb->setParameter('dateEnd', $dateEnd);
-        }
-*/
+                //liste les events après dateEnd
+                if($dateEnd!==""){
+                    $qb->andWhere('e.rdvTime<:dateEnd');
+                    $qb->setParameter('dateEnd', $dateEnd);
+                }
+        */
 
 
         //liste les events dont le user est l'organisateur

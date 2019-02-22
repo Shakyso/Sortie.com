@@ -64,11 +64,11 @@ class DefaultController extends AbstractController
                             'required'=>false,
                             'empty_data'=>null,
                         ))
-/*
+
                         ->add('motCle', TextType::class, array (
                             'required'=>false,
                         ))
-  */
+
                         //TODO gérer l'affichage des dates agenda
 //
 //                                    ->add('startDateTime', DateTimeType::class, [
