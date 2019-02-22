@@ -167,22 +167,6 @@ class DefaultController extends AbstractController
             //    $listeDesSorties = $sortieRepository->findListSortie();
 
         }
-/*
-        // ma liste que j'organise
-        if (!is_null($user)) {
-            $malisteParticipation = $sortieRepository->findOrganisateur($user->getId());
-            //   $idUserConnecte= $user->getId();
-            //   $nomUserConnecte= $user->getUsername();
-            // var_dump($nomUserConnecte,$idUserConnecte);
-
-        } else {
-            $malisteParticipation = "";
-            //Find la liste de Sortie
-            //    $listeDesSorties = $sortieRepository->findListSortie();
-
-        }
-*/
-
         ////////////////////////////////////////////////////////////////////////
         //recherche des sorties en fonction des sites
         //////////////////////////////////////////////////////////////////////////

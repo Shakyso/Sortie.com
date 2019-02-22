@@ -49,32 +49,7 @@ class SortieRepository extends ServiceEntityRepository
 
     public function selectListSortie(User $user, $site, $searchBar, $dateStart, $dateEnd, $organizer, $signedOn, $notSignedOn, $pastEvent)
     {
-       // var_dump($user);
-        /////////////////////////////////////////
-        /* ma requete
 
-        //var_dump('je suis dans mon repository');
-        //$nomSite=$site->getNom();
-        //var_dump($site);
-
-        $q = $this->createQueryBuilder('s')
-            ->join('s.organisateur','o')
-            ->join('s.siteOrganisateur','si')
-            ->join('s.etat','e')
-            ->where('e.libelle != :e')
-            ->setParameter('e', 'Créée');
-
-          $q->orderBy('s.dateHeureDebut', 'DESC');
-
-
-        //$q->getQuery()->execute();
-
-        //dd($q);
-        $query = $q->getQuery();
-        return $query->getResult();
-
-*/
-        /////////////////////FIN DE MA REQUETE
 
         $today = new \DateTime();
        // var_dump($today);
