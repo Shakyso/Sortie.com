@@ -186,11 +186,7 @@ class SortieController extends AbstractController
 
         //return home
         return $this->render('sortie/update.html.twig', array(
-// mon code<<<<<<< HEAD
             'sortie' => $sortie,
-// ode de THEO
-            //'sortie'     => $sortie[0],
-//>>>>>>> a29a5081398c69edee9ef80598897c44a9696071
             'formSortie' => $sortieForm->createView(),
             'formVille'  => $sortieVilleForm->createView(),
             'formLieu'   =>  $sortieLieuVilleForm->createView(),
@@ -268,14 +264,5 @@ class SortieController extends AbstractController
         echo json_encode(array('listVille' => $lieuList));
 
     }
-
-    public function UpdateListLieu($idVille){
-
-    }
-
-
-
-
-
 
 }

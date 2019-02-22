@@ -92,27 +92,14 @@ class SecurityController  extends AbstractController{
     public function Account($id, Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
 
+
         $messagePassword = null;
-
-        if($this->isGranted('IS_AUTHENTICATED_FULLY') && $this->getUser()->getId() != (int)$id || !$this->getUser()){
-            echo 'je pase ici';
-            return $this->render('security/redirect.html.twig');
-        }else{
-            echo 'je passe la';
-        }
-
-        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY', null, 'You cannot edit this item.');
-
-
+        $tabErrors = null;
 
 
         if($this->isGranted('IS_AUTHENTICATED_FULLY') && $this->getUser()->getId() != (int)$id || !$this->getUser()){
             return $this->render('security/redirect.html.twig');
         }
-        /*$this->denyAccessUnlessGranted('ROLE_USER');
-        $user = $this->getUser();*/
-        //var_dump($this->isGranted('IS_AUTHENTICATED_FULLY'));
-
 
 
         // Récupération du User en base
@@ -142,10 +129,7 @@ class SecurityController  extends AbstractController{
 
             if($form->isValid()){
 
-                echo 'je suis valide';
-
                 $file = $user->getPhoto();
-
 
                 if($user->getPhoto()){
                     $fileName =  md5(uniqid()).'.'.$file->guessExtension();
@@ -215,7 +199,7 @@ class SecurityController  extends AbstractController{
      * @param $em
      * @return string
      */
-    public function changePassword(User $user, $verifiedPassword, $passwordEncoder, $em): String{
+    public function changePassword(User $user, $verifiedPassword, $passwordEncoder, $em): Array{
 
         if($verifiedPassword != null){
 
@@ -225,15 +209,17 @@ class SecurityController  extends AbstractController{
             $em->persist($user);
             $em->flush();
 
-            $message = 'success';
+            $tabErrors = [
+                'type' => 'success',
+                'message' => 'La modification de votre mot de passe a bien été prise en compte.',
+            ];
         }else{
-            $message = 'error';
+            $tabErrors = [
+                'type' => 'danger',
+                'message' => 'Il y\'a eu un problème lors de la mise à jour de votre mot de passe.',
+            ];
         }
 
-        return $message;
+        return $tabErrors;
     }
-
-
-
-
 }

@@ -47,7 +47,7 @@ class SortieRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function selectListSortie(User $user, $site, $searchBar, $dateStart, $dateEnd, $organizer, $signedOn, $notSignedOn, $pastEvent)
+    public function selectListSortie(User $user, $site, $searchBar, $organizer, $signedOn, $notSignedOn, $pastEvent)
     {
 
 
@@ -74,7 +74,7 @@ class SortieRepository extends ServiceEntityRepository
             $qb->setParameter('searchBar', '%'.$searchBar.'%');
         }
 
-                //liste les events à partir de dateStart
+               /* //liste les events à partir de dateStart
                 if($dateStart!==""){
                     $qb->andWhere('e.dateHeureDebut>:dateStart');
                     $qb->setParameter('dateStart', $dateStart);
@@ -84,13 +84,13 @@ class SortieRepository extends ServiceEntityRepository
                 if($dateEnd!==""){
                     $qb->andWhere('e.dateHeureDebut<:dateEnd');
                     $qb->setParameter('dateEnd', $dateEnd);
-                }
+                }*/
 
 
 
         //liste les events dont le user est l'organisateur
         if($organizer==true){
-           var_dump('je suis dans la recherche je suis ORGANISATEUR');
+
            // var_dump($user);
             $userId= $user->getId();
             var_dump($userId);
@@ -100,18 +100,30 @@ class SortieRepository extends ServiceEntityRepository
 
         //liste les events auxquels je suis inscrits
         if($signedOn== true){
-            var_dump('je suis dans la recherche je suis inscrite');
-
             $userId= $user->getId();
-            var_dump($userId);
+            //var_dump($userId);
             $qb->andWhere('p.id=:userId');
             $qb->setParameter('userId', $userId);
         }
 
         //liste les events auxquels je ne suis PAS inscrits
         if($notSignedOn== true){
-            $qb->andWhere('p.id!=:userId');
-            $qb->setParameter('userId', $user->getId());
+           /* $em = $this->getDoctrine()->getManager();
+            $qb = $em->createQueryBuilder();
+
+            $qb->andWhere('p.id=:userId');
+            $nots = $qb->setParameter('userId', $userId);
+
+            $linked = $qb->where($qb->expr()->notIn('rl.request_id', $nots));*/
+
+
+
+
+            //var_dump('je suis dans la recherche je ne suis pas inscrit');
+            $userId= $user->getId();
+            //var_dump($userId);
+            $qb->andWhere('p.id !=:userId');
+            $qb->setParameter('userId', $userId);
         }
 
         //liste les events déjà passés

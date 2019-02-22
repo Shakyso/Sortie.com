@@ -51,10 +51,7 @@ class DefaultController extends AbstractController
         $notSignedOn = false;
         $pastEvent = false;
         $searchBar = null;
-        $dateStart = new DateTimeType();
-        $dateEnd= new DateTimeType();
-        $dateStart = null;
-        $dateEnd = null;
+
 
                     $defaultData = ['mon formulaire' => 'mes données'];
                     $searchForm = $this->createFormBuilder($defaultData)
@@ -72,23 +69,7 @@ class DefaultController extends AbstractController
                         ->add('motCle', TextType::class, array (
                             'required'=>false,
                         ))
-                        ->add('startDateTime', DateTimeType::class, [
-                            'date_label' => 'Starts On',
-                            'label' => 'Entre',
-                            'format'=>'dd-MM-yyyy',
-                            'widget'=>'single_text',
-                            'attr' => ['class' => 'js-datepicker'],
-                        ])
 
-                        ->add('endDateTime', DateTimeType::class, [
-                            'date_label' => 'Starts End',
-                            'label' => 'Et',
-                            'format'=>'dd-MM-yyyy',
-                            'widget'=>'single_text',
-                            'html5' => false,
-                            'help' => 'dd-MM-yyyy',
-                            'attr' => ['class' => 'js-datepicker'],
-                        ])
                         ->add('organisateur', CheckboxType::class, [
                             'label' => '',
                             'required' => false,
@@ -179,7 +160,7 @@ class DefaultController extends AbstractController
             //              //  dd();
 
             $sortieRepository = $this->getDoctrine()->getRepository(Sortie::class);
-            $listeDesSorties =$sortieRepository->selectListSortie($user, $site, $searchBar, $dateStart, $dateEnd, $organizer, $signedOn, $notSignedOn, $pastEvent);
+            $listeDesSorties =$sortieRepository->selectListSortie($user, $site, $searchBar, $organizer, $signedOn, $notSignedOn, $pastEvent);
            // var_dump($listeDesSorties);
         }
 
