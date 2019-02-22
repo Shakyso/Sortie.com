@@ -2,6 +2,8 @@
 
  {% block body %}
 
+<div id="url" data-path="{{ path('index_select') }}">
+
 <div class="container">
 
     <h1>Acceuil</h1>
@@ -11,8 +13,8 @@
     <table>
         <tr>
     <td>  {{ form_row(searchAccueilForm.site)}}
-        {{ form_row(searchAccueilForm.motCle)}}
-        {#{{ form_row(searchAccueilForm.startDateTime)}}#}
+        {# {{ form_row(searchAccueilForm.motCle)}}
+         {{ form_row(searchAccueilForm.startDateTime)}}#}
 
     </td>
     <td>  {{ form_widget(searchAccueilForm.organisateur )}} {{ form_label(searchAccueilForm.passees, "Sortie dont je suis l'organisateur/trice") }}<br>
@@ -21,7 +23,7 @@
       {{ form_widget(searchAccueilForm.passees) }} {{ form_label(searchAccueilForm.passees, 'Sorties passées') }}
     </td>
             <td>
-    {#<button class="btn btn-success">Rechercher</button>#}
+    {#<button class="btn btn-success id='rechercher'>Rechercher</button>#}
             </td>
     </tr>
     </table>
@@ -53,7 +55,8 @@
             <!-- informations sur les sorties-->
             <tr>
                 <th> {{ sortie.nom | capitalize }}</th>
-                <th> {{ sortie.dateHeureDebut|date('d-m-Y') }}</th>
+                <th> {{ sortie.dateHeureDebut|date('d-m-Y') }}<br>
+                    {{ sortie.siteOrganisateur.nom }}</th>
                 <th> {{ sortie.dateLimiteInscription|date('d-m-Y') }}</th>
 
                 {% for key, participant in nombreParticipant %}

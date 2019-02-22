@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Site;
 use App\Entity\Sortie;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -35,19 +36,24 @@ class SortieRepository extends ServiceEntityRepository
     }
     public function findListSortie()
     {
-        $q = $this->createQueryBuilder('s')
-            ->join('s.organisateur','o')
-            ->join('s.siteOrganisateur','si')
-            ->join('s.etat','e')
-            ->where('e.libelle != :e')
-            ->setParameter('e', 'Créée');
+        $q = $this->createQueryBuilder('s');
+            //->join('s.organisateur','o')
+           // ->join('s.siteOrganisateur','si')
+            //->join('s.etat','e')
+            //->where('e.libelle != :e')
+            //->setParameter('e', 'Créée');
         $q->orderBy('s.dateHeureDebut', 'DESC');
         $query = $q->getQuery();
         return $query->getResult();
     }
 
-    public function selectListSortie(?Site $site=null)
+    //public function selectListSortie(User $user, $site, $searchBar, $dateStart, $dateEnd, $organizer, $signedOn, $notSignedOn, $pastEvent)
+    public function selectListSortie($user, $site, $searchBar, $organizer, $signedOn, $notSignedOn, $pastEvent)
     {
+       // var_dump($user);
+        /////////////////////////////////////////
+        /* ma requete
+
         //var_dump('je suis dans mon repository');
         //$nomSite=$site->getNom();
         //var_dump($site);
@@ -59,12 +65,7 @@ class SortieRepository extends ServiceEntityRepository
             ->where('e.libelle != :e')
             ->setParameter('e', 'Créée');
 
-        if($site!==0){
-            $q->andWhere('si = :site');
-            $q->setParameter('site', $site);
-        }
-
-        $q->orderBy('s.dateHeureDebut', 'DESC');
+          $q->orderBy('s.dateHeureDebut', 'DESC');
 
 
         //$q->getQuery()->execute();
@@ -73,7 +74,83 @@ class SortieRepository extends ServiceEntityRepository
         $query = $q->getQuery();
         return $query->getResult();
 
+*/
+        /////////////////////FIN DE MA REQUETE
 
+        $today = new \DateTime();
+       // var_dump($today);
+       // $interval= \DateInterval::createFromDateString("30 days");
+        //$day30=$today->sub($interval);
+        $qb = $this->createQueryBuilder('e');
+        $qb->join('e.users', 'p');
+        //   $qb->addSelect('p');
+
+        //$qb->andWhere('e.rdvTime>:day30');
+        //$qb->setParameter('day30', $day30);
+
+        //liste les events par site
+        if($site!==null){
+            $qb->andWhere('e.siteOrganisateur=:site');
+            $qb->setParameter('site', $site);
+        }
+/*
+        //liste les events selon rechercher
+        if($searchBar!==""){
+            $qb->andWhere('e.name LIKE :searchBar');
+            $qb->setParameter('searchBar', '%'.$searchBar.'%');
+        }
+
+        //liste les events à partir de dateStart
+        if($dateStart!==""){
+            $qb->andWhere('e.rdvTime>:dateStart');
+            $qb->setParameter('dateStart', $dateStart);
+        }
+
+        //liste les events après dateEnd
+        if($dateEnd!==""){
+            $qb->andWhere('e.rdvTime<:dateEnd');
+            $qb->setParameter('dateEnd', $dateEnd);
+        }
+*/
+
+
+        //liste les events dont le user est l'organisateur
+        if($organizer==true){
+           var_dump('je suis dans la recherche je suis ORGANISATEUR');
+           // var_dump($user);
+            $userId= $user->getId();
+            var_dump($userId);
+            $qb->andWhere('e.organisateur=:user');
+            $qb->setParameter('user', $user);
+        }
+
+        //liste les events auxquels je suis inscrits
+        if($signedOn== true){
+            var_dump('je suis dans la recherche je suis inscrite');
+
+            $userId= $user->getId();
+            var_dump($userId);
+            $qb->andWhere('p.id=:userId');
+            $qb->setParameter('userId', $userId);
+        }
+
+        //liste les events auxquels je ne suis PAS inscrits
+        if($notSignedOn== true){
+            $qb->andWhere('p.id!=:userId');
+            $qb->setParameter('userId', $user->getId());
+        }
+
+        //liste les events déjà passés
+        if($pastEvent== true){
+            $qb->andWhere('e.dateHeureDebut<:today');
+            $qb->setParameter('today', $today);
+        }
+        //var_dump($qb);
+        $query = $qb->getQuery();
+        //var_dump($query);
+        $result=$query->getResult();
+       // var_dump($result);
+        return $result;
     }
 
     public function findOrganisateur(){
