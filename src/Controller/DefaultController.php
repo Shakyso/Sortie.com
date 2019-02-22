@@ -154,6 +154,7 @@ class DefaultController extends AbstractController
             $nombreParticipant = $sortieRepository->findNbParticipant($sortie->getId());
             $arrayParticipant[$sortie->getId()] = $nombreParticipant;
         }
+
         //envoie de la liste a la page d'accueille
         return $this->render('default/index.html.twig', array(
             'searchAccueilForm'=>$searchForm->createView(),

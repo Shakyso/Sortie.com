@@ -57,21 +57,20 @@ class SortieController extends AbstractController
                 $user = new User();
                 $site = new Site();
                 $site = $this->getUser()->getSite();
-                $user = $this->getUser()->getId();
+                $user = $this->getUser();
                 $sortie = $sortieForm->getData();
-                var_dump($user);
 
                 if ($sortieForm->isValid() && $sortieLieuVilleForm->isValid()){
 
+                    $sortie->setEtat($e);
+                    $sortie->setOrganisateur($user);
+                    $sortie->setSiteOrganisateur($site);
                     //recup des éléments $request du formulaire
                     $data = $request->request->get('sortie');
                     //crée un message flash à afficher sur la prochaine page
                     $this->addFlash('success', 'Votre sortie à été ajoutée !');
 
                     if (isset($data['save']) && $e == "Créée") {
-                        $sortie->setEtat($e);
-                        $sortie->setOrganisateur($user);
-                        $sortie->setSiteOrganisateur($site);
                         //recup entitymanager
                         $em = $this->getDoctrine()->getManager();
                         //on demande à Doctrine de sauvegarder notre instance
@@ -84,10 +83,8 @@ class SortieController extends AbstractController
                             ['id' => $sortie->getId()]
                         );
                     }
-                    if (isset($data['save and published']) && $e == "Ouverte") {
-                        $sortie->setEtat($e);
-                        $sortie->setOrganisateur($user);
-                        $sortie->setSiteOrganisateur($site);
+                    if (isset($data['saveandpublished']) && $e == "Ouverte") {
+
                         //recup entitymanager
                         $em = $this->getDoctrine()->getManager();
                         //on demande à Doctrine de sauvegarder notre instance
@@ -101,11 +98,8 @@ class SortieController extends AbstractController
                         );
                     }
                 }
-
-
             }
         }
-
         //envoi du form a la page
        return $this->render('sortie/create.html.twig', array(
            'formSortie' => $sortieForm->createView(),
@@ -121,17 +115,35 @@ class SortieController extends AbstractController
 
         $listParticipant = $sortieRepo->findListParticipant($id);
 
-       $data = [];
-        $i=0;
-        foreach ($listParticipant[0] as $participants){
-            $data[$i] = $participants;
-            $i++;        }
+        $user = $this->getUser();
+        //Recupérer le repository des Sorties
+        $sortieRepository = $this->getDoctrine()->getRepository(Sortie::class);
+        $listeDesSorties = $sortieRepository->findListSortieUser();
+
+        if(!is_null($user)){
+            $maliste = $sortieRepository->findParticipation($user->getId());
+
+        } else {
+            $maliste = "";
+            //Find la liste de Sortie
+            //    $listeDesSorties = $sortieRepository->findListSortie();
+
+        }
+
+        if($listParticipant = null){
+            $data = [];
+            $i=0;
+            foreach ($listParticipant[0] as $participants){
+                $data[$i] = $participants;
+                $i++;        }
+        }
 
         if(!$sortie){
             throw $this->createNotFoundException("Cette sortie n'existe pas !");
         }
 
         return $this->render('sortie/detail.html.twig', array(
+            'maliste' => $maliste,
             'participants' => $listParticipant[0],
            'sortie' => $sortie
         ));
@@ -194,6 +206,9 @@ class SortieController extends AbstractController
 
 
             if ($sortieForm->isValid() && $sortieLieuVilleForm->isValid()){
+                $sortie->setEtat($e);
+                $sortie->setOrganisateur($user);
+                $sortie->setSiteOrganisateur($site);
                 //recup des éléments $request du formulaire
                 $data = $request->request->get('sortie');
 
@@ -201,9 +216,7 @@ class SortieController extends AbstractController
                 $this->addFlash('success', 'Votre sortie à été ajoutée !');
 
                 if (isset($data['save']) && $e == "Créée") {
-                    $sortie->setEtat($e);
-                    $sortie->setOrganisateur($user);
-                    $sortie->setSiteOrganisateur($site);
+
                     //recup entitymanager
                     $em = $this->getDoctrine()->getManager();
                     //on demande à Doctrine de sauvegarder notre instance
@@ -217,11 +230,7 @@ class SortieController extends AbstractController
                     );
 
                 }
-                if (isset($data['save and published']) && $e == "Ouverte") {
-                    $sortie->setEtat($e);
-                    $sortie->setOrganisateur($user);
-                    $sortie->setSiteOrganisateur($site);
-
+                if (isset($data['saveandpublished']) && $e == "Ouverte") {
                     //recup entitymanager
                     $em = $this->getDoctrine()->getManager();
                     //on demande à Doctrine de sauvegarder notre instance

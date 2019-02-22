@@ -2,6 +2,17 @@
 
  {% block body %}
      <div class="container">
+         {% if app.user %}
+             {% if maliste is defined %}
+
+                 {% for key, maSortie in maliste if maSortie.id == sortie.id %}
+                     <a href="{{ path('sortie_desistement', {'idSortie' : sortie.id, 'idParticipant' : app.user.id}) }}">Désinscription</a>
+                 {% else %}
+                     <a href="{{ path('sortie_inscrire', {'idSortie' : sortie.id, 'idParticipant' : app.user.id}) }}">s'inscrire</a>
+                 {% endfor %}
+             {% endif %}
+
+         {% endif %}
          <h1 >Nom de la sortie : {{ sortie.nom }}</h1>
          <div>Date et heure de la sortie :{{ sortie.dateHeureDebut|date('m:d:Y:H:i') }}</div>
          <div class="infor_sortie">
@@ -60,12 +71,18 @@
                              <td>Pseudo</td>
                              <td>email</td>
                          </tr>
+
+                         {% if participants != null %}
                          {% for participant in participants.users %}
+
                              <tr>
+
                                  <td><a href="{{ path('public_account', {'id' : participant.id}) }}">{{ participant.username}}</a></td>
                                  <td>{{ participant.mail }}</td>
+
                              </tr>
                          {% endfor %}
+                         {% endif %}
                      </table>
                  </div>
              </div>
