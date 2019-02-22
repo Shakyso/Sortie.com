@@ -67,20 +67,40 @@ class SecurityController  extends AbstractController{
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
 
+        $messageRegister = null;
+
+
+
         if ($request->isMethod('POST')) {
+
+
+
+            $users = $this->getDoctrine()->getRepository(User::class)->findAll();
             $user = new User();
+
             $user->setUsername($request->request->get('nomComplet'));
-            $user->setPassword($passwordEncoder->encodePassword($user, $request->request->get('password')));
-            //$user->setSite($site);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
 
 
-            return $this->redirectToRoute('index');
+            foreach($users as $oneUser){
+                if($user->getUsername() === $oneUser->getUsername()){
+                    $messageRegister = 'Le pseudo renseigné existe déja, veuillez en choisir un autre.';
+                    break;
+                }
+            }
+
+            if($messageRegister === null){
+                $user->setPassword($passwordEncoder->encodePassword($user, $request->request->get('password')));
+                //$user->setSite($site);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+
+                return $this->redirectToRoute('security_login');
+            }
+
         }
 
-        return $this->render('security/register.html.twig');
+        return $this->render('security/register.html.twig', ['messageRegister' => $messageRegister]);
     }
 
     /**
@@ -91,6 +111,7 @@ class SecurityController  extends AbstractController{
      */
     public function Account($id, Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
+
 
 
         $messagePassword = null;
@@ -118,7 +139,6 @@ class SecurityController  extends AbstractController{
         // Création du formulaire
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-
 
 
         // Validation des champs / Contruction des erreures

@@ -53,7 +53,7 @@ class DefaultController extends AbstractController
             ->add('motCle', TextType::class)
             //TODO gérer l'affichage des dates agenda
 /*
-            ->add('startDateTime', DateTimeType::class, [
+            ->add('startDateTime', DateType::class, [
                 'date_label' => 'Starts On',
                 'label' => 'Entre',
                 'format'=>'dd-MM-yyyy',

@@ -4,6 +4,14 @@
 {% block title %}Register !{% endblock %}
 
 {% block body %}
+
+    {% if messageRegister is not null %}
+        <div class="alert alert-danger">
+            <ul>
+                <li>{{ messageRegister }}</li>
+            </ul>
+        </div>
+    {% endif %}
     <form method="post">
 
         <div class="container profil-container" style="width: 60%">
