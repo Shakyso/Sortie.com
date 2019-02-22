@@ -23,13 +23,11 @@ class SortieRepository extends ServiceEntityRepository
 
     public function findListSortieUser()
     {
-
         $q = $this->createQueryBuilder('s')
-            ->join('s.organisateur','o')
-            ->join('s.users','u')
             ->join('s.etat','e')
-            ->orderBy('s.dateHeureDebut', 'DESC');
-
+            ->where('e.libelle != :e')
+            ->setParameter('e', 'Créée');
+        $q->orderBy('s.dateHeureDebut', 'DESC');
         $query = $q->getQuery();
         return $query->getResult();
 

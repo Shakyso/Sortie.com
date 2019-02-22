@@ -31,6 +31,7 @@ class SortieType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, ['label' => 'Nom de la sortie'])
+
             ->add('dateHeureDebut', DateTimeType::class, ['label' => 'Commence le'])
             ->add('duree', DateIntervalType::class, ['label' => 'Durée Maximal'])
             ->add('dateLimiteInscription', DateType::class, ['label' => 'S\'inscrir avant le :'])
@@ -41,12 +42,18 @@ class SortieType extends AbstractType
                 'label' => 'Votre lieu',
                 'expanded' => false,
                 'class' => Lieu::class,
-                'choice_label' => 'nom'
+                'choice_label' => 'nom',
+                'query_builder' => function(LieuRepository $l){
+                    return $l->createQueryBuilder('l')
+                        ->select('l')
+                        ->innerJoin('l.ville','v')
+                        ->where('v.id = l.ville')
+                        ->orderBy('l.nom', 'ASC');
+                }
             ))
-            ->add('save and published', SubmitType::class, [
+            ->add('saveandpublished', SubmitType::class, [
                 'attr' =>  ['class' =>'savepub'],
                 'label' => 'Save and Published'
-
             ])
             ->add('save', SubmitType::class, [
                  'attr' => ['class'=>'save'],

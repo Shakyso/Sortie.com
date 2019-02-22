@@ -115,7 +115,10 @@ class DefaultController extends AbstractController
             /////// FIN CREATION DU FORMULAIRE DE RECHERCHE
             /////////////////////////////////////////////////////////
 
+
             $user = $this->getUser();
+
+
 
 
 
@@ -160,6 +163,5 @@ class DefaultController extends AbstractController
                 'maliste' => $malisteParticipation
             ));
         }
-
 
 }

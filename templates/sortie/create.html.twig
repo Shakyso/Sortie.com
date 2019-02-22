@@ -3,9 +3,46 @@
  {% block body %}
 
      {{ form_start(formSortie) }}
-         {{ form_widget(formSortie) }}
+     {{ form_start(formLieu) }}
 
-         <input type="submit" class="btn" value="Create" />
+     <table class="table table-bordered table-striped table-condensed">
+         <thead>
+         <tr>
+             <th>Nom de la Sortie</th>
+             <th>Date et heure de la sortie</th>
+             <th>Date limite d'inscription</th>
+             <th>Nombre de place</th>
+             <th>Durée</th>
+             <th>Description et Information</th>
+             <th>Ville organisatrice</th>
+             <th> Lieu</th>
+             <th>Rue</th>
+             <th>Code postal</th>
+             <th> Longitude</th>
+             <th> Latitude </th>
+         </tr>
+         <tr>
+             <th class="sortie_id">{{ form_widget(formSortie.nom) }}</th>
+             <th>{{ form_widget(formSortie.dateHeureDebut) }}</th>
+             <th> {{ form_widget(formSortie.dateLimiteInscription) }}</th>
+             <th>{{ form_widget(formSortie.nbInscriptionMax) }}</th>
+             <th>{{ form_widget(formSortie.duree) }}</th>
+             <th>{{ form_widget(formSortie.infosSortie) }}</th>
+             <th class="sortie_ville" data-path="{{ path('sortie_update_lieu') }}">{{form_widget( formLieu.ville) }}</th>
+             <th class="sortie_lieu" >{{ form_widget(formSortie.lieu) }}</th>
+             <th class="sortie_lieu_rue">{{form_widget(formLieu.rue)}}</th>
+             <th class="sortie_ville_codepstal">{{ form_widget(formLieu.ville) }}</th>
+             <th class="sortie_lieu_lat">{{ form_widget(formLieu.latitude) }}</th>
+             <th class="sortie_lieu_long">{{ form_widget(formLieu.longitude) }}</th>
+         </tr>
+         </thead>
+     </table>
+
+     {{ form_widget(formSortie.save, { 'label' : 'Click for Save'}) }}
+     {{ form_widget(formSortie.saveandpublished, { 'label' : 'Click for Save and published'}) }}
+     {{ form_row(formSortie._token) }}
+     {{ form_end(formLieu) }}
      {{ form_end(formSortie) }}
+     <a href="{{ path('index') }}"><button>Annuler</button></a>
 
  {% endblock %}
