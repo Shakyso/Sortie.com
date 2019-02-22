@@ -140,6 +140,7 @@ class DefaultController extends AbstractController
         $sortieRepository = $this->getDoctrine()->getRepository(Sortie::class);
         $listeDesSorties = $sortieRepository->findListSortieUser();
 
+      //  dd($listeDesSorties);
         if(!is_null($user)){
             $maliste = $sortieRepository->findParticipation($user->getId());
 
@@ -154,6 +155,7 @@ class DefaultController extends AbstractController
             $nombreParticipant = $sortieRepository->findNbParticipant($sortie->getId());
             $arrayParticipant[$sortie->getId()] = $nombreParticipant;
         }
+
 
         //envoie de la liste a la page d'accueille
         return $this->render('default/index.html.twig', array(

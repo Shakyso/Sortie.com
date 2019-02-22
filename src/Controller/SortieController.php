@@ -37,8 +37,6 @@ class SortieController extends AbstractController
         $lieu = new Lieu();
         $user = new User();
 
-
-
         //Création d'un formulaire de sortie
         $sortieForm = $this->createForm(SortieType::class,$sortie);
         $sortieLieuVilleForm = $this->createForm(SortieLieuVilleType::class, $lieu);
@@ -48,9 +46,9 @@ class SortieController extends AbstractController
 
         //Recup de tout les états
         $etatRepo = $this->getDoctrine()->getRepository(EtatSortie::class);
-        $etatlist = $etatRepo->findAll();
+            $etatlist = $etatRepo->findAll();
 
-        foreach($etatlist as $e) {
+            foreach($etatlist as $e) {
 
             if ($sortieForm->isSubmitted() && $sortieLieuVilleForm->isSubmitted()) {
                 $sortie = new Sortie();
@@ -61,8 +59,6 @@ class SortieController extends AbstractController
                 $sortie = $sortieForm->getData();
 
                 if ($sortieForm->isValid() && $sortieLieuVilleForm->isValid()){
-
-                    $sortie->setEtat($e);
                     $sortie->setOrganisateur($user);
                     $sortie->setSiteOrganisateur($site);
                     //recup des éléments $request du formulaire
@@ -71,6 +67,7 @@ class SortieController extends AbstractController
                     $this->addFlash('success', 'Votre sortie à été ajoutée !');
 
                     if (isset($data['save']) && $e == "Créée") {
+                        $sortie->setEtat($e);
                         //recup entitymanager
                         $em = $this->getDoctrine()->getManager();
                         //on demande à Doctrine de sauvegarder notre instance
@@ -84,7 +81,7 @@ class SortieController extends AbstractController
                         );
                     }
                     if (isset($data['saveandpublished']) && $e == "Ouverte") {
-
+                        $sortie->setEtat($e);
                         //recup entitymanager
                         $em = $this->getDoctrine()->getManager();
                         //on demande à Doctrine de sauvegarder notre instance
@@ -130,7 +127,7 @@ class SortieController extends AbstractController
 
         }
 
-        if($listParticipant = null){
+        if($listParticipant != null){
             $data = [];
             $i=0;
             foreach ($listParticipant[0] as $participants){
@@ -167,20 +164,20 @@ class SortieController extends AbstractController
 
     public function Update($id, Request $request)
     {
-        $sortie = new Sortie();
+        $sortieinfo = new Sortie();
         $lieuDeLaSortie=new Lieu();
 
         //recup repository
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $lieuRepo = $this->getDoctrine()->getRepository(Lieu::class);
         //find la sortie
-
-        $sortie = $sortieRepo->findAllInformtion($id);
-        $ville = $sortie[0]->getlieu()->getville();
-
+        $sortieinfo = $sortieRepo->findAllInformtion($id);
+            $ville = $sortieinfo[0]->getlieu()->getville();
+;
         $idVille= $ville->getId();
         $lieu = $lieuRepo->findAllLieuParVille($idVille);
-        $etat = $sortie[0]->getetat()->getId();
+        $etat = $sortieinfo[0]->getetat()->getId();
+
 
         //Recup de tout les états
         $etatRepo = $this->getDoctrine()->getRepository(EtatSortie::class);
@@ -188,65 +185,66 @@ class SortieController extends AbstractController
         $e = $etatRepo->findOneById($etat);
 
         //creation du formulaire
-        $sortieForm = $this->createForm(SortieType::class,$sortie[0]);
+        $sortieForm = $this->createForm(SortieType::class,$sortieinfo[0]);
         $sortieVilleForm = $this->createForm(SortieVilleType::class,$ville);
         $sortieLieuVilleForm = $this->createForm(SortieLieuVilleType::class, $lieu[0]);
 
         $sortieForm->handleRequest($request);
         $sortieVilleForm->handleRequest($request);
         $sortieLieuVilleForm->handleRequest($request);
+        $etatRepo = $this->getDoctrine()->getRepository(EtatSortie::class);
+        $etatlist = $etatRepo->findAll();
 
-        if ($sortieForm->isSubmitted() && $sortieLieuVilleForm->isSubmitted()) {
-            $sortie = new Sortie();
-            $user = new User();
-            $site = new Site();
-            $site = $this->getUser()->getSite();
-            $user = $this->getUser()->getId();
-            $sortie = $sortieForm->getData();
+        foreach($etatlist as $e) {
+            if ($sortieForm->isSubmitted() && $sortieLieuVilleForm->isSubmitted()) {
+                $sortie = new Sortie();
+                $user = new User();
+                $site = new Site();
+                $site = $this->getUser()->getSite();
+                $user = $this->getUser();
 
+                $sortie = $sortieForm->getData();
 
-            if ($sortieForm->isValid() && $sortieLieuVilleForm->isValid()){
-                $sortie->setEtat($e);
-                $sortie->setOrganisateur($user);
-                $sortie->setSiteOrganisateur($site);
-                //recup des éléments $request du formulaire
-                $data = $request->request->get('sortie');
+                if ($sortieForm->isValid() && $sortieLieuVilleForm->isValid()) {
+                    $sortie->setOrganisateur($user);
+                    $sortie->setSiteOrganisateur($site);
+                    //recup des éléments $request du formulaire
+                    $data = $request->request->get('sortie');
+                    //crée un message flash à afficher sur la prochaine page
+                    $this->addFlash('success', 'Votre sortie à été UPDATE !');
 
-                //crée un message flash à afficher sur la prochaine page
-                $this->addFlash('success', 'Votre sortie à été ajoutée !');
+                    if (isset($data['save']) && $e == "Créée") {
+                        $sortie->setEtat($e);
+                        //recup entitymanager
+                        $em = $this->getDoctrine()->getManager();
+                        //on demande à Doctrine de sauvegarder notre instance
+                        $em->persist($sortie);
+                        //on exécute les requêtes
+                        $em->flush();
+                        //redirige vers la page de détails de cette ajout
+                        return $this->redirectToRoute('sortie_detail',
+                            ['id' => $sortie->getId()]
+                        );
+                    }
+                    if (isset($data['saveandpublished']) && $e == "Ouverte") {
 
-                if (isset($data['save']) && $e == "Créée") {
-
-                    //recup entitymanager
-                    $em = $this->getDoctrine()->getManager();
-                    //on demande à Doctrine de sauvegarder notre instance
-                    $em->persist($sortie);
-
-                    //on exécute les requêtes
-                    $em->flush();
-                    //redirige vers la page de détails de cette ajout
-                    return $this->redirectToRoute('sortie_detail',
-                        ['id' => $sortie->getId()]
-                    );
-
-                }
-                if (isset($data['saveandpublished']) && $e == "Ouverte") {
-                    //recup entitymanager
-                    $em = $this->getDoctrine()->getManager();
-                    //on demande à Doctrine de sauvegarder notre instance
-                    $em->persist($sortie);
-
-                    //on exécute les requêtes
-                    $em->flush();
-                    //redirige vers la page de détails de cette ajout
-                    return $this->redirectToRoute('sortie_detail',
-                        ['id' => $sortie->getId()]
-                    );
+                        $sortie->setEtat($e);
+                        //recup entitymanager
+                        $em = $this->getDoctrine()->getManager();
+                        //on demande à Doctrine de sauvegarder notre instance
+                        $em->persist($sortie);
+                        //on exécute les requêtes
+                        $em->flush();
+                        //redirige vers la page de détails de cette ajout
+                        return $this->redirectToRoute('sortie_detail',
+                            ['id' => $sortie->getId()]
+                        );
+                    }
                 }
             }
         }
         return $this->render('sortie/update.html.twig', array(
-            'sortie' => $sortie,
+            'sortie' => $sortieinfo[0],
             'formSortie' => $sortieForm->createView(),
             'formVille'  => $sortieVilleForm->createView(),
             'formLieu'   =>  $sortieLieuVilleForm->createView(),

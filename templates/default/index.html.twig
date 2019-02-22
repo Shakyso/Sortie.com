@@ -34,9 +34,9 @@
 
 
 
-             <table class="table table-hover table-responsive table-responsive-sm">
+             <table id="table_index" class="table table-hover table-responsive table-responsive-sm">
 
-                 <thead class="thead-light"><thead>
+                 <thead class="thead-light">
 
                  <tr style="background-color: #dfe6e9">
                      <th scope="col">Nom de la sortie</th>
@@ -51,50 +51,37 @@
                      <th scope="col" style="text-align: center;">Action</th>
                  </tr>
                  </thead>
-
+                 <tbody>
 
                  {% if listeDesSorties is defined %}
-
                      {% for sortie in listeDesSorties %}
-
                          <!-- informations sur les sorties-->
                          <tr>
                              <td> {{ sortie.nom | capitalize }}</td>
                              <td> {{ sortie.dateHeureDebut|date('d-m-Y') }}</td>
                              <td> {{ sortie.dateLimiteInscription|date('d-m-Y') }}</td>
-
                              {% for key, participant in nombreParticipant %}
                                  {% if(key == sortie.id) %}
                                      <td>  {{ participant }} / {{ sortie.nbInscriptionMax }} </td>
                                  {% endif %}
                              {% endfor %}
-
                              <td>{{ sortie.etat }}</td>
-
-
                              {% if app.user %}
                                  <!-- Savoir la ou je participe-->
                                  {% if maliste is defined %}
-
-
                                      {% for key, maSortie in maliste if maSortie.id == sortie.id %}
                                          <td class="strong" style="color: forestgreen;">oui</td>
                                      {% else %}
                                          <td class="strong" style="color: orange">non</td>
                                      {% endfor %}
-
                                  {% else %}
                                      <td></td>
                                  {% endif %}
                              {% endif %}
-
-
                              <!-- Les organisateur -->
-                             <th><a href="{{ path('public_account', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.username }} </a> </th>
-                             <th>
-
+                             <td><a href="{{ path('public_account', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.username }} </a> </td>
+                             <td>
                                  <a href="{{ path('sortie_detail', {'id' : sortie.id}) }}">Afficher</a>
-
                                  {% if app.user %}
 
                                      {% if maliste is defined %}
@@ -113,11 +100,11 @@
                                          <a href="">Publier</a>
                                      {% endif %}
                                  {% endif %}
-
-                             </th>
+                             </td>
                          </tr>
                      {% endfor %}
                  {% endif %}
+                 </tbody>
              </table>
 
              {% if app.user %}
