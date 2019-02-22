@@ -27,25 +27,8 @@ class SortieType extends AbstractType
 
 
 {
-
-   /* private $em;
-
-    public function __construct(EntityManagerInterface $em)
-    {
-
-        $this->em = $em;
-    }*/
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-
-        //var_dump($this->em);
-
-       /* $lieux = $this->em->getRepository(Lieu::class)->findAll();
-       // var_dump($lieux);*/
-
-
         $builder
             ->add('nom', TextType::class, ['label' => 'Nom de la sortie'])
             ->add('dateHeureDebut', DateTimeType::class, ['label' => 'Commence le'])

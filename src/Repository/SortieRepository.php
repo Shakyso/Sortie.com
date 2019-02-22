@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Site;
 use App\Entity\Sortie;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -35,45 +36,88 @@ class SortieRepository extends ServiceEntityRepository
     }
     public function findListSortie()
     {
-        $q = $this->createQueryBuilder('s')
-            ->join('s.organisateur','o')
-            ->join('s.siteOrganisateur','si')
-            ->join('s.etat','e')
-            ->where('e.libelle != :e')
-            ->setParameter('e', 'Créée');
+        $q = $this->createQueryBuilder('s');
+            //->join('s.organisateur','o')
+           // ->join('s.siteOrganisateur','si')
+            //->join('s.etat','e')
+            //->where('e.libelle != :e')
+            //->setParameter('e', 'Créée');
         $q->orderBy('s.dateHeureDebut', 'DESC');
         $query = $q->getQuery();
         return $query->getResult();
     }
 
-    public function selectListSortie(?Site $site=null)
+    public function selectListSortie(User $user, $site, $searchBar, $organizer, $signedOn, $notSignedOn, $pastEvent)
     {
-        //var_dump('je suis dans mon repository');
-        //$nomSite=$site->getNom();
-        //var_dump($site);
 
-        $q = $this->createQueryBuilder('s')
-            ->join('s.organisateur','o')
-            ->join('s.siteOrganisateur','si')
-            ->join('s.etat','e')
-            ->where('e.libelle != :e')
-            ->setParameter('e', 'Créée');
 
-        if($site!==0){
-            $q->andWhere('si = :site');
-            $q->setParameter('site', $site);
+        $today = new \DateTime();
+       // var_dump($today);
+       // $interval= \DateInterval::createFromDateString("30 days");
+        //$day30=$today->sub($interval);
+        $qb = $this->createQueryBuilder('e');
+        $qb->join('e.users', 'p');
+        //   $qb->addSelect('p');
+
+        //$qb->andWhere('e.rdvTime>:day30');
+        //$qb->setParameter('day30', $day30);
+
+        //liste les events par site
+        if($site!==null){
+            $qb->andWhere('e.siteOrganisateur=:site');
+            $qb->setParameter('site', $site);
         }
 
-        $q->orderBy('s.dateHeureDebut', 'DESC');
+        //liste les events selon rechercher
+        if($searchBar!==""){
+            $qb->andWhere('e.nom LIKE :searchBar');
+            $qb->setParameter('searchBar', '%'.$searchBar.'%');
+        }
 
+                /*//liste les events à partir de dateStart
+                if($dateStart!==""){
+                    $qb->andWhere('e.dateHeureDebut>:dateStart');
+                    $qb->setParameter('dateStart', $dateStart);
+                }
 
-        //$q->getQuery()->execute();
+                //liste les events après dateEnd
+                if($dateEnd!==""){
+                    $qb->andWhere('e.dateHeureDebut<:dateEnd');
+                    $qb->setParameter('dateEnd', $dateEnd);
+                }*/
 
-        //dd($q);
-        $query = $q->getQuery();
-        return $query->getResult();
+        //liste les events dont le user est l'organisateur
+        if($organizer==true){
+           // var_dump($user);
+            $userId= $user->getId();
+            $qb->andWhere('e.organisateur=:user');
+            $qb->setParameter('user', $user);
+        }
 
+        //liste les events auxquels je suis inscrits
+        if($signedOn== true){
+            $userId= $user->getId();
+            $qb->andWhere('p.id=:userId');
+            $qb->setParameter('userId', $userId);
+        }
 
+        //liste les events auxquels je ne suis PAS inscrits
+        if($notSignedOn== true){
+            $qb->andWhere('p.id!=:userId');
+            $qb->setParameter('userId', $user->getId());
+        }
+
+        //liste les events déjà passés
+        if($pastEvent== true){
+            $qb->andWhere('e.dateHeureDebut<:today');
+            $qb->setParameter('today', $today);
+        }
+        //var_dump($qb);
+        $query = $qb->getQuery();
+        //var_dump($query);
+        $result=$query->getResult();
+       // var_dump($result);
+        return $result;
     }
 
     public function findOrganisateur(){
@@ -88,12 +132,6 @@ class SortieRepository extends ServiceEntityRepository
 
     public function findNbParticipant($idSortie)
     {
-
-     /*   "SELECT COUNT(sortie_user.user_id)
- FROM `sortie_user`  INNER JOIN sortie s 
- ON sortie_user.sortie_id = s.id 
- INNER JOIN user u 
- ON u.id = sortie_user.user_id WHERE sortie_id = 1";*/
 
         $q = $this->createQueryBuilder('s')
             ->select('COUNT(u.id)')
@@ -117,7 +155,6 @@ class SortieRepository extends ServiceEntityRepository
             ->getQuery()
             ->execute();
         return $q;
-
     }
 
     public function findListParticipant($id){

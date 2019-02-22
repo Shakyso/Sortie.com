@@ -13,6 +13,7 @@ use App\Entity\Sortie;
 use App\Entity\User;
 
 //use Doctrine\DBAL\Types\DateTimeType;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -23,6 +24,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\SortieRepository;
 
 use Symfony\Component\Form\AbstractType;
 
@@ -36,193 +38,128 @@ class DefaultController extends AbstractController
     function Index(Request $request)
     {
 
-        //création du formulaire de recherche
-        //TODO faire le filtre sur les actions des organisateurs annuler publier
-
-        $defaultData=['mon formulaire'=>'mes données'];
-        $searchForm = $this->createFormBuilder($defaultData)
-            ->setMethod('POST')
-            ->add('site', EntityType::class, array(
-                'multiple' => false,
-                'label' => 'Les sites',
-                'expanded' => false,
-                'class' => Site::class,
-                'choice_label' => 'nom'
-            ))
-
-            ->add('motCle', TextType::class)
-            //TODO gérer l'affichage des dates agenda
-/*
-            ->add('startDateTime', DateType::class, [
-                'date_label' => 'Starts On',
-                'label' => 'Entre',
-                'format'=>'dd-MM-yyyy',
-                'widget'=>'single_text',
-                'attr' => ['class' => 'js-datepicker'],
-            ])
-
-            ->add('endDateTime', DateTimeType::class, [
-                'date_label' => 'Starts End',
-                'label' => 'Et',
-                'format'=>'dd-MM-yyyy',
-                'widget'=>'single_text',
-                'html5' => false,
-                'help' => 'dd-MM-yyyy',
-                'attr' => ['class' => 'js-datepicker'],
-            ])
-*/
-            ->add('organisateur', CheckboxType::class, [
-                'label'    => '',
-                'required' => false,
-            ])
-            ->add('inscrite', CheckboxType::class, [
-                'label'    => '',
-                'required' => false,
-            ])
-            ->add('pasInscrite', CheckboxType::class, [
-                'label'    => '',
-                'required' => false,
-            ])
-            ->add('passees', CheckboxType::class, [
-                'label'    => '',
-                'required' => false,
-            ])
-            ->add('send', SubmitType::class)
-            ->getForm()
-            ;
 
 
-        $searchForm->handleRequest($request);
+        $site = new Site;
+        $organizer = new Boolean();
+        $signedOn = new Boolean();
+        $notSignedOn = new Boolean();
+        $pastEvent = new Boolean();
+                    $site = null;
+        $organizer = false;
+        $signedOn = false;
+        $notSignedOn = false;
+        $pastEvent = false;
+        $searchBar = null;
+        /*$dateStart = new DateTimeType();
+        $dateEnd= new DateTimeType();
+        $dateStart = null;
+        $dateEnd = null;*/
 
-        //est ceque le formulaire est soumis et récup des données saisies
-        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
-            //echo ('je suis dans le if traitement des donénes du formulaire');
-            // récupére rles paramètres saisie dans le ofrmulaires
-            $data = $searchForm->getData();
-            //TODO faire la requete en fonction de tout les paramètres
-//            var_dump($data['organisateur']);
-//            var_dump($nomSite);
-//            var_dump($data['motCle']);
-//            var_dump($data['pasInscrite']);
-//            var_dump($data['inscrite']);
-//            var_dump($data['passees']);
-            $site=new Site;
-            $site=$data['site'];
-            $nomSite=$site->getNom();
-            $idSite=$site->getId();
-            $motCle=$data['motCle'];
-            $organisateur=$data['organisateur'];
-            $pasInscrite=$data['pasInscrite'];
-            $inscrite=$data['inscrite'];
-            $passees=$data['passees'];
-            /////// faire les requetes en base
+            $defaultData = ['mon formulaire' => 'mes données'];
+            $searchForm = $this->createFormBuilder($defaultData)
+                ->setMethod('POST')
+                ->add('site', EntityType::class, array(
+                    'multiple' => false,
+                    'label' => 'Les sites',
+                    'expanded' => false,
+                    'class' => Site::class,
+                    'choice_label' => 'nom',
+                    'required'=>false,
+                    'empty_data'=>null,
+                ))
 
-            ////////////////////////////////////////////////////////////////////////
-            //recherche des sorties en fonction des sites
-            //////////////////////////////////////////////////////////////////////////
-            if ($idSite){
-                var_dump('je susi dans la requete pour les sites');
-                $siteRepo=$this->getDoctrine()->getRepository(Site::class);
-                $site=$siteRepo->find($idSite);
-                //$siteRepo->persist($site);
-                var_dump($site);
-              //  dd();
+                ->add('motCle', TextType::class, array (
+                    'required'=>false,
+                ))
+
+                ->add('organisateur', CheckboxType::class, [
+                    'label' => '',
+                    'required' => false,
+                ])
+                ->add('inscrite', CheckboxType::class, [
+                    'label' => '',
+                    'required' => false,
+                ])
+                ->add('pasInscrite', CheckboxType::class, [
+                    'label' => '',
+                    'required' => false,
+                ])
+                ->add('passees', CheckboxType::class, [
+                    'label' => '',
+                    'required' => false,
+                ])
+                ->add('send', SubmitType::class)
+                ->getForm();
+                //var_dump($request);
+            $searchForm->handleRequest($request);
+            //est ceque le formulaire est soumis et récup des données saisies
+            if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+                //echo ('je suis dans le if traitement des donénes du formulaire');
+                // récupére rles paramètres saisie dans le ofrmulaires
+                $data = $searchForm->getData();
+                $site = $data['site'];
+                //dd($site);
+                //$nomSite=$site->getNom();
+                //$idSite=$site->getId();
+                $searchBar = $data['motCle'];
+                $organizer = $data['organisateur'];
+                $notSignedOn = $data['pasInscrite'];
+                $signedOn = $data['inscrite'];
+                $pastEvent = $data['passees'];
+                /////// faire les requetes en base
             }
-            $listeDesSorties =$sortieRepository->selectListSortie($site);
-            ///////////////////////fin recherche par site///////////////////////////////////
-            ///
-            return $this->redirectToRoute('index_select');
-
-        }
-
-        $user = $this->getUser();
-        //Recupérer le repository des Sorties
-        $sortieRepository = $this->getDoctrine()->getRepository(Sortie::class);
-        $listeDesSorties = $sortieRepository->findListSortieUser();
-
-        if(!is_null($user)){
-            $maliste = $sortieRepository->findParticipation($user->getId());
-
-        } else {
-            $maliste = "";
-            //Find la liste de Sortie
-        //    $listeDesSorties = $sortieRepository->findListSortie();
-
-        }
-        $arrayParticipant = array();
-        foreach($listeDesSorties as $sortie){
-            $nombreParticipant = $sortieRepository->findNbParticipant($sortie->getId());
-            $arrayParticipant[$sortie->getId()] = $nombreParticipant;
-        }
-        //envoie de la liste a la page d'accueille
-        return $this->render('default/index.html.twig', array(
-            'searchAccueilForm'=>$searchForm->createView(),
-            'listeDesSorties' => $listeDesSorties,
-            'nombreParticipant' => $arrayParticipant,
-            'maliste' => $maliste
-        ));
-    }
-
-    function selectIndex(Request $request)
-    {
-echo ('je suis dans ma fonction selectIndex');
 
 
-//        if ($searchForm->isSubmitted() && $searchForm->isValid()){
-    //        echo ('je suis dans mon if');
-            var_dump($_POST);
-            dd();
-      //  }
-        /*
-        //envoi du form à la page
-        return $this->render('default/index.html.twig', array(
-            'searchAccueilForm'=>$searchForm->createView(),
-            //'listeDesSorties' => $listeDesSorties,
-            //'nombreParticipant' => $arrayParticipant,
-            //'maliste' => $maliste
-        ));
+            ////////////////////////////////////
+            /////// FIN CREATION DU FORMULAIRE DE RECHERCHE
+            /////////////////////////////////////////////////////////
+
+            $user = $this->getUser();
 
 
-        /*
-        $user = $this->getUser();
-        //Recupérer le repository des Sorties
-        $sortieRepository = $this->getDoctrine()->getRepository(Sortie::class);
 
-        $listeDesSorties = $sortieRepository->findListSortieUser();
-        if(!is_null($user)){
-            $maliste = $sortieRepository->findParticipation($user->getId());
+            //Recupérer le repository des Sorties
+            $sortieRepository = $this->getDoctrine()->getRepository(Sortie::class);
+            $listeDesSorties = $sortieRepository->findListSortieUser();
+
+
+            $arrayParticipant = array();
+            foreach ($listeDesSorties as $sortie) {
+                $nombreParticipant = $sortieRepository->findNbParticipant($sortie->getId());
+                $arrayParticipant[$sortie->getId()] = $nombreParticipant;
+            }
+
+
+        //ma liste de participation ou je suis inscrite
+        if (!is_null($user)) {
+            $malisteParticipation = $sortieRepository->findParticipation($user->getId());
+            //   $idUserConnecte= $user->getId();
+            //   $nomUserConnecte= $user->getUsername();
+            // var_dump($nomUserConnecte,$idUserConnecte);
 
         } else {
-            $maliste = "";
+            $malisteParticipation = "";
             //Find la liste de Sortie
             //    $listeDesSorties = $sortieRepository->findListSortie();
+
         }
-        $arrayParticipant = array();
-        foreach($listeDesSorties as $sortie){
-            $nombreParticipant = $sortieRepository->findNbParticipant($sortie->getId());
-            $arrayParticipant[$sortie->getId()] = $nombreParticipant;
+        ////////////////////////////////////////////////////////////////////////
+        //recherche des sorties en fonction des sites
+        //////////////////////////////////////////////////////////////////////////
+        if ($site!=null or $searchBar!= null or $organizer or $signedOn or $notSignedOn or $pastEvent){
+            $sortieRepository = $this->getDoctrine()->getRepository(Sortie::class);
+            $listeDesSorties =$sortieRepository->selectListSortie($user, $site, $searchBar, $organizer, $signedOn, $notSignedOn, $pastEvent);
         }
+
         //envoie de la liste a la page d'accueille
-        return $this->render('default/index.html.twig', array(
-            'listeDesSorties' => $listeDesSorties,
-            'nombreParticipant' => $arrayParticipant,
-            'maliste' => $maliste
-        ));
+            return $this->render('default/index.html.twig', array(
+                'searchAccueilForm' => $searchForm->createView(),
+                'listeDesSorties' => $listeDesSorties,
+                'nombreParticipant' => $arrayParticipant,
+                'maliste' => $malisteParticipation
+            ));
+        }
 
-
-*/
-        //envoie de la liste a la page d'accueille
-        return $this->render('default/index.html.twig', array(
-            'listeDesSorties' => $listeDesSorties,
-            'nombreParticipant' => $arrayParticipant,
-            'maliste' => $maliste
-        ));
-    }
-
-    //création du formulaire de recherche
-    function createFormSearch (FormBuilderInterface $builder)
-    {
-
-    }
 
 }
