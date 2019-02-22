@@ -47,8 +47,7 @@ class SortieRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    //public function selectListSortie(User $user, $site, $searchBar, $dateStart, $dateEnd, $organizer, $signedOn, $notSignedOn, $pastEvent)
-    public function selectListSortie($user, $site, $searchBar, $organizer, $signedOn, $notSignedOn, $pastEvent)
+    public function selectListSortie(User $user, $site, $searchBar, $dateStart, $dateEnd, $organizer, $signedOn, $notSignedOn, $pastEvent)
     {
        // var_dump($user);
         /////////////////////////////////////////
@@ -99,19 +98,19 @@ class SortieRepository extends ServiceEntityRepository
             $qb->andWhere('e.nom LIKE :searchBar');
             $qb->setParameter('searchBar', '%'.$searchBar.'%');
         }
-        /*
+
                 //liste les events à partir de dateStart
                 if($dateStart!==""){
-                    $qb->andWhere('e.rdvTime>:dateStart');
+                    $qb->andWhere('e.dateHeureDebut>:dateStart');
                     $qb->setParameter('dateStart', $dateStart);
                 }
 
                 //liste les events après dateEnd
                 if($dateEnd!==""){
-                    $qb->andWhere('e.rdvTime<:dateEnd');
+                    $qb->andWhere('e.dateHeureDebut<:dateEnd');
                     $qb->setParameter('dateEnd', $dateEnd);
                 }
-        */
+
 
 
         //liste les events dont le user est l'organisateur
